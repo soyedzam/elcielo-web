@@ -4,9 +4,10 @@ Sitio del congreso de liderazgo de **Comunidad Más Alto** (Mérida, Yucatán ·
 HTML + CSS + JS vanilla (módulos ES), sin build, sin dependencias, sin backend —
 el mismo patrón que su sitio hermano [La Nave](https://lanave.comunidadmasalto.org/).
 
-Es el port estático 1:1 de la landing editorial aprobada del build anterior
-(`xs-event-engine`, sistema **Amanecer v1.0**): mismo copy, misma composición,
-mismos tokens de marca. Solo cambió el motor que la sirve.
+Nació como port estático de la landing editorial aprobada del build anterior
+(`xs-event-engine`, sistema **Amanecer v1.0**) y luego recibió la pasada final:
+hero cinematográfico con video de fondo (gradiente Amanecer como primer
+fotograma, entrada orquestada en CSS puro) y una revisión completa de copy.
 
 ## Páginas
 
@@ -25,7 +26,7 @@ mismos tokens de marca. Solo cambió el motor que la sirve.
 Editar [`assets/config.js`](assets/config.js):
 
 ```js
-whatsapp: "52XXXXXXXXXX",   // ← número del equipo, solo dígitos  [VALIDAR: pendiente]
+whatsapp: "521XXXXXXXXXX",  // ← número del equipo, solo dígitos (ya conectado)
 ```
 
 Con número: todos los CTA "Aparta tu lugar" abren WhatsApp con mensaje precargado
@@ -44,9 +45,10 @@ a `main` — GitHub Pages publica solo.
 - Sistema Amanecer v1.0: índigo `#0B1033` manda · ámbar `#F2A93B` solo conversión ·
   hueso `#F7F4EE` · Archivo 800/900 + Instrument Sans + IBM Plex Mono.
 - Vocabulario canon: congreso · líderes convocados · aparta tu lugar · voces.
-- Nada inventado: sesión sin confirmar dice "por confirmar"; cero urgencia falsa.
-- El video pesado del loop vive fuera de git (Cloudflare Pages:
-  `xs-elcielo-media.pages.dev`), referenciado desde `config.js`.
+- Nada inventado: cifras, fechas y nombres salen de `config.js`; cero urgencia falsa.
+- El video pesado (fondo del hero y del loop de invitación) vive fuera de git
+  (Cloudflare Pages: `xs-elcielo-media.pages.dev`), referenciado desde `config.js`.
+  Nunca aparece con `prefers-reduced-motion` ni con ahorro de datos activo.
 - Este sitio no usa cookies ni recopila datos personales.
 
 *Estrategia, Arquitectura y Diseño: Soul Lens Studios · Powered by Xplorers Startups × EL ARKA.*
