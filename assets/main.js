@@ -76,6 +76,26 @@ function iniciarCompartir() {
   });
 }
 
+/* — Video cinematográfico del hero (index) —
+   El gradiente Amanecer es el primer fotograma: pinta al instante.
+   El video (self-hosted, fuera de git) se inyecta después y hace fade-in
+   cuando ya puede reproducirse. Nunca con movimiento reducido ni saveData. */
+function iniciarHeroVideo() {
+  const cont = document.getElementById("js-hero-media");
+  if (!cont || !cfg.videoInvitacion || reduceMotion) return;
+  if (navigator.connection && navigator.connection.saveData) return;
+  const video = document.createElement("video");
+  video.src = cfg.videoInvitacion;
+  video.muted = true;
+  video.loop = true;
+  video.autoplay = true;
+  video.setAttribute("playsinline", "");
+  video.setAttribute("preload", "auto");
+  video.addEventListener("canplay", () => cont.classList.add("lx-listo"), { once: true });
+  video.addEventListener("error", () => cont.classList.remove("lx-listo"), { once: true });
+  cont.appendChild(video);
+}
+
 /* — Días para el congreso (chips vivos, donde exista el nodo) — */
 function iniciarDias() {
   const el = document.getElementById("js-dias");
@@ -89,4 +109,5 @@ function iniciarDias() {
 iniciarReveals();
 iniciarConversion();
 iniciarCompartir();
+iniciarHeroVideo();
 iniciarDias();

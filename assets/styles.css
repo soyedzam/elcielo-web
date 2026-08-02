@@ -133,9 +133,54 @@ section { position: relative; padding-block: 110px; }
 @media (max-width: 720px) { .top-nav a:not(.lx-btn) { display: none; } }
 .top-solid { position: static; padding-top: 22px; padding-bottom: 22px; background: var(--lx-night); }
 
-/* ── HERO: gradiente Amanecer + cifra fantasma + horizonte que carga los datos ── */
+/* ── HERO: cine sobre el gradiente Amanecer — el video entra cuando está listo,
+   el gradiente es el primer fotograma. Cifra fantasma + horizonte con los datos. ── */
 .lx-hero { padding-top: 150px; padding-bottom: 0; overflow: hidden; }
-.lx-hero-inner { position: relative; }
+.lx-hero-media {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 0; transition: opacity 1.8s var(--lx-ease);
+}
+.lx-hero-media.lx-listo { opacity: 1; }
+.lx-hero-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lx-hero-media::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--lx-night) 58%, transparent) 0%,
+      color-mix(in srgb, var(--lx-night) 22%, transparent) 34%,
+      color-mix(in srgb, var(--lx-night) 30%, transparent) 62%,
+      color-mix(in srgb, var(--lx-night) 78%, transparent) 100%),
+    linear-gradient(100deg, color-mix(in srgb, var(--lx-night) 42%, transparent), transparent 58%);
+}
+.lx-hero-inner { position: relative; z-index: 1; }
+.lx-hero .lx-horizon { z-index: 1; }
+
+/* la entrada — un amanecer: cada elemento aclara en su turno (CSS puro, sin JS) */
+@keyframes lx-alba {
+  from { opacity: 0; transform: translateY(16px); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+.lx-hero .lx-kicker { animation: lx-alba .9s var(--lx-ease) .15s both; }
+.lx-hero .lx-t1 { animation: lx-alba 1s var(--lx-ease) .3s both; }
+.lx-hero .lx-t2 { animation: lx-alba 1s var(--lx-ease) .46s both; }
+.lx-hero .lx-lead { animation: lx-alba 1s var(--lx-ease) .64s both; }
+.lx-hero .lx-cta-row { animation: lx-alba 1s var(--lx-ease) .8s both; }
+@keyframes lx-ghost-alba { from { opacity: 0; } to { opacity: .055; } }
+@keyframes lx-ghost-deriva { from { transform: translateY(0); } to { transform: translateY(-16px); } }
+.lx-hero .lx-ghost {
+  animation:
+    lx-ghost-alba 2.4s var(--lx-ease) .5s both,
+    lx-ghost-deriva 26s ease-in-out 3s infinite alternate;
+}
+@keyframes lx-linea { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.lx-hero .lx-line { transform-origin: left; animation: lx-linea 1.5s var(--lx-ease) .95s both; }
+.lx-hero .lx-pt { animation: lx-alba .9s var(--lx-ease) both; }
+.lx-hero .lx-pt:nth-child(1) { animation-delay: 1.2s; }
+.lx-hero .lx-pt:nth-child(2) { animation-delay: 1.36s; }
+.lx-hero .lx-pt:nth-child(3) { animation-delay: 1.52s; }
+.lx-hero .lx-pt::before { animation-delay: 1.5s; }
+.lx-hero .lx-pt:nth-child(2)::before { animation-delay: 1.66s; }
+.lx-hero .lx-pt:nth-child(3)::before { animation-delay: 1.82s; }
 .lx-ghost {
   position: absolute; right: -2vw; top: -4vw; z-index: 0;
   font-family: var(--font-display); font-weight: 900;
@@ -495,7 +540,8 @@ body.lx-anim .lx-rv.lx-in { opacity: 1; transform: none; }
 
 /* ── movimiento reducido: todo visible, nada animado ── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0ms !important; transition-duration: 0ms !important; }
+  *, *::before, *::after { animation-duration: 0ms !important; animation-delay: 0ms !important; transition-duration: 0ms !important; }
+  .lx-hero-media { display: none; }
   html { scroll-behavior: auto; }
   body.lx-anim .lx-rv { opacity: 1; transform: none; transition: none; }
   .lxi-fondo, .lxi-horizonte, .lxi-horizonte::after, .lxi-logo, .lxi-mensaje .lxi-clip { animation: none; }
