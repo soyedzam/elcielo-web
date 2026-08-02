@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rumbo al 14 de agosto — El Cielo en mi Ciudad</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B1033">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <!-- Pantalla de kiosko (lobby / proyección): cuenta regresiva al congreso.
+       Antes contaba registros en vivo (D1); sin backend, el número que respira
+       ahora cuenta los días hacia la apertura real. -->
+  <div class="lxp">
+    <section aria-label="Rumbo al 14 de agosto">
+      <div class="lx-container">
+        <header class="lxp-head">
+          <span class="lx-kicker">// congreso de liderazgo · 1ª edición</span>
+          <h1 class="lx-h2" style="margin-bottom:0">Rumbo al 14 de agosto</h1>
+        </header>
+
+        <p class="lxp-numero" aria-live="polite">
+          <span class="tabular" id="js-numero">—</span>
+          <span class="lxp-de" id="js-unidad">días para el congreso</span>
+        </p>
+        <p class="lxp-nota" id="js-nota">El registro está abierto — aparta el tuyo.</p>
+
+        <div class="lxp-progreso" id="js-progreso" aria-hidden="true">
+          <span class="lxp-pct" id="js-pct"></span>
+          <span class="lxp-fill"></span>
+          <span class="lxp-nodo"></span>
+        </div>
+
+        <div class="lx-horizon lxp-stats" style="padding-bottom:0">
+          <div class="lx-line" aria-hidden="true"></div>
+          <dl class="lx-pts">
+            <div class="lx-pt"><dt class="lx-l">Días</dt><dd class="lx-v tabular" id="js-dias-stat">—</dd></div>
+            <div class="lx-pt"><dt class="lx-l">Horas</dt><dd class="lx-v tabular" id="js-horas">—</dd></div>
+            <div class="lx-pt"><dt class="lx-l">Minutos</dt><dd class="lx-v tabular" id="js-min">—</dd></div>
+            <div class="lx-pt"><dt class="lx-l">Segundos</dt><dd class="lx-v tabular" id="js-seg">—</dd></div>
+          </dl>
+        </div>
+
+        <div class="lxp-foot">
+          <div class="lxp-cta-copy">
+            <a class="lx-btn" href="index.html#registro" data-cta="avance">Aparta tu lugar</a>
+          </div>
+          <div class="lxp-qr-card">
+            <img src="assets/qr-elcielo.svg" alt="Código QR para apartar tu lugar">
+            <span class="lxp-qr-label">Escanéame</span>
+            <span class="lxp-qr-dom">elcielo.comunidadmasalto.org</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script type="module" src="assets/cuenta.js"></script>
+  <script type="module" src="assets/main.js"></script>
+</body>
+</html>

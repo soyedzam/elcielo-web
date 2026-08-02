@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /avance.html
+Disallow: /escanea.html
+Disallow: /invitacion.html
+
+Sitemap: https://elcielo.comunidadmasalto.org/sitemap.xml

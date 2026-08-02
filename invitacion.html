@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invitación — El Cielo en mi Ciudad</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B1033">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <!-- Loop de invitación (14s, 1920×1080 con auto-escala) para proyectar en otras
+       iglesias. Fondo: video cinematográfico self-hosted en Cloudflare Pages
+       (fuera de git, 6 MB); el gradiente Amanecer queda debajo como respaldo. -->
+  <div class="lxi">
+    <div class="lxi-stage" id="js-stage">
+      <div class="lxi-fondo lxi-fondo-video" aria-hidden="true" id="js-fondo"></div>
+      <div class="lxi-horizonte" aria-hidden="true"></div>
+
+      <!-- Lockup oficial (Logo del Design System): proporciones bloqueadas -->
+      <div class="lxi-logo" role="img" aria-label="El Cielo en mi Ciudad — Congreso de Liderazgo">
+        <span class="lxi-top">EL CIELO</span>
+        <span class="lxi-rule" aria-hidden="true"><i></i><b></b><i></i></span>
+        <span class="lxi-main">EN MI CIUDAD</span>
+        <span class="lxi-desc">CONGRESO DE LIDERAZGO</span>
+      </div>
+
+      <div class="lxi-mensaje">
+        <div class="lxi-clip">
+          <div class="lxi-cta">Aparta tu lugar</div>
+          <div class="lxi-fecha"><b>14–16 AGO</b> · Mérida, Yucatán</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script>
+    /* Auto-escala del escenario 1920×1080 a cualquier pantalla/proyector
+       (contain por el lado corto) + video de fondo desde el config. */
+    (function () {
+      var stage = document.getElementById("js-stage");
+      function fit() {
+        var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+        stage.style.transform = "translate(-50%, -50%) scale(" + s + ")";
+      }
+      fit();
+      window.addEventListener("resize", fit);
+
+      var cfg = window.ELCIELO || {};
+      var fondo = document.getElementById("js-fondo");
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (cfg.videoInvitacion && !reduce) {
+        var v = document.createElement("video");
+        v.src = cfg.videoInvitacion;
+        v.autoplay = true; v.muted = true; v.loop = true;
+        v.setAttribute("playsinline", "");
+        fondo.appendChild(v);
+      } else {
+        fondo.classList.remove("lxi-fondo-video");
+      }
+    })();
+  </script>
+</body>
+</html>

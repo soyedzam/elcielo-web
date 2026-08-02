@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300" role="img" aria-label="El Cielo en mi Ciudad — Congreso de Liderazgo">
+  <title>El Cielo en mi Ciudad</title>
+  <desc>Versión monocromática a una tinta: índigo sobre Ámbar #F2A93B, o cualquier fondo claro. Fondo transparente. Antes de imprenta, convertir el texto a curvas.</desc>
+  <text x="480" y="112" text-anchor="middle" font-family="Instrument Sans, Arial, sans-serif" font-weight="500" font-size="30" letter-spacing="15.6" fill="#0B1033" xml:space="preserve">EL CIELO</text>
+  <line x1="222" y1="146" x2="452" y2="146" stroke="#0B1033" stroke-opacity="0.55" stroke-width="2"></line>
+  <line x1="508" y1="146" x2="738" y2="146" stroke="#0B1033" stroke-opacity="0.55" stroke-width="2"></line>
+  <circle cx="480" cy="146" r="5" fill="#0B1033"></circle>
+  <text x="480" y="246" text-anchor="middle" font-family="Archivo, Arial Black, sans-serif" font-weight="800" font-size="104" letter-spacing="-2.3" fill="#0B1033">EN MI CIUDAD</text>
+</svg>
