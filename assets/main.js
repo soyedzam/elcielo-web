@@ -96,18 +96,7 @@ function iniciarHeroVideo() {
   cont.appendChild(video);
 }
 
-/* — Días para el congreso (chips vivos, donde exista el nodo) — */
-function iniciarDias() {
-  const el = document.getElementById("js-dias");
-  if (!el || !cfg.fechaInicio) return;
-  const hoy = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Merida" }).format(new Date());
-  const dias = Math.max(0, Math.round((Date.parse(cfg.fechaInicio) - Date.parse(hoy)) / 86400000));
-  el.textContent = dias === 0 ? "Es hoy" : dias === 1 ? "Falta 1 día" : "Faltan " + dias + " días";
-  el.hidden = false;
-}
-
 iniciarReveals();
 iniciarConversion();
 iniciarCompartir();
 iniciarHeroVideo();
-iniciarDias();

@@ -335,6 +335,33 @@ section { position: relative; padding-block: 110px; }
 .lx-registro-canal .lx-h3 { color: var(--lx-amber-light); margin-bottom: 10px; }
 .lx-registro-canal .lx-btn { margin-top: 22px; }
 .lx-registro-nota { margin-top: 18px; font-size: 13px; color: color-mix(in srgb, var(--lx-bone) 56%, transparent); }
+
+/* ── cuenta regresiva en vivo (compacta, dentro de Registro) ── */
+.lx-cuenta-mini { display: flex; gap: 28px; margin-top: 30px; }
+.lx-cuenta-item { display: flex; flex-direction: column; gap: 4px; }
+.lx-cuenta-n { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 34px); letter-spacing: -.01em; color: var(--lx-amber-light); line-height: 1; }
+.lx-cuenta-l { font-family: var(--font-marker); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--lx-bone) 55%, transparent); }
+@media (max-width: 400px) { .lx-cuenta-mini { gap: 18px; } }
+
+/* ── WhatsApp: la única acción que SÍ debe verse como botón — es la conversión real ── */
+.lx-btn-wa {
+  display: inline-flex; align-items: center; gap: 12px; margin-top: 22px;
+  padding: 16px 26px; border-radius: var(--r-pill);
+  background: #25D366; color: #06210F;
+  font-family: var(--font-body); font-weight: 700; font-size: 16px; text-decoration: none;
+  box-shadow: 0 0 0 0 rgba(37, 211, 102, .5);
+  animation: lx-wa-pulso 2.6s ease-out infinite;
+  transition: transform .25s var(--lx-ease), background .25s var(--lx-ease);
+}
+.lx-btn-wa svg { flex: 0 0 auto; }
+.lx-btn-wa:hover { transform: translateY(-2px) scale(1.02); background: #2be878; }
+.lx-btn-wa:active { transform: scale(.98); }
+@keyframes lx-wa-pulso {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, .45); }
+  70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .lx-btn-wa { animation: none; } }
 .lx-registro-alt { margin-top: 22px; font-size: 15px; color: color-mix(in srgb, var(--lx-bone) 72%, transparent); }
 .lx-registro-alt a { color: var(--lx-amber-light); }
 
@@ -346,12 +373,21 @@ section { position: relative; padding-block: 110px; }
 .footer .credits a { color: color-mix(in srgb, var(--lx-bone) 82%, transparent); }
 .footer .credits .design-label { font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--lx-amber); margin-right: 6px; }
 .footer .fb {
-  display: inline-flex; align-items: center; gap: 12px; margin-bottom: 30px;
+  display: inline-flex; align-items: center; gap: 16px; margin-bottom: 30px;
   color: var(--lx-bone); text-decoration: none;
-  border: 1px solid var(--lx-border-dark); border-radius: var(--r-lg); padding: 14px 20px;
+  border: 1px solid var(--lx-border-dark); border-radius: var(--r-lg); padding: 16px 22px;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--lx-amber) 10%, transparent), transparent 60%);
+  transition: border-color .25s var(--lx-ease), transform .25s var(--lx-ease), background .25s var(--lx-ease);
 }
-.footer .fb:hover { border-color: var(--lx-amber); }
-.footer .fb svg { color: var(--lx-amber); flex: 0 0 auto; }
+.footer .fb:hover { border-color: var(--lx-amber); transform: translateY(-2px); background: linear-gradient(120deg, color-mix(in srgb, var(--lx-amber) 18%, transparent), transparent 70%); }
+.footer .fb-ico {
+  display: grid; place-items: center; flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%;
+  background: color-mix(in srgb, var(--lx-amber) 16%, transparent); color: var(--lx-amber-light);
+}
+.footer .fb-copy { display: flex; flex-direction: column; gap: 2px; }
+.footer .fb-sub { font-size: 13px; opacity: .68; font-weight: 400; }
+.footer .fb-go { margin-left: auto; padding-left: 12px; color: var(--lx-amber); font-family: var(--font-display); font-weight: 800; transition: transform .25s var(--lx-ease); }
+.footer .fb:hover .fb-go { transform: translateX(4px); }
 
 /* ── revelado al hacer scroll (compositor; sin JS todo es visible) ── */
 .lx-rv { opacity: 1; transform: none; }
