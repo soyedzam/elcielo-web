@@ -15,13 +15,14 @@ window.ELCIELO = {
   // — Conversión —
   // Número de WhatsApp del equipo en formato internacional, solo dígitos.
   // MX móvil: 52 + 10 dígitos, con el "1" de móvil → 521XXXXXXXXXX.
-  // [VALIDAR] Sin número confirmado para el congreso todavía: vacío = los CTA
-  // llevan a la sección de registro (#registro), donde vive el plan B.
-  whatsapp: "",
+  whatsapp: "5219991755967",
   mensajeWhatsApp: "Hola, quiero apartar mi lugar en El Cielo en mi Ciudad.",
 
   // — URL que se muestra como referencia en la página y en el QR —
   urlDisplay: "elcielo.comunidadmasalto.org",
+
+  // — Ubicación real de Comunidad Más Alto (Google Maps) —
+  mapaUrl: "https://share.google/InwyKySL9Dv5YHTaA",
 
   // — Texto del botón «Compártelo» (hoja nativa del teléfono / WhatsApp) —
   compartir: "El Cielo en mi Ciudad — congreso de liderazgo de Comunidad Más Alto. 14–16 de agosto en Mérida. Aparta tu lugar en elcielo.comunidadmasalto.org",

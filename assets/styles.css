@@ -79,19 +79,39 @@ section { position: relative; padding-block: 110px; }
 .lx-lead { font-size: clamp(16.5px, 1.8vw, 19px); color: color-mix(in srgb, var(--lx-bone) 80%, transparent); max-width: 50ch; }
 .lx-on-bone .lx-lead { color: color-mix(in srgb, var(--lx-night) 72%, transparent); }
 
-/* ── botones: siempre píldora ── */
+/* ── llamados a la acción: link editorial, nunca botón-caja de plantilla ── */
 .lx-btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 16px 30px; border-radius: var(--r-pill);
-  background: var(--lx-amber); color: var(--lx-night);
-  font-family: var(--font-body); font-weight: 600; font-size: 15.5px; text-decoration: none;
-  border: 1px solid transparent; cursor: pointer;
-  transition: transform .28s var(--lx-ease), background .28s var(--lx-ease);
+  display: inline-flex; align-items: baseline; gap: 8px;
+  padding: 2px 0; background: none; border: none; border-radius: 0;
+  color: var(--lx-amber);
+  font-family: var(--font-display); font-weight: 800; font-size: 16.5px; letter-spacing: -.005em;
+  text-decoration: none; cursor: pointer;
+  background-image: linear-gradient(var(--lx-amber), var(--lx-amber));
+  background-position: 0 100%; background-repeat: no-repeat; background-size: 0% 1px;
+  transition: background-size .3s var(--lx-ease), color .3s var(--lx-ease), gap .3s var(--lx-ease);
 }
-.lx-btn:hover { transform: translateY(-2px); background: var(--lx-amber-light); color: var(--lx-night); }
-.lx-btn:active { transform: scale(.985); }
-.lx-btn-ghost { background: transparent; border-color: var(--lx-border-dark); color: var(--lx-bone); }
-.lx-btn-ghost:hover { background: transparent; border-color: var(--lx-amber); color: var(--lx-bone); }
+.lx-btn::after { content: "→"; font-weight: 400; transition: transform .3s var(--lx-ease); }
+.lx-btn:hover { background-size: 100% 1px; gap: 12px; }
+.lx-btn:hover::after { transform: translateX(2px); }
+.lx-btn:active { opacity: .8; }
+.lx-btn-ghost {
+  color: color-mix(in srgb, var(--lx-bone) 82%, transparent);
+  background-image: linear-gradient(var(--lx-bone), var(--lx-bone));
+}
+.lx-btn-ghost::after { content: none; }
+.lx-btn-ghost:hover { color: var(--lx-bone); gap: 8px; }
+.lx-on-bone .lx-btn-ghost { color: color-mix(in srgb, var(--lx-night) 78%, transparent); background-image: linear-gradient(var(--lx-night), var(--lx-night)); }
+.lx-on-bone .lx-btn-ghost:hover { color: var(--lx-night); }
+
+.lx-maplink {
+  display: inline-flex; align-items: baseline; gap: 6px; margin-left: 4px;
+  font-family: var(--font-marker); font-weight: 500; font-size: 12.5px; letter-spacing: .06em;
+  color: var(--lx-amber-dark); text-decoration: none;
+  background-image: linear-gradient(var(--lx-amber-dark), var(--lx-amber-dark));
+  background-position: 0 100%; background-repeat: no-repeat; background-size: 0% 1px;
+  transition: background-size .3s var(--lx-ease);
+}
+.lx-maplink:hover { background-size: 100% 1px; }
 
 /* ── header de navegación (sitio multipágina estático) ── */
 .top {
@@ -109,7 +129,7 @@ section { position: relative; padding-block: 110px; }
   color: color-mix(in srgb, var(--lx-bone) 78%, transparent);
 }
 .top-nav a:hover, .top-nav a[aria-current="page"] { color: var(--lx-bone); }
-.top-nav .lx-btn { padding: 10px 20px; font-size: 13px; }
+.top-nav .lx-btn { font-size: 13px; }
 @media (max-width: 720px) { .top-nav a:not(.lx-btn) { display: none; } }
 .top-solid { position: static; padding-top: 22px; padding-bottom: 22px; background: var(--lx-night); }
 
