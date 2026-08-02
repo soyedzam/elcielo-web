@@ -320,6 +320,14 @@ section { position: relative; padding-block: 110px; }
 }
 .lx-comunidad-cta:hover { color: var(--lx-amber-light); border-color: var(--lx-amber); }
 
+/* ── PASTORES: la familia que pastorea CMA — dos retratos, sin genérico de tarjeta ── */
+.lx-pastores-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 620px; margin-top: 48px; }
+.lx-pastor-card { display: flex; flex-direction: column; gap: 16px; }
+.lx-pastor-foto { position: relative; aspect-ratio: 4 / 5; border-radius: var(--r-lg); overflow: hidden; background: var(--lx-mid); }
+.lx-pastor-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
+.lx-pastor-foto::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px var(--lx-border-dark-soft); border-radius: inherit; }
+@media (max-width: 560px) { .lx-pastores-grid { grid-template-columns: 1fr 1fr; gap: 18px; } }
+
 /* ── REGISTRO: sin backend — un solo canal, WhatsApp, silencio alrededor ── */
 .lx-registro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
 @media (max-width: 860px) { .lx-registro-grid { grid-template-columns: 1fr; gap: 40px; } }
