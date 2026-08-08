@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guion de cabina — El Cielo en mi Ciudad</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B1033">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    /* ── Modo cabina ──────────────────────────────────────────────────
+       Se lee del celular, en penumbra, con el evento corriendo.
+       Por eso: fondo noche, cifras grandes, y la duración siempre visible.
+       Esta hoja es interna — no se enlaza desde el sitio público.
+    ------------------------------------------------------------------ */
+    body { background: var(--lx-night); color: var(--lx-bone); }
+    .gx-wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .gx-head { padding-bottom: 22px; border-bottom: 1px solid var(--lx-border-dark); }
+    .gx-head h1 {
+      font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 7vw, 40px);
+      letter-spacing: -.022em; margin: 10px 0 12px;
+    }
+    .gx-aviso {
+      font-size: 14.5px; line-height: 1.6;
+      color: color-mix(in srgb, var(--lx-bone) 72%, transparent);
+    }
+    .gx-aviso strong { color: var(--lx-amber-light); font-weight: 600; }
+
+    .gx-dia { margin-top: 46px; }
+    .gx-dia-t {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 6px;
+    }
+    .gx-dia-t h2 {
+      font-family: var(--font-display); font-weight: 800; font-size: 23px; letter-spacing: -.01em;
+    }
+    .gx-termina {
+      font-family: var(--font-marker); font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--lx-amber); border: 1px solid color-mix(in srgb, var(--lx-amber) 45%, transparent);
+      border-radius: var(--r-pill); padding: 5px 13px; white-space: nowrap;
+    }
+
+    .gx-fila {
+      display: grid; grid-template-columns: 92px 1fr 58px; gap: 16px; align-items: start;
+      padding: 17px 0; border-top: 1px solid var(--lx-border-dark-soft);
+    }
+    .gx-fila:last-child { border-bottom: 1px solid var(--lx-border-dark-soft); }
+    /* Los momentos donde una entrada mal cronometrada se nota desde la silla */
+    .gx-fila.is-clave { background: color-mix(in srgb, var(--lx-amber) 7%, transparent); }
+    .gx-fila.is-clave .gx-hora { color: var(--lx-amber); }
+
+    .gx-hora {
+      font-family: var(--font-marker); font-weight: 500; font-size: 17px;
+      letter-spacing: .02em; color: var(--lx-bone); white-space: nowrap;
+    }
+    .gx-bloque { font-family: var(--font-body); font-weight: 600; font-size: 17px; line-height: 1.35; }
+    .gx-nota {
+      margin-top: 5px; font-size: 14px; line-height: 1.55;
+      color: color-mix(in srgb, var(--lx-bone) 66%, transparent);
+    }
+    .gx-nota .gx-val {
+      display: inline-block; margin-top: 5px;
+      font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--lx-amber); border: 1px solid color-mix(in srgb, var(--lx-amber) 45%, transparent);
+      border-radius: 4px; padding: 2px 7px;
+    }
+    .gx-dur {
+      font-family: var(--font-marker); font-size: 12.5px; text-align: right;
+      color: color-mix(in srgb, var(--lx-bone) 50%, transparent); white-space: nowrap;
+    }
+
+    .gx-pie {
+      margin-top: 54px; padding-top: 22px; border-top: 1px solid var(--lx-border-dark);
+      font-size: 13.5px; line-height: 1.65;
+      color: color-mix(in srgb, var(--lx-bone) 55%, transparent);
+    }
+    .gx-pie a { color: var(--lx-amber-light); }
+
+    @media (max-width: 560px) {
+      .gx-fila { grid-template-columns: 78px 1fr; gap: 12px; }
+      .gx-dur { grid-column: 2; text-align: left; margin-top: 2px; }
+    }
+    @media print {
+      body { background: #fff; color: #000; }
+      .gx-fila.is-clave { background: #f2f2f2; }
+      .gx-nota, .gx-dur { color: #444; }
+    }
+  </style>
+</head>
+<body>
+  <main class="gx-wrap">
+
+    <header class="gx-head">
+      <span class="lx-kicker">// uso interno · equipo de producción</span>
+      <h1>Guion de cabina</h1>
+      <p class="gx-aviso">
+        Minuto a minuto de la corrida. <strong>Esta hoja no es la agenda pública</strong> —
+        no se enlaza desde el sitio ni se comparte con los líderes convocados.
+        La agenda para el público vive en <a href="agenda.html" style="color:var(--lx-amber-light)">agenda.html</a>.
+      </p>
+    </header>
+
+    <section class="gx-dia">
+      <div class="gx-dia-t">
+        <h2>Viernes 14 · Apertura</h2>
+        <span class="gx-termina">Cierra 22:05</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">19:30</span>
+        <div>
+          <div class="gx-bloque">Registro y acceso</div>
+          <p class="gx-nota">Cierra acceso 19:55. Quedan cinco minutos de margen antes de arrancar.</p>
+        </div>
+        <span class="gx-dur">25 min</span>
+      </div>
+
+      <div class="gx-fila is-clave">
+        <span class="gx-hora">20:00</span>
+        <div>
+          <div class="gx-bloque">Video del evento</div>
+          <p class="gx-nota">El pastor da la información para elaborarlo.<span class="gx-val">[validar] video entregado</span></p>
+        </div>
+        <span class="gx-dur">4 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">20:04</span>
+        <div>
+          <div class="gx-bloque">Bienvenida</div>
+          <p class="gx-nota">Con interacción. De 3 a 5 minutos.</p>
+        </div>
+        <span class="gx-dur">5 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">20:09</span>
+        <div>
+          <div class="gx-bloque">Alabanza</div>
+        </div>
+        <span class="gx-dur">40 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">20:49</span>
+        <div>
+          <div class="gx-bloque">Presentadores</div>
+          <p class="gx-nota">Los pastores entregan el guion.<span class="gx-val">[validar] guion entregado</span></p>
+        </div>
+        <span class="gx-dur">2 min</span>
+      </div>
+
+      <div class="gx-fila is-clave">
+        <span class="gx-hora">20:51</span>
+        <div>
+          <div class="gx-bloque">Video de presentación del predicador</div>
+          <p class="gx-nota">Al terminar entra el Pastor Ofir de inmediato — sin corte, sin locución en medio.</p>
+        </div>
+        <span class="gx-dur">1 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">20:52</span>
+        <div>
+          <div class="gx-bloque">Palabra · Pastor Ofir Peña</div>
+          <p class="gx-nota">40 de predicación y 20 de ministración.</p>
+        </div>
+        <span class="gx-dur">60 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">21:52</span>
+        <div>
+          <div class="gx-bloque">Ofrenda</div>
+        </div>
+        <span class="gx-dur">10 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">22:02</span>
+        <div>
+          <div class="gx-bloque">Oración final</div>
+          <p class="gx-nota">Y la invitación a la siguiente sesión.</p>
+        </div>
+        <span class="gx-dur">3 min</span>
+      </div>
+    </section>
+
+    <section class="gx-dia">
+      <div class="gx-dia-t">
+        <h2>Sábado 15 · Taller con Liderazgo</h2>
+        <span class="gx-termina">Cierra 11:13</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">8:30</span>
+        <div>
+          <div class="gx-bloque">Registro y acceso</div>
+          <p class="gx-nota">Cierra acceso 8:45. Quince minutos de margen antes de arrancar.</p>
+        </div>
+        <span class="gx-dur">15 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">9:00</span>
+        <div>
+          <div class="gx-bloque">Bienvenida</div>
+          <p class="gx-nota">En la hoja original la bienvenida aparece escrita después del video, pero los tiempos solo cuadran en este orden.<span class="gx-val">[validar] orden con los pastores</span></p>
+        </div>
+        <span class="gx-dur">4 min</span>
+      </div>
+
+      <div class="gx-fila is-clave">
+        <span class="gx-hora">9:04</span>
+        <div>
+          <div class="gx-bloque">Video pastor y pastora</div>
+          <p class="gx-nota"><span class="gx-val">[validar] video entregado</span></p>
+        </div>
+        <span class="gx-dur">2 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">9:06</span>
+        <div>
+          <div class="gx-bloque">Taller</div>
+        </div>
+        <span class="gx-dur">1 h 20</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">10:26</span>
+        <div>
+          <div class="gx-bloque">Break</div>
+        </div>
+        <span class="gx-dur">15 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">10:41</span>
+        <div>
+          <div class="gx-bloque">Presentadores</div>
+        </div>
+        <span class="gx-dur">2 min</span>
+      </div>
+
+      <div class="gx-fila">
+        <span class="gx-hora">10:43</span>
+        <div>
+          <div class="gx-bloque">Panel · preguntas y respuestas</div>
+        </div>
+        <span class="gx-dur">30 min</span>
+      </div>
+    </section>
+
+    <p class="gx-pie">
+      Sábado por la tarde y domingo todavía no tienen guion — la hoja de trabajo cubre
+      hasta el panel del sábado. Cuando lleguen, se suman aquí.<br>
+      Guion de <a href="index.html">El Cielo en mi Ciudad</a> · Comunidad Más Alto, Mérida, Yucatán.
+    </p>
+
+  </main>
+</body>
+</html>
