@@ -136,11 +136,41 @@ section { position: relative; padding-block: 110px; }
 /* ── HERO: cine sobre el gradiente Amanecer — el video entra cuando está listo,
    el gradiente es el primer fotograma. Cifra fantasma + horizonte con los datos. ── */
 .lx-hero { padding-top: 150px; padding-bottom: 0; overflow: hidden; }
+/* La congregación en adoración es el fondo REAL del hero: se ve siempre,
+   con o sin movimiento reducido. El video es una capa de más encima —
+   quien pidió menos movimiento pierde el adorno, nunca la imagen. */
 .lx-hero-media {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  opacity: 0; transition: opacity 1.8s var(--lx-ease);
+  /* Velo propio: la congregación entra como SILUETA, no como fotografía.
+     Nadie debe quedar reconocible y el titular manda sobre la imagen.
+     El encuadre corre a la izquierda para dejar fuera el equipo de foto. */
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--lx-night) 74%, transparent) 0%,
+      color-mix(in srgb, var(--lx-night) 60%, transparent) 42%,
+      color-mix(in srgb, var(--lx-night) 68%, transparent) 72%,
+      color-mix(in srgb, var(--lx-night) 88%, transparent) 100%),
+    url("fotos/007-congregacion-en-adoracion.webp") 8% 42% / cover no-repeat;
 }
-.lx-hero-media.lx-listo { opacity: 1; }
+.lx-hero-media video { opacity: 0; transition: opacity 1.8s var(--lx-ease); }
+.lx-hero-media.lx-listo video { opacity: 1; }
+
+/* Reutilizable: la congregación como textura de fondo — SIEMPRE en silueta,
+   nunca rostro reconocible. Mismo archivo que el hero, otro recorte, para
+   que "Aparta tu lugar" y el kiosko del countdown no se sientan huérfanos
+   de imagen sobre índigo plano. El velo es más fuerte que el del hero
+   porque aquí hay texto de conversión y, en el kiosko, cifras enormes que
+   se leen a distancia — la foto es atmósfera, nunca puede competir. */
+.lx-fondo-comunidad { position: relative; isolation: isolate; }
+.lx-fondo-comunidad::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--lx-night) 88%, transparent) 0%,
+      color-mix(in srgb, var(--lx-night) 80%, transparent) 45%,
+      color-mix(in srgb, var(--lx-night) 90%, transparent) 100%),
+    url("fotos/007-congregacion-en-adoracion.webp") 0% 30% / cover no-repeat;
+}
 .lx-hero-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .lx-hero-media::after {
   content: ""; position: absolute; inset: 0;

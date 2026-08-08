@@ -1,5 +1,5 @@
 /* EL CIELO EN MI CIUDAD · configuración — EDITAR AQUÍ Y SOLO AQUÍ.
-   Congreso de liderazgo de Comunidad Más Alto · Mérida, Yucatán · 14–16 ago 2026.
+   Congreso de Comunidad Más Alto · Mérida, Yucatán · 14–16 ago 2026.
    Todo lo demás (cuenta regresiva, días restantes, CTAs) se calcula solo. */
 
 window.ELCIELO = {
@@ -25,7 +25,7 @@ window.ELCIELO = {
   mapaUrl: "https://share.google/InwyKySL9Dv5YHTaA",
 
   // — Texto del botón «Compártelo» (hoja nativa del teléfono / WhatsApp) —
-  compartir: "El Cielo en mi Ciudad — congreso de liderazgo de Comunidad Más Alto. 14–16 de agosto en Mérida. Aparta tu lugar en elcielo.comunidadmasalto.org",
+  compartir: "El Cielo en mi Ciudad — congreso de Comunidad Más Alto. 14–16 de agosto en Mérida. Aparta tu lugar en elcielo.comunidadmasalto.org",
 
   // — Video de fondo del loop de invitación (self-hosted en Cloudflare Pages,
   //   fuera de git: 6 MB). Vacío = el gradiente Amanecer hace de fondo. —
