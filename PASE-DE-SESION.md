@@ -51,10 +51,9 @@ Sitio estático en producción de **"El Cielo en mi Ciudad"** — congreso de li
 
 1. **Título del bloque sábado-noche.** El Programa oficial no le puso nombre (a diferencia de "Apertura", "Taller para Liderazgo", "Cierre — Culto Único"). Hoy dice "Sesión general" — es un placeholder aceptado, no un dato inventado.
 2. **Eje (Identidad/Propósito/Destino) de sábado-noche y domingo.** Solo Identidad→viernes y Propósito→sábado-taller están confirmados. No le fuerces un eje a los otros dos bloques.
-3. **Orden de la bienvenida del sábado.** En la hoja de Ed la bienvenida aparece escrita *después* del video de pastor y pastora, pero los tiempos solo cuadran al revés (bienvenida 9:00, video 9:04). Está montado así y marcado `[validar]` dentro de `guion.html`. Confirmar con los pastores.
-4. **Sábado tarde/noche y domingo no tienen guion.** La hoja de trabajo llega hasta el panel del sábado. Sin eso no hay hora de cierre para esos dos bloques en la agenda pública.
-5. **Logotipo de Comunidad Más Alto — decisión pendiente de Ed.** Solo existe **un** archivo, PNG 375×236 (`~/Dev/CMA/lanave-web/assets/logo-masalto.png`, el mismo que usa La Nave). No hay SVG ni versión monocromo, y recolorearlo es decisión de CMA, no nuestra. Dónde va: pie de página, sección "Quiénes convocan", sede en Info. Dónde no: barra superior ni portada.
-6. **Fotos de comunidad** — las 3 de la sección "Comunidad" son de La Nave (misma comunidad madre), reusadas con velo índigo. Si aparecen fotos oficiales del Cielo, reemplázalas.
+3. **Sábado tarde/noche y domingo no tienen guion.** La hoja de trabajo llega hasta el panel del sábado. Sin eso no hay hora de cierre para esos dos bloques en la agenda pública.
+4. **Logotipo de Comunidad Más Alto — decisión pendiente de Ed.** Solo existe **un** archivo, PNG 375×236 (`~/Dev/CMA/lanave-web/assets/logo-masalto.png`, el mismo que usa La Nave). No hay SVG ni versión monocromo, y recolorearlo es decisión de CMA, no nuestra. Dónde va: pie de página, sección "Quiénes convocan", sede en Info. Dónde no: barra superior ni portada.
+5. **Fotos de comunidad** — las 3 de la sección "Comunidad" son de La Nave (misma comunidad madre), reusadas con velo índigo. Si aparecen fotos oficiales del Cielo, reemplázalas.
 
 ## 5 · Lecciones ya pagadas en esta sesión — no las repitas
 
