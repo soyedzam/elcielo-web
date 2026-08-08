@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Fuente editable · tarjeta OG — El Cielo en mi Ciudad</title>
+<!--
+  Tarjeta de vista previa (og:image) — 1200×630.
+  Sistema visual Amanecer v1.0. Base índigo, ámbar como consecuencia.
+  El congreso cambia de edición: la fecha y la sede de abajo son campos variables.
+
+  Para regenerar el PNG:
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
+    --screenshot=og.png --window-size=1200,630 --hide-scrollbars \
+    --force-device-scale-factor=1 --virtual-time-budget=10000 \
+    file://$PWD/_fuente/og-card.html
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+  :root{
+    --indigo-noche:#0B1033;
+    --indigo-medio:#1A2158;
+    --ambar:#F2A93B;
+    --ambar-claro:#FFD59E;
+    --hueso:#F7F4EE;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px;overflow:hidden;background:var(--indigo-noche)}
+
+  .tarjeta{
+    position:relative;width:1200px;height:630px;overflow:hidden;
+    background:linear-gradient(180deg,#0B1033 0%,#0B1033 34%,#1A2158 78%,#2E2A5B 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+
+  /* Recurso 3 · la cifra fantasma — textura, nunca lectura */
+  .fantasma{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);
+    font-family:Archivo,"Arial Black",sans-serif;font-weight:900;font-size:430px;
+    letter-spacing:-.055em;color:var(--hueso);opacity:.045;white-space:nowrap;
+    user-select:none;
+  }
+
+  /* El amanecer: la luz entra por abajo, como a las 6:40 */
+  .resplandor{
+    position:absolute;left:0;right:0;bottom:0;height:190px;
+    background:linear-gradient(180deg,rgba(123,62,82,0) 0%,rgba(123,62,82,.55) 46%,rgba(242,169,59,.92) 100%);
+  }
+
+  /* Recurso 2 · el horizonte — filete hairline con nodo ámbar */
+  .horizonte{
+    position:absolute;left:0;right:0;bottom:96px;height:1px;
+    background:linear-gradient(90deg,rgba(247,244,238,0) 0%,rgba(247,244,238,.45) 18%,rgba(247,244,238,.45) 82%,rgba(247,244,238,0) 100%);
+  }
+  .horizonte::after{
+    content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:9px;height:9px;border-radius:50%;background:var(--ambar);
+    box-shadow:0 0 22px 5px rgba(242,169,59,.5);
+  }
+
+  .lockup{position:relative;width:604px;margin-bottom:26px}
+  .lockup svg{display:block;width:100%;height:auto}
+
+  /* Voz señal · IBM Plex Mono en mayúsculas */
+  .datos{
+    position:relative;
+    font-family:"IBM Plex Mono","Courier New",monospace;font-weight:500;
+    font-size:19px;letter-spacing:.26em;color:var(--hueso);
+    text-transform:uppercase;white-space:nowrap;
+  }
+  .datos .sep{color:var(--ambar);margin:0 .7em}
+
+  .sede{
+    position:absolute;left:0;right:0;bottom:34px;text-align:center;
+    font-family:"IBM Plex Mono","Courier New",monospace;font-weight:500;
+    font-size:15px;letter-spacing:.3em;color:#3A2408;text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="tarjeta">
+  <div class="fantasma">2026</div>
+
+  <!-- Logotipo principal, íntegro. No se recompone ni se recolorea. -->
+  <div class="lockup">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" role="img" aria-label="El Cielo en mi Ciudad — Congreso de Liderazgo">
+      <text x="480" y="112" text-anchor="middle" font-family="Instrument Sans, Arial, sans-serif" font-weight="500" font-size="30" letter-spacing="15.6" fill="#F7F4EE" xml:space="preserve">EL CIELO</text>
+      <line x1="222" y1="146" x2="452" y2="146" stroke="#F7F4EE" stroke-opacity="0.55" stroke-width="2"></line>
+      <line x1="508" y1="146" x2="738" y2="146" stroke="#F7F4EE" stroke-opacity="0.55" stroke-width="2"></line>
+      <circle cx="480" cy="146" r="5" fill="#F2A93B"></circle>
+      <text x="480" y="246" text-anchor="middle" font-family="Archivo, Arial Black, sans-serif" font-weight="800" font-size="104" letter-spacing="-2.3" fill="#F7F4EE">EN MI CIUDAD</text>
+      <text x="480" y="296" text-anchor="middle" font-family="IBM Plex Mono, Courier New, monospace" font-weight="400" font-size="17" letter-spacing="6.5" fill="#F2A93B" xml:space="preserve">CONGRESO DE LIDERAZGO</text>
+    </svg>
+  </div>
+
+  <div class="datos">14 &middot; 15 &middot; 16 agosto<span class="sep">&mdash;</span>M&eacute;rida, Yucat&aacute;n</div>
+
+  <div class="horizonte"></div>
+  <div class="resplandor"></div>
+  <div class="sede">elcielo.comunidadmasalto.org</div>
+</div>
+</body>
+</html>
