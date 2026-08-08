@@ -1,6 +1,6 @@
 # Pase de Sesión — El Cielo en mi Ciudad
 > Handoff para la instancia nueva de Claude que retome este sitio.
-> **Léelo completo antes de tocar nada.** Escrito: 2-ago-2026.
+> **Léelo completo antes de tocar nada.** Escrito 2-ago-2026 · actualizado 8-ago-2026.
 
 ---
 
@@ -25,13 +25,15 @@ Sitio estático en producción de **"El Cielo en mi Ciudad"** — congreso de li
 - **Regla de diseño ya peleada y ganada esta sesión: nada de botones-píldora genéricos.** Los CTA son links editoriales (texto + flecha, subrayado animado, sin caja) — clase `.lx-btn`. **Única excepción deliberada:** el botón de WhatsApp en Registro (`.lx-btn-wa`, verde, con pulso) — Ed pidió explícitamente que ESE sí se vea como botón, porque es la conversión real. No lo "corrijas" a link plano pensando que es inconsistencia.
 - **"Quién convoca" ≠ "quiénes son los ponentes".** Quien convoca el congreso es Comunidad Más Alto (sección "Pastores" — Pastor Joel y Pastora Ana). Los ponentes invitados son Ofir Peña y Tere Guillén (sección "Ponentes"). No mezcles los dos conceptos en copy nuevo — Ed corrigió esto una vez ya.
 - **"Registro" se evitó en el copy — EXCEPTO en el programa/agenda**, donde "Registro 19:30 · Inicio 20:00" significa hora de puertas y Ed pidió explícitamente dejarlo así. No lo cambies a "Puertas" — ya se intentó y se revirtió.
+- **El naranja de Comunidad Más Alto choca con el ámbar del congreso.** Medido del archivo original: CMA es `#F29100` y el sistema es `#F2A93B` — **mismo matiz exacto (36°)**, solo cambia saturación (100 vs 88) y luminosidad (47 vs 59). Puestos en la misma superficie no leen como dos marcas, leen como error de impresión. Si montas el logotipo de CMA sobre índigo, va en **monocromo hueso** o sobre **placa hueso** — nunca a color suelto. Ver §7.
 
 ## 3 · Estado real de cada pieza (verificado, no de memoria)
 
 | Pieza | Estado |
 |---|---|
 | `index.html` | Landing completa: hero con video cinematográfico + gradiente Amanecer, Ejes, Ponentes (Ofir/Tere), Programa, Pastores (Joel/Ana), A quién convoca, Comunidad (fotos reales), Registro (countdown en vivo + WhatsApp), footer con créditos |
-| `agenda.html` | Programa por día, igual al de index |
+| `agenda.html` | Programa por día. Viernes y sábado-mañana ya llevan **hora de cierre** (22:05 / 11:13) y una línea de qué pasa dentro; sábado-tarde y domingo siguen solo con "Registro · Inicio" porque no hay guion todavía |
+| `guion.html` | **Guion de cabina — uso interno.** `noindex`, sin enlace desde el sitio, se llega por URL directa. Minuto a minuto de la corrida en modo noche, para leerse del celular con el evento corriendo. Ver §7 |
 | `momentos.html` | Fotos + videos (enlazan a YouTube, sin embed) |
 | `info.html` | Acordeones: sede (con link a Google Maps real), qué es, fechas, cómo apartar lugar |
 | `avance.html` | Kiosko: countdown en vivo (días:horas:min:seg) + QR — para pantallas de CMA |
@@ -49,8 +51,10 @@ Sitio estático en producción de **"El Cielo en mi Ciudad"** — congreso de li
 
 1. **Título del bloque sábado-noche.** El Programa oficial no le puso nombre (a diferencia de "Apertura", "Taller para Liderazgo", "Cierre — Culto Único"). Hoy dice "Sesión general" — es un placeholder aceptado, no un dato inventado.
 2. **Eje (Identidad/Propósito/Destino) de sábado-noche y domingo.** Solo Identidad→viernes y Propósito→sábado-taller están confirmados. No le fuerces un eje a los otros dos bloques.
-3. **`og:image`** — no existe. Sin ella, el link se ve pobre al compartirse en WhatsApp/redes. Se puede exportar del Design System.
-4. **Fotos de comunidad** — las 3 de la sección "Comunidad" son de La Nave (misma comunidad madre), reusadas con velo índigo. Si aparecen fotos oficiales del Cielo, reemplázalas.
+3. **Orden de la bienvenida del sábado.** En la hoja de Ed la bienvenida aparece escrita *después* del video de pastor y pastora, pero los tiempos solo cuadran al revés (bienvenida 9:00, video 9:04). Está montado así y marcado `[validar]` dentro de `guion.html`. Confirmar con los pastores.
+4. **Sábado tarde/noche y domingo no tienen guion.** La hoja de trabajo llega hasta el panel del sábado. Sin eso no hay hora de cierre para esos dos bloques en la agenda pública.
+5. **Logotipo de Comunidad Más Alto — decisión pendiente de Ed.** Solo existe **un** archivo, PNG 375×236 (`~/Dev/CMA/lanave-web/assets/logo-masalto.png`, el mismo que usa La Nave). No hay SVG ni versión monocromo, y recolorearlo es decisión de CMA, no nuestra. Dónde va: pie de página, sección "Quiénes convocan", sede en Info. Dónde no: barra superior ni portada.
+6. **Fotos de comunidad** — las 3 de la sección "Comunidad" son de La Nave (misma comunidad madre), reusadas con velo índigo. Si aparecen fotos oficiales del Cielo, reemplázalas.
 
 ## 5 · Lecciones ya pagadas en esta sesión — no las repitas
 
@@ -59,10 +63,29 @@ Sitio estático en producción de **"El Cielo en mi Ciudad"** — congreso de li
 - **`object-fit:cover` sin `object-position` corta caras en fotos documentales** cuando el aspect-ratio cambia en móvil. Si agregas fotos nuevas, revisa el recorte en 375px antes de dar por bueno — no asumas que el centro es un buen punto de anclaje.
 - **GitHub Pages con dominio custom siempre 301-redirige** la URL `*.github.io` hacia el dominio propio si existe `CNAME` — no sirve como preview alterno mientras el CNAME esté puesto. Usa `raw.githack.com/soyedzam/elcielo-web/main/archivo.html` para previsualizar sin DNS.
 - **Cambiar el custom domain vía API de GitHub Pages genera commits automáticos** ("Delete CNAME" / "Create CNAME") directo al repo — si haces `git push` y te rechaza por "fetch first", es eso, no un conflicto real: `git pull --rebase` y ya.
+- **Chrome headless con `--window-size=390,…` NO emula un teléfono.** No aplica el `<meta viewport>` como lo haría iOS, así que el layout sale a un ancho distinto del que capturas y el texto aparece cortado por la derecha: parece desbordamiento y no lo es. Se perdió tiempo persiguiendo un bug fantasma así. Para juzgar móvil, navegador real a 375px y **mide**: `document.documentElement.scrollWidth <= clientWidth`. Headless sirve para capturas a ancho de escritorio, no para veredictos de móvil.
+- **La cifra fantasma sí abría scroll lateral de verdad** (`.lx-ghost` va a `right:-14px` a propósito). Ya está recortada con `overflow-x: clip` en `.lx-programa-wrap` — `clip` y no `hidden`, porque `hidden` crearía un contenedor de scroll. Si agregas otro `.lx-ghost` en una sección nueva, recórtalo igual o vuelve el desplazamiento lateral en el teléfono.
 
 ## 6 · Cómo se responde a Ed
 
 Directo, conciso, mínimo texto. Verifica en vivo con evidencia real antes de decir "listo" — nunca confíes en el reporte de otro agente ni en tu propia suposición sin comprobarlo (capturas, curl, lo que aplique). Cierre de respuesta larga: ✅ qué se hizo · ➡️ siguiente paso · ⚠️ pendientes.
 
+## 7 · El guion de cabina NO es la agenda pública
+
+Regla nacida el 8-ago-2026, cuando Ed pasó la hoja del programa con el minuto a minuto.
+
+**Son dos documentos con dos públicos, y no se mezclan.**
+
+| | `agenda.html` — pública | `guion.html` — interna |
+|---|---|---|
+| Para quién | El líder convocado | El equipo de producción |
+| Qué responde | ¿A qué hora entro y a qué hora salgo? | ¿Qué va ahora y cuánto dura? |
+| Qué muestra | Puertas · inicio · **cierre** · qué pasa dentro | Cada entrada al minuto, con notas de cabina |
+| Indexación | Normal | `noindex, nofollow`, sin enlaces entrantes |
+
+**Por qué importa:** publicar "21:52 Ofrenda · 10 min" le dice al asistente el minuto exacto en que se le va a pedir dinero, y cuánto dura la predicación antes de que empiece. Eso es información de cabina — cambia cómo se vive el momento. **Nunca subas el minutaje a la agenda pública**, por más que el dato ya exista y sea verdadero.
+
+Lo que sí sube de un guion nuevo: la **hora de cierre** (se calcula sumando los bloques) y una línea de qué pasa dentro, sin horas intermedias.
+
 ---
-*El Cielo en mi Ciudad · Pase de Sesión · 2-ago-2026 · La fragua produce; el taller archiva.* 🕊️
+*El Cielo en mi Ciudad · Pase de Sesión · v1.1 · 8-ago-2026 · La fragua produce; el taller archiva.* 🕊️
