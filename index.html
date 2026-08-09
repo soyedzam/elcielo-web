@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>El Cielo en mi Ciudad — Congreso · Comunidad Más Alto</title>
-  <meta name="description" content="Tres días para mirar tu ciudad desde más arriba. Congreso de Comunidad Más Alto — 14 al 16 de agosto de 2026, Mérida, Yucatán. 300 lugares.">
+  <meta name="description" content="Tres días para mirar tu ciudad desde más arriba. Congreso de Comunidad Más Alto — 14 al 16 de agosto de 2026, Mérida, Yucatán. Entrada libre, cupo 300.">
   <link rel="canonical" href="https://elcielo.comunidadmasalto.org/">
   <meta name="theme-color" content="#0B1033">
 
@@ -12,7 +12,7 @@
   <meta property="og:locale" content="es_MX">
   <meta property="og:site_name" content="El Cielo en mi Ciudad · Comunidad Más Alto">
   <meta property="og:title" content="El Cielo en mi Ciudad — Congreso">
-  <meta property="og:description" content="Tres días para mirar tu ciudad desde más arriba. 14–16 de agosto de 2026 · Mérida, Yucatán · 300 lugares.">
+  <meta property="og:description" content="Tres días para mirar tu ciudad desde más arriba. 14–16 de agosto de 2026 · Mérida, Yucatán · Entrada libre, cupo 300.">
   <meta property="og:url" content="https://elcielo.comunidadmasalto.org/">
   <meta property="og:image" content="https://elcielo.comunidadmasalto.org/assets/brand/og-cielo-2026.png">
   <meta property="og:image:width" content="1200">
@@ -90,7 +90,7 @@
       <dl class="lx-pts">
         <div class="lx-pt"><dt class="lx-l">Fecha</dt><dd class="lx-v">14–16 de agosto</dd></div>
         <div class="lx-pt"><dt class="lx-l">Sede</dt><dd class="lx-v">Mérida, Yucatán</dd></div>
-        <div class="lx-pt"><dt class="lx-l">Cupo</dt><dd class="lx-v">300 lugares</dd></div>
+        <div class="lx-pt"><dt class="lx-l">Cupo</dt><dd class="lx-v">300, entrada libre</dd></div>
       </dl>
     </div>
   </section>
@@ -254,7 +254,7 @@
       <div>
         <span class="lx-kicker">// aparta tu lugar</span>
         <h2 id="registro-t" class="lx-h2">Aparta tu lugar</h2>
-        <p class="lx-lead">Son 300 lugares. Escríbenos y una persona del equipo confirma el tuyo por WhatsApp.</p>
+        <p class="lx-lead">La entrada es libre, sin costo. El cupo es de 300 personas — regístrate antes y tu lugar queda apartado.</p>
         <div class="lx-cuenta-mini" aria-live="polite">
           <div class="lx-cuenta-item"><span class="lx-cuenta-n tabular" id="js-dias-stat">—</span><span class="lx-cuenta-l">Días</span></div>
           <div class="lx-cuenta-item"><span class="lx-cuenta-n tabular" id="js-horas">—</span><span class="lx-cuenta-l">Horas</span></div>
@@ -263,20 +263,64 @@
         </div>
       </div>
       <div>
-        <div class="lx-registro-canal" id="js-canal-wa" hidden>
-          <h3 class="lx-h3">Escríbenos por WhatsApp</h3>
-          <p class="lx-lead">Un mensaje basta — del otro lado te responde gente de la comunidad, no un formulario.</p>
+        <!-- El formulario. Se envía a una hoja de cálculo del equipo
+             (Apps Script); el sitio sigue sin servidor propio. -->
+        <div id="js-form-zona">
+          <div class="lx-premio">
+            <span class="lx-premio-ico" aria-hidden="true">🎁</span>
+            <p>Quien se registra aquí <strong>entra a la rifa</strong> del congreso y asegura su lugar de los 300. El día del evento también se puede entrar sin registro mientras haya cupo — pero ya sin rifa.</p>
+          </div>
+
+          <form class="lx-form" id="js-registro" novalidate>
+            <div class="lx-campo">
+              <label for="f-nombre">Tu nombre completo</label>
+              <input type="text" id="f-nombre" name="nombre" autocomplete="name"
+                     enterkeyhint="next" required aria-describedby="e-nombre">
+              <span class="lx-error" id="e-nombre">Escribe tu nombre para apartar el lugar.</span>
+            </div>
+
+            <div class="lx-campo">
+              <label for="f-whatsapp">Tu WhatsApp</label>
+              <input type="tel" id="f-whatsapp" name="whatsapp" inputmode="tel"
+                     autocomplete="tel" placeholder="999 123 4567"
+                     enterkeyhint="next" required aria-describedby="e-whatsapp a-whatsapp">
+              <span class="lx-ayuda" id="a-whatsapp">Ahí te avisamos si algo cambia.</span>
+              <span class="lx-error" id="e-whatsapp">Escribe los 10 dígitos de tu WhatsApp.</span>
+            </div>
+
+            <div class="lx-campo">
+              <label for="f-correo">Tu correo</label>
+              <input type="email" id="f-correo" name="correo" inputmode="email"
+                     autocomplete="email" placeholder="nombre@correo.com"
+                     enterkeyhint="go" required aria-describedby="e-correo">
+              <span class="lx-error" id="e-correo">Revisa tu correo, parece incompleto.</span>
+            </div>
+
+            <!-- Los robots llenan todo lo que encuentran; una persona no ve esto. -->
+            <div class="lx-trampa" aria-hidden="true">
+              <label for="f-sitio">No llenes este campo</label>
+              <input type="text" id="f-sitio" name="sitio" tabindex="-1" autocomplete="off">
+            </div>
+
+            <button class="lx-form-envia" type="submit" id="js-enviar">Apartar mi lugar</button>
+            <p class="lx-error" id="js-form-error" role="alert" style="margin-top:14px"></p>
+            <p class="lx-registro-nota">Tus datos son solo para el registro del congreso, no se comparten con nadie. <a href="privacidad.html">Aviso de Privacidad</a>.</p>
+          </form>
+        </div>
+
+        <!-- Confirmación. Reemplaza al formulario cuando el registro entra. -->
+        <div id="js-form-listo" hidden></div>
+
+        <!-- Plan B: si la hoja de registro no responde, la conversación
+             por WhatsApp sigue siendo una salida, no un callejón. -->
+        <div class="lx-registro-canal" id="js-canal-alt" hidden>
+          <h3 class="lx-h3">¿Prefieres preguntar antes?</h3>
+          <p class="lx-lead">Escríbenos por WhatsApp para informes del congreso, o búscanos en <a href="https://www.facebook.com/comunidadmasalto" target="_blank" rel="noopener">Facebook</a>.</p>
           <a class="lx-btn-wa" id="js-canal-wa-btn" href="#registro">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.2h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.14c-.24.68-1.4 1.3-1.93 1.37-.5.08-1.11.11-1.79-.11-.41-.13-.94-.3-1.61-.6-2.84-1.23-4.7-4.1-4.84-4.29-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.14.07.15.11.32.02.51-.09.19-.14.31-.27.48-.14.17-.29.37-.41.5-.14.14-.28.29-.12.57.16.28.71 1.18 1.53 1.91 1.05.94 1.94 1.24 2.22 1.38.28.14.44.12.61-.07.16-.19.7-.82.89-1.1.19-.28.37-.23.62-.14.26.09 1.63.77 1.91.91.28.14.47.21.54.33.07.12.07.68-.17 1.36Z"/></svg>
-            <span>Apartar mi lugar por WhatsApp</span>
+            <span>Informes por WhatsApp</span>
           </a>
         </div>
-        <div class="lx-registro-canal" id="js-canal-alt">
-          <h3 class="lx-h3">Con el equipo de Comunidad Más Alto</h3>
-          <p class="lx-lead">Aparta tu lugar directamente con el equipo de la comunidad, o escríbenos por <a href="https://www.facebook.com/comunidadmasalto" target="_blank" rel="noopener">Facebook</a>.</p>
-          <button class="lx-btn" id="js-compartir" type="button">Compártelo con tu equipo</button>
-        </div>
-        <p class="lx-registro-nota">Este sitio no pide ni guarda datos personales.</p>
       </div>
     </div>
   </section>
@@ -290,7 +334,7 @@
         <span class="fb-copy"><strong>Síguenos en Facebook</strong><span class="fb-sub">Sé parte de Comunidad Más Alto todo el año</span></span>
         <span class="fb-go" aria-hidden="true">→</span>
       </a>
-      <p class="privacy">Este sitio no usa cookies ni recopila datos personales.</p>
+      <p class="privacy">Este sitio no usa cookies ni te rastrea. Los datos del formulario de registro se guardan solo para organizar el congreso y no se comparten con nadie — <a href="privacidad.html">Aviso de Privacidad</a>.</p>
       <div class="credits">
         <span>Una iniciativa de <a href="https://comunidadmasalto.org/" target="_blank" rel="noopener"><strong>Comunidad Más Alto</strong></a></span>
         <span><span class="design-label">Estrategia, Arquitectura y Diseño</span> <a href="https://soullensstudios.live/" target="_blank" rel="noopener"><strong>Soul Lens Studios</strong></a></span>
@@ -302,5 +346,6 @@
   <script src="assets/config.js"></script>
   <script type="module" src="assets/cuenta.js"></script>
   <script type="module" src="assets/main.js"></script>
+  <script type="module" src="assets/registro.js"></script>
 </body>
 </html>

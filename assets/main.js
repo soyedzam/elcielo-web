@@ -23,42 +23,28 @@ function iniciarReveals() {
   }
 }
 
-/* — CTA de conversión (config-driven) —
-   data-cta = botón de conversión. Con número: wa.me. Sin número: #registro. */
+/* — CTA de conversión —
+   Todos los "Aparta tu lugar" llevan al formulario, que es donde se
+   registra. WhatsApp dejó de ser la vía de registro: ahora es solo el
+   canal de informes, y vive en un único botón dentro de #registro. */
 function iniciarConversion() {
-  const numero = String(cfg.whatsapp || "").replace(/\D/g, "");
   const enIndex = Boolean(document.getElementById("registro"));
-  const destinoSinNumero = enIndex ? "#registro" : "index.html#registro";
-
-  const waHref = numero
-    ? "https://wa.me/" + numero + "?text=" +
-      encodeURIComponent(cfg.mensajeWhatsApp || "Quiero apartar mi lugar en El Cielo en mi Ciudad.")
-    : null;
+  const destino = enIndex ? "#registro" : "index.html#registro";
 
   document.querySelectorAll("[data-cta]").forEach((el) => {
-    if (waHref) {
-      el.href = waHref;
-      el.target = "_blank";
-      el.rel = "noopener";
-    } else if (el.dataset.ctaFallback !== "none") {
-      el.href = destinoSinNumero;
-    }
+    if (el.dataset.ctaFallback === "none") return;
+    el.href = destino;
+    el.removeAttribute("target");
+    el.removeAttribute("rel");
   });
 
-  /* En #registro: con número aparece el botón directo de WhatsApp;
-     sin número queda el plan B (con la comunidad, por Facebook). */
-  const canalWa = document.getElementById("js-canal-wa");
-  const canalAlt = document.getElementById("js-canal-alt");
-  if (canalWa && canalAlt) {
-    if (waHref) {
-      canalWa.hidden = false;
-      canalAlt.hidden = true;
-      const btn = document.getElementById("js-canal-wa-btn");
-      if (btn) { btn.href = waHref; btn.target = "_blank"; btn.rel = "noopener"; }
-    } else {
-      canalWa.hidden = true;
-      canalAlt.hidden = false;
-    }
+  const numero = String(cfg.whatsapp || "").replace(/\D/g, "");
+  const btnInformes = document.getElementById("js-canal-wa-btn");
+  if (btnInformes && numero) {
+    btnInformes.href = "https://wa.me/" + numero + "?text=" +
+      encodeURIComponent(cfg.mensajeWhatsApp || "Hola, quiero informes del congreso El Cielo en mi Ciudad.");
+    btnInformes.target = "_blank";
+    btnInformes.rel = "noopener";
   }
 }
 

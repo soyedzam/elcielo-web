@@ -12,11 +12,18 @@ window.ELCIELO = {
   // — Cupo real —
   cupo: 300,
 
-  // — Conversión —
-  // Número de WhatsApp del equipo en formato internacional, solo dígitos.
+  // — Registro en línea —
+  // URL de la app web de Apps Script que escribe en la hoja del equipo.
+  // Vacía = no se muestra el formulario y solo queda el WhatsApp de
+  // informes. Cómo obtenerla: _fuente/apps-script/LEEME.md
+  urlRegistro: "",
+
+  // — Informes —
+  // WhatsApp del equipo. Ya NO es la vía de registro (eso lo hace el
+  // formulario): aquí solo se responden dudas sobre el congreso.
   // MX móvil: 52 + 10 dígitos, con el "1" de móvil → 521XXXXXXXXXX.
   whatsapp: "5219991755967",
-  mensajeWhatsApp: "Hola, quiero apartar mi lugar en El Cielo en mi Ciudad.",
+  mensajeWhatsApp: "Hola, quiero informes del congreso El Cielo en mi Ciudad.",
 
   // — URL que se muestra como referencia en la página y en el QR —
   urlDisplay: "elcielo.comunidadmasalto.org",
@@ -25,7 +32,7 @@ window.ELCIELO = {
   mapaUrl: "https://share.google/InwyKySL9Dv5YHTaA",
 
   // — Texto del botón «Compártelo» (hoja nativa del teléfono / WhatsApp) —
-  compartir: "El Cielo en mi Ciudad — congreso de Comunidad Más Alto. 14–16 de agosto en Mérida. Aparta tu lugar en elcielo.comunidadmasalto.org",
+  compartir: "El Cielo en mi Ciudad — congreso de Comunidad Más Alto. 14–16 de agosto en Mérida. Entrada libre; regístrate y entras a la rifa: elcielo.comunidadmasalto.org",
 
   // — Video de fondo del loop de invitación (self-hosted en Cloudflare Pages,
   //   fuera de git: 6 MB). Vacío = el gradiente Amanecer hace de fondo. —

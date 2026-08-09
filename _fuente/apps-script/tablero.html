@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Registros · El Cielo en mi Ciudad</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  /* Tablero interno del equipo. Se usa de pie, en la puerta, con el
+     celular en una mano — por eso todo es grande y de un solo toque.
+     Sin fuentes externas: si el wifi de la sede va lento, esto abre igual. */
+  :root{
+    --noche:#0B1033; --medio:#1A2158; --ambar:#F2A93B; --ambar-claro:#FFD59E;
+    --hueso:#F7F4EE; --verde:#25D366; --borde:rgba(247,244,238,.15);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    margin:0;background:var(--noche);color:var(--hueso);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    font-size:17px;line-height:1.5;
+  }
+  .env{max-width:820px;margin:0 auto;padding:20px 16px 60px}
+
+  /* ── Puerta ── */
+  .puerta{max-width:380px;margin:14vh auto 0;padding:0 20px;text-align:center}
+  .puerta h1{font-size:26px;margin:0 0 8px;letter-spacing:-.02em}
+  .puerta p{color:rgba(247,244,238,.65);font-size:16px;margin:0 0 26px}
+  input{
+    width:100%;padding:16px;font-size:17px;border-radius:12px;
+    border:1px solid var(--borde);background:var(--medio);color:var(--hueso);
+    font-family:inherit;
+  }
+  input:focus{outline:2px solid var(--ambar);outline-offset:2px}
+  .btn{
+    width:100%;margin-top:12px;padding:16px;font-size:17px;font-weight:600;
+    border:0;border-radius:12px;background:var(--ambar);color:#3A2408;
+    cursor:pointer;font-family:inherit;
+  }
+  .btn:active{opacity:.85}
+  .error{color:#FF9A8E;font-size:15px;margin-top:14px;min-height:20px}
+
+  /* ── Resumen ── */
+  header.top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    gap:12px;flex-wrap:wrap;margin-bottom:18px;
+  }
+  header.top h1{font-size:21px;margin:0;letter-spacing:-.01em}
+  .salir{background:none;border:0;color:rgba(247,244,238,.5);font-size:15px;
+    cursor:pointer;font-family:inherit;padding:4px}
+  .cifras{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+  .cifra{background:var(--medio);border-radius:12px;padding:14px 12px;text-align:center}
+  .cifra b{display:block;font-size:28px;line-height:1.1;font-variant-numeric:tabular-nums}
+  .cifra span{font-size:12px;color:rgba(247,244,238,.6);text-transform:uppercase;letter-spacing:.08em}
+  .cifra.rifa b{color:var(--ambar)}
+
+  .buscar{margin-bottom:16px}
+  .conteo{font-size:14px;color:rgba(247,244,238,.55);margin-bottom:10px}
+
+  /* ── Lista ── */
+  .fila{
+    display:flex;align-items:center;gap:12px;padding:14px 0;
+    border-top:1px solid rgba(247,244,238,.08);
+  }
+  .fila:last-child{border-bottom:1px solid rgba(247,244,238,.08)}
+  .quien{flex:1;min-width:0}
+  .nombre{font-weight:600;font-size:17px;overflow-wrap:anywhere}
+  .meta{font-size:14px;color:rgba(247,244,238,.6);overflow-wrap:anywhere}
+  .folio{
+    font-family:ui-monospace,Menlo,monospace;font-size:12px;
+    color:var(--ambar-claro);letter-spacing:.04em;
+  }
+  .tag{
+    display:inline-block;font-size:11px;padding:2px 7px;border-radius:5px;
+    border:1px solid var(--borde);color:rgba(247,244,238,.6);
+    text-transform:uppercase;letter-spacing:.07em;margin-left:6px;
+  }
+  .tag.rifa{color:var(--ambar);border-color:rgba(242,169,59,.45)}
+  .check{
+    flex:0 0 auto;width:52px;height:52px;border-radius:50%;
+    border:2px solid var(--borde);background:none;color:rgba(247,244,238,.4);
+    font-size:22px;cursor:pointer;
+  }
+  .check.si{background:var(--verde);border-color:var(--verde);color:#06301A}
+  .vacio{text-align:center;color:rgba(247,244,238,.5);padding:40px 0}
+  .oculto{display:none}
+</style>
+</head>
+<body>
+
+  <!-- Puerta -->
+  <div class="puerta" id="puerta">
+    <h1>Registros</h1>
+    <p>El Cielo en mi Ciudad</p>
+    <input id="clave" type="password" placeholder="Contraseña" autocomplete="current-password"
+           enterkeyhint="go" aria-label="Contraseña">
+    <button class="btn" id="entrar">Entrar</button>
+    <div class="error" id="err"></div>
+  </div>
+
+  <!-- Tablero -->
+  <div class="env oculto" id="panel">
+    <header class="top">
+      <h1>Registros</h1>
+      <button class="salir" id="salir">Salir</button>
+    </header>
+
+    <div class="cifras">
+      <div class="cifra"><b id="c-total">—</b><span>Registrados</span></div>
+      <div class="cifra rifa"><b id="c-rifa">—</b><span>En la rifa</span></div>
+      <div class="cifra"><b id="c-asis">—</b><span>Ya llegaron</span></div>
+    </div>
+
+    <input class="buscar" id="buscar" type="search" placeholder="Buscar por nombre, folio o teléfono"
+           aria-label="Buscar" enterkeyhint="search">
+    <div class="conteo" id="conteo"></div>
+    <div id="lista"></div>
+  </div>
+
+<script>
+  var CLAVE = '';
+  var TODOS = [];
+  var CUPO_TOTAL = 0;
+
+  function $(id){ return document.getElementById(id); }
+
+  function entrar(){
+    var clave = $('clave').value;
+    if (!clave) return;
+    $('err').textContent = 'Un momento…';
+    google.script.run
+      .withSuccessHandler(function(res){
+        var r = JSON.parse(res);
+        if (!r.ok) { $('err').textContent = 'Contraseña incorrecta.'; return; }
+        CLAVE = clave;
+        CUPO_TOTAL = r.cupo || 0;
+        try { sessionStorage.setItem('cl', clave); } catch(e){}
+        $('puerta').className = 'puerta oculto';
+        $('panel').className = 'env';
+        pintar(r);
+      })
+      .withFailureHandler(function(){ $('err').textContent = 'No se pudo conectar. Reintenta.'; })
+      .datosTablero(clave);
+  }
+
+  function pintar(r){
+    TODOS = r.registros || [];
+    $('c-total').textContent = TODOS.length;
+    $('c-rifa').textContent  = TODOS.filter(function(x){ return x.rifa; }).length;
+    $('c-asis').textContent  = TODOS.filter(function(x){ return x.asistio; }).length;
+    filtrar();
+  }
+
+  function filtrar(){
+    var q = $('buscar').value.toLowerCase().trim();
+    var vis = !q ? TODOS : TODOS.filter(function(x){
+      return (x.nombre + ' ' + x.folio + ' ' + x.whatsapp + ' ' + x.correo).toLowerCase().indexOf(q) > -1;
+    });
+    $('conteo').textContent = q
+      ? vis.length + ' de ' + TODOS.length
+      : TODOS.length + (TODOS.length === 1 ? ' persona' : ' personas') + ' · cupo ' + (TODOS.length) + '/' + CUPO_TOTAL;
+    $('lista').innerHTML = vis.length ? vis.map(tarjeta).join('') : '<div class="vacio">Nadie coincide.</div>';
+  }
+
+  function esc(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  function tarjeta(x){
+    return '<div class="fila">' +
+      '<div class="quien">' +
+        '<div class="nombre">' + esc(x.nombre) +
+          (x.rifa ? '<span class="tag rifa">rifa</span>' : '<span class="tag">en puerta</span>') +
+        '</div>' +
+        '<div class="meta">' + esc(x.whatsapp) + ' · ' + esc(x.correo) + '</div>' +
+        '<div class="meta">' + esc(x.fecha) + '</div>' +
+        '<div class="folio">' + esc(x.folio) + '</div>' +
+      '</div>' +
+      '<button class="check' + (x.asistio ? ' si' : '') + '" data-folio="' + esc(x.folio) + '" ' +
+        'aria-label="Marcar que llegó">' + (x.asistio ? '✓' : '') + '</button>' +
+    '</div>';
+  }
+
+  $('entrar').addEventListener('click', entrar);
+  $('clave').addEventListener('keydown', function(e){ if (e.key === 'Enter') entrar(); });
+  $('buscar').addEventListener('input', filtrar);
+  $('salir').addEventListener('click', function(){
+    try { sessionStorage.removeItem('cl'); } catch(e){}
+    location.reload();
+  });
+
+  // Marcar asistencia — se pinta al instante y se guarda detrás.
+  function actualizarAsistencias(){
+    $('c-asis').textContent = TODOS.filter(function(x){ return x.asistio; }).length;
+  }
+
+  $('lista').addEventListener('click', function(e){
+    var btn = e.target.closest('.check');
+    if (!btn) return;
+    var folio = btn.getAttribute('data-folio');
+    var marcado = btn.className.indexOf('si') > -1;
+    if (marcado) return;                       // no se desmarca desde aquí
+    btn.className = 'check si';
+    btn.textContent = '✓';
+    var reg = TODOS.filter(function(x){ return x.folio === folio; })[0];
+    if (reg) { reg.asistio = true; actualizarAsistencias(); }
+    google.script.run
+      .withFailureHandler(function(){
+        btn.className = 'check'; btn.textContent = '';
+        if (reg) reg.asistio = false;
+        actualizarAsistencias();               // el conteo también se revierte
+        alert('No se pudo guardar. Revisa la señal e inténtalo otra vez.');
+      })
+      .marcarAsistio(CLAVE, folio);
+  });
+
+  // Si ya entró en esta sesión del navegador, no vuelve a pedir la clave.
+  (function(){
+    var g = null;
+    try { g = sessionStorage.getItem('cl'); } catch(e){}
+    if (g) { $('clave').value = g; entrar(); }
+  })();
+</script>
+</body>
+</html>
