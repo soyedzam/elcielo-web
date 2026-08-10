@@ -169,7 +169,7 @@ section { position: relative; padding-block: 110px; }
       color-mix(in srgb, var(--lx-night) 88%, transparent) 0%,
       color-mix(in srgb, var(--lx-night) 80%, transparent) 45%,
       color-mix(in srgb, var(--lx-night) 90%, transparent) 100%),
-    url("fotos/007-congregacion-en-adoracion.webp") 0% 30% / cover no-repeat;
+    url("fotos/016-encuentro-al-aire-libre.webp") 50% 25% / cover no-repeat;
 }
 .lx-hero-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .lx-hero-media::after {
@@ -354,10 +354,8 @@ section { position: relative; padding-block: 110px; }
 @media (max-width: 720px) {
   .lx-comunidad-grid { grid-template-columns: 1fr; }
   .lx-foto { aspect-ratio: 4 / 3; }
-  /* el recorte 3:2 dejaba caras arriba de la ventana visible — ancla hacia arriba por foto */
-  .lx-foto:nth-child(1) img { object-position: 50% 12%; }
-  .lx-foto:nth-child(2) img { object-position: 50% 22%; }
-  .lx-foto:nth-child(3) img { object-position: 50% 8%; }
+  /* el recorte 4:3 deja caras arriba de la ventana visible — ancla hacia arriba */
+  .lx-foto img { object-position: 50% 10%; }
 }
 .lx-comunidad-cta {
   display: inline-flex; align-items: center; gap: 8px; margin-top: 34px;
