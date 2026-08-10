@@ -16,7 +16,7 @@ window.ELCIELO = {
   // URL de la app web de Apps Script que escribe en la hoja del equipo.
   // Vacía = no se muestra el formulario y solo queda el WhatsApp de
   // informes. Cómo obtenerla: _fuente/apps-script/LEEME.md
-  urlRegistro: "",
+  urlRegistro: "https://script.google.com/macros/s/AKfycbywpR5sr99FA1DeTlmJbyWMkgwaGPRUYw1fExBZRrIB9d0h2DtN5kc-8y_EtHq_t0dV/exec",
 
   // — Informes —
   // WhatsApp del equipo. Ya NO es la vía de registro (eso lo hace el
