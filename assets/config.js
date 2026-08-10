@@ -22,7 +22,7 @@ window.ELCIELO = {
   // WhatsApp del equipo. Ya NO es la vía de registro (eso lo hace el
   // formulario): aquí solo se responden dudas sobre el congreso.
   // MX móvil: 52 + 10 dígitos, con el "1" de móvil → 521XXXXXXXXXX.
-  whatsapp: "5219991755967",
+  whatsapp: "5219994338287",
   mensajeWhatsApp: "Hola, quiero informes del congreso El Cielo en mi Ciudad.",
 
   // — URL que se muestra como referencia en la página y en el QR —
