@@ -275,6 +275,11 @@ section { position: relative; padding-block: 110px; }
 }
 .lx-voces-photo { position: relative; min-height: 460px; background: var(--lx-mid); }
 .lx-voces-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+/* Dos fotos reales, una por ponente — mismo marco, sin fingir que es una sola sesión */
+.lx-voces-duo { position: absolute; inset: 0; display: flex; }
+.lx-voces-duo-item { flex: 1; position: relative; overflow: hidden; }
+.lx-voces-duo-item:first-child { border-right: 1px solid color-mix(in srgb, var(--lx-bone) 14%, transparent); }
+.lx-voces-duo-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
 .lx-voces-photo .lx-tint {
   position: absolute; inset: 0;
   background:
