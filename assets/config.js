@@ -28,8 +28,11 @@ window.ELCIELO = {
   // — URL que se muestra como referencia en la página y en el QR —
   urlDisplay: "elcielo.comunidadmasalto.org",
 
-  // — Ubicación real de Comunidad Más Alto (Google Maps) —
-  mapaUrl: "https://share.google/InwyKySL9Dv5YHTaA",
+  // — Ubicación real de Comunidad Más Alto —
+  // Coordenadas exactas del pin (no el centro del mapa) — de ahí salen
+  // los tres links de "Cómo llegar" (Google / Apple / Waze).
+  coords: { lat: 21.027521, lng: -89.5768332 },
+  mapaUrl: "https://www.google.com/maps/place/Comunidad+M%C3%A1s+Alto/@21.027526,-89.5794081,17z/data=!3m1!4b1!4m6!3m5!1s0x8f5677b06a7551c1:0xe9d4fba775ea49f6!8m2!3d21.027521!4d-89.5768332!16s%2Fg%2F11lryyxxhf",
 
   // — Texto del botón «Compártelo» (hoja nativa del teléfono / WhatsApp) —
   compartir: "El Cielo en mi Ciudad — congreso de Comunidad Más Alto. 14–16 de agosto en Mérida. Entrada libre; regístrate y entras a la rifa: elcielo.comunidadmasalto.org",

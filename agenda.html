@@ -54,58 +54,88 @@
   <section class="lx-on-bone" aria-label="Programa por día">
     <div class="lx-container lx-programa-wrap">
       <div class="lx-ghost" aria-hidden="true">6:40</div>
-      <span class="lx-kicker">// viernes 14 · apertura</span>
-      <div class="lx-bloques" style="margin-top:20px; margin-bottom:44px">
+
+      <div class="lx-reloj-yuc" id="js-reloj" aria-live="polite">
+        <span class="lx-reloj-punto" aria-hidden="true"></span>
+        <span>Ahora en Mérida — <b id="js-reloj-hora">—:—</b></span>
+      </div>
+
+      <div class="lx-dias-tabs" role="tablist" aria-label="Elegir día">
+        <button class="lx-dia-tab" id="js-tab-viernes" type="button" role="tab" aria-selected="true" aria-controls="js-panel-viernes" data-dia="viernes">
+          Viernes 14<span class="lx-tab-vivo" id="js-tabvivo-viernes" hidden></span>
+        </button>
+        <button class="lx-dia-tab" id="js-tab-sabado" type="button" role="tab" aria-selected="false" aria-controls="js-panel-sabado" data-dia="sabado">
+          Sábado 15<span class="lx-tab-vivo" id="js-tabvivo-sabado" hidden></span>
+        </button>
+        <button class="lx-dia-tab" id="js-tab-domingo" type="button" role="tab" aria-selected="false" aria-controls="js-panel-domingo" data-dia="domingo">
+          Domingo 16<span class="lx-tab-vivo" id="js-tabvivo-domingo" hidden></span>
+        </button>
+      </div>
+
+      <div class="lx-dia-panel" id="js-panel-viernes" data-dia-panel="viernes" role="tabpanel" aria-labelledby="js-tab-viernes">
         <div class="lx-bloque-dia">
-          <div class="lx-bloque-head">
-            <span class="lx-dia">Viernes 14</span>
-            <span class="lx-titulo">Apertura</span>
-          </div>
+          <div class="lx-bloque-head"><span class="lx-titulo">Apertura</span></div>
           <ul class="lx-itin">
-            <li><span class="lx-itin-hora">7:30 pm</span><span class="lx-itin-act">Registro y Acceso</span></li>
-            <li><span class="lx-itin-hora">8:00 pm</span><span class="lx-itin-act">Bienvenida Oficial</span></li>
-            <li><span class="lx-itin-hora">8:05 pm</span><span class="lx-itin-act">Alabanza</span></li>
-            <li class="is-conf"><span class="lx-itin-hora">8:50 pm</span><span class="lx-itin-act">Conferencia 1 · Ps Ofir Peña</span></li>
-            <li><span class="lx-itin-hora">10:00 pm</span><span class="lx-itin-act">Cierre Día 1</span></li>
+            <li data-inicio="2026-08-14T19:30:00-06:00" data-fin="2026-08-14T20:00:00-06:00"><span class="lx-itin-hora">7:30 pm</span><span class="lx-itin-act">Registro y Acceso</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li data-inicio="2026-08-14T20:00:00-06:00" data-fin="2026-08-14T20:05:00-06:00"><span class="lx-itin-hora">8:00 pm</span><span class="lx-itin-act">Bienvenida Oficial</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li data-inicio="2026-08-14T20:05:00-06:00" data-fin="2026-08-14T20:50:00-06:00"><span class="lx-itin-hora">8:05 pm</span><span class="lx-itin-act">Alabanza</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li class="is-conf" data-inicio="2026-08-14T20:50:00-06:00" data-fin="2026-08-14T22:00:00-06:00"><span class="lx-itin-hora">8:50 pm</span><span class="lx-itin-act">Conferencia 1 · Ps Ofir Peña</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li data-inicio="2026-08-14T22:00:00-06:00" data-fin="2026-08-14T22:15:00-06:00"><span class="lx-itin-hora">10:00 pm</span><span class="lx-itin-act">Cierre Día 1</span><span class="lx-en-vivo" hidden>en vivo</span></li>
           </ul>
         </div>
       </div>
-      <span class="lx-kicker">// sábado 15 · sesión</span>
-      <div class="lx-bloques" style="margin-top:20px; margin-bottom:44px">
+
+      <div class="lx-dia-panel" id="js-panel-sabado" data-dia-panel="sabado" role="tabpanel" aria-labelledby="js-tab-sabado" hidden>
         <div class="lx-bloque-dia">
-          <div class="lx-bloque-head">
-            <span class="lx-dia">Sábado 15</span>
-            <span class="lx-titulo">Sesión general</span>
-          </div>
+          <div class="lx-bloque-head"><span class="lx-titulo">Sesión general</span></div>
           <ul class="lx-itin">
-            <li><span class="lx-itin-hora">5:30 pm</span><span class="lx-itin-act">Registro y Acceso</span></li>
-            <li><span class="lx-itin-hora">6:00 pm</span><span class="lx-itin-act">Bienvenida</span></li>
-            <li><span class="lx-itin-hora">6:05 pm</span><span class="lx-itin-act">Alabanza</span></li>
-            <li class="is-conf"><span class="lx-itin-hora">6:50 pm</span><span class="lx-itin-act">Conferencia 2 · Ps Ofir Peña</span></li>
-            <li><span class="lx-itin-hora">8:00 pm</span><span class="lx-itin-act">Cierre Día 2</span></li>
+            <li data-inicio="2026-08-15T17:30:00-06:00" data-fin="2026-08-15T18:00:00-06:00"><span class="lx-itin-hora">5:30 pm</span><span class="lx-itin-act">Registro y Acceso</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li data-inicio="2026-08-15T18:00:00-06:00" data-fin="2026-08-15T18:05:00-06:00"><span class="lx-itin-hora">6:00 pm</span><span class="lx-itin-act">Bienvenida</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li data-inicio="2026-08-15T18:05:00-06:00" data-fin="2026-08-15T18:50:00-06:00"><span class="lx-itin-hora">6:05 pm</span><span class="lx-itin-act">Alabanza</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li class="is-conf" data-inicio="2026-08-15T18:50:00-06:00" data-fin="2026-08-15T20:00:00-06:00"><span class="lx-itin-hora">6:50 pm</span><span class="lx-itin-act">Conferencia 2 · Ps Ofir Peña</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li data-inicio="2026-08-15T20:00:00-06:00" data-fin="2026-08-15T20:15:00-06:00"><span class="lx-itin-hora">8:00 pm</span><span class="lx-itin-act">Cierre Día 2</span><span class="lx-en-vivo" hidden>en vivo</span></li>
           </ul>
         </div>
       </div>
-      <span class="lx-kicker">// domingo 16 · cierre</span>
-      <div class="lx-bloques" style="margin-top:20px">
+
+      <div class="lx-dia-panel" id="js-panel-domingo" data-dia-panel="domingo" role="tabpanel" aria-labelledby="js-tab-domingo" hidden>
         <div class="lx-bloque-dia">
-          <div class="lx-bloque-head">
-            <span class="lx-dia">Domingo 16</span>
-            <span class="lx-titulo">Cierre — Reunión</span>
-          </div>
+          <div class="lx-bloque-head"><span class="lx-titulo">Cierre — Reunión</span></div>
           <ul class="lx-itin">
-            <li><span class="lx-itin-hora">10:30 am</span><span class="lx-itin-act">Registro y Acceso</span></li>
-            <li><span class="lx-itin-hora">11:00 am</span><span class="lx-itin-act">Bienvenida Oficial</span></li>
-            <li><span class="lx-itin-hora">11:05 am</span><span class="lx-itin-act">Alabanza</span></li>
-            <li class="is-conf"><span class="lx-itin-hora">11:50 am</span><span class="lx-itin-act">Conferencia 3 · Ps Ofir Peña</span></li>
-            <li><span class="lx-itin-hora">1:00 pm</span><span class="lx-itin-act">Cierre Final</span></li>
+            <li data-inicio="2026-08-16T10:30:00-06:00" data-fin="2026-08-16T11:00:00-06:00"><span class="lx-itin-hora">10:30 am</span><span class="lx-itin-act">Registro y Acceso</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li data-inicio="2026-08-16T11:00:00-06:00" data-fin="2026-08-16T11:05:00-06:00"><span class="lx-itin-hora">11:00 am</span><span class="lx-itin-act">Bienvenida Oficial</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li data-inicio="2026-08-16T11:05:00-06:00" data-fin="2026-08-16T11:50:00-06:00"><span class="lx-itin-hora">11:05 am</span><span class="lx-itin-act">Alabanza</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li class="is-conf" data-inicio="2026-08-16T11:50:00-06:00" data-fin="2026-08-16T13:00:00-06:00"><span class="lx-itin-hora">11:50 am</span><span class="lx-itin-act">Conferencia 3 · Ps Ofir Peña</span><span class="lx-en-vivo" hidden>en vivo</span></li>
+            <li data-inicio="2026-08-16T13:00:00-06:00" data-fin="2026-08-16T13:15:00-06:00"><span class="lx-itin-hora">1:00 pm</span><span class="lx-itin-act">Cierre Final</span><span class="lx-en-vivo" hidden>en vivo</span></li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="lx-on-night" aria-label="Aparta tu lugar" style="padding-block:72px">
+  <section class="lx-on-night" aria-label="Cómo llegar" style="padding-block:64px">
+    <div class="lx-container">
+      <span class="lx-kicker">// cómo llegar</span>
+      <h2 class="lx-h2" style="margin-bottom:8px">Comunidad Más Alto</h2>
+      <p class="lx-lead" style="margin-bottom:20px">Mérida, Yucatán. Abre en tu app de mapas favorita, con la ruta lista.</p>
+      <div class="lx-mapas">
+        <a class="lx-mapa-btn" href="https://www.google.com/maps/place/Comunidad+M%C3%A1s+Alto/@21.027526,-89.5794081,17z/data=!3m1!4b1!4m6!3m5!1s0x8f5677b06a7551c1:0xe9d4fba775ea49f6!8m2!3d21.027521!4d-89.5768332!16s%2Fg%2F11lryyxxhf" target="_blank" rel="noopener">
+          <svg class="lx-mapa-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C7.86 2 4.5 5.36 4.5 9.5c0 5.5 7.5 12.5 7.5 12.5s7.5-7 7.5-12.5C19.5 5.36 16.14 2 12 2Zm0 10.25a2.75 2.75 0 1 1 0-5.5 2.75 2.75 0 0 1 0 5.5Z"/></svg>
+          Google Maps
+        </a>
+        <a class="lx-mapa-btn" href="https://maps.apple.com/?ll=21.027521,-89.5768332&q=Comunidad%20M%C3%A1s%20Alto" target="_blank" rel="noopener">
+          <svg class="lx-mapa-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C7.86 2 4.5 5.36 4.5 9.5c0 5.5 7.5 12.5 7.5 12.5s7.5-7 7.5-12.5C19.5 5.36 16.14 2 12 2Zm0 10.25a2.75 2.75 0 1 1 0-5.5 2.75 2.75 0 0 1 0 5.5Z"/></svg>
+          Apple Maps
+        </a>
+        <a class="lx-mapa-btn" href="https://waze.com/ul?ll=21.027521,-89.5768332&navigate=yes" target="_blank" rel="noopener">
+          <svg class="lx-mapa-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C7.86 2 4.5 5.36 4.5 9.5c0 5.5 7.5 12.5 7.5 12.5s7.5-7 7.5-12.5C19.5 5.36 16.14 2 12 2Zm0 10.25a2.75 2.75 0 1 1 0-5.5 2.75 2.75 0 0 1 0 5.5Z"/></svg>
+          Waze
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="lx-on-night" aria-label="Aparta tu lugar" style="padding-block:72px; border-top:1px solid var(--lx-border-dark)">
     <div class="lx-container">
       <p class="lx-lead" style="margin-bottom:24px">Entrada libre, sin costo. El cupo es de 300 personas — regístrate antes: tu lugar queda apartado y entras a la rifa del congreso.</p>
       <a class="lx-btn" href="index.html#registro" data-cta="agenda">Aparta tu lugar</a>
@@ -127,5 +157,6 @@
 
   <script src="assets/config.js"></script>
   <script type="module" src="assets/main.js"></script>
+  <script type="module" src="assets/agenda.js"></script>
 </body>
 </html>

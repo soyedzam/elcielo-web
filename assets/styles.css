@@ -343,14 +343,81 @@ section { position: relative; padding-block: 110px; }
 .lx-bloque-head .lx-dia { font-family: var(--font-marker); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--lx-amber-dark); }
 .lx-bloque-head .lx-titulo { font-family: var(--font-display); font-weight: 800; font-size: 19px; letter-spacing: -.01em; }
 .lx-itin { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.lx-itin li { display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: baseline; }
+.lx-itin li { display: grid; grid-template-columns: 84px 1fr auto; gap: 14px; align-items: baseline; }
 .lx-itin-hora { font-family: var(--font-marker); font-size: 12.5px; color: color-mix(in srgb, var(--lx-night) 55%, transparent); white-space: nowrap; }
 .lx-itin-act { font-size: 14.5px; color: color-mix(in srgb, var(--lx-night) 80%, transparent); }
 .lx-itin li.is-conf .lx-itin-act { font-weight: 700; color: var(--lx-night); }
 .lx-itin li.is-conf .lx-itin-hora { color: var(--lx-amber-dark); }
 @media (max-width: 640px) {
   .lx-itin li { grid-template-columns: 68px 1fr; }
+  .lx-en-vivo { grid-column: 1 / -1; margin: 4px 0 0; }
 }
+
+/* ── Reloj de Mérida en vivo — el punto pulsa siempre, no solo "en vivo" ── */
+.lx-reloj-yuc {
+  display: inline-flex; align-items: center; gap: 8px; margin-bottom: 26px;
+  font-family: var(--font-marker); font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--lx-night) 58%, transparent);
+}
+.lx-reloj-yuc b { font-variant-numeric: tabular-nums; color: var(--lx-night); font-weight: 600; }
+.lx-reloj-punto, .lx-en-vivo::before, .lx-tab-vivo {
+  background: #E23D3D; border-radius: 50%; flex: none;
+}
+.lx-reloj-punto { width: 7px; height: 7px; animation: lx-pulso 2s infinite; }
+@keyframes lx-pulso {
+  0% { box-shadow: 0 0 0 0 rgba(226, 61, 61, .45); }
+  70% { box-shadow: 0 0 0 7px rgba(226, 61, 61, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(226, 61, 61, 0); }
+}
+
+/* ── Tabs de día — segmented control, como un selector nativo de app ── */
+.lx-dias-tabs {
+  display: inline-flex; gap: 4px; padding: 4px; margin-bottom: 30px;
+  background: color-mix(in srgb, var(--lx-night) 6%, transparent); border-radius: var(--r-pill);
+  max-width: 100%; overflow-x: auto;
+}
+.lx-dia-tab {
+  border: 0; background: transparent; cursor: pointer; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 18px; border-radius: var(--r-pill);
+  font-family: var(--font-body); font-weight: 600; font-size: 14px;
+  color: color-mix(in srgb, var(--lx-night) 55%, transparent);
+  transition: background .2s ease, color .2s ease;
+}
+.lx-dia-tab[aria-selected="true"] { background: var(--lx-night); color: var(--lx-bone); }
+.lx-tab-vivo { width: 7px; height: 7px; animation: lx-pulso 2s infinite; }
+@media (max-width: 520px) { .lx-dia-tab { padding: 9px 14px; font-size: 13.5px; } }
+
+/* ── Panel del día — fade suave al cambiar de tab ── */
+.lx-dia-panel { animation: lx-panel-in .28s ease; }
+@keyframes lx-panel-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+/* ── Fila "en vivo" — se nota sin gritar: filo rojo + insignia con punto pulsando ── */
+.lx-itin li.is-vivo { position: relative; padding-left: 14px; margin-left: -14px; }
+.lx-itin li.is-vivo::before {
+  content: ""; position: absolute; left: -14px; top: 1px; bottom: 1px; width: 3px;
+  background: #E23D3D; border-radius: 2px;
+}
+.lx-en-vivo {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-marker); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase;
+  color: #C22E2E; background: color-mix(in srgb, #E23D3D 13%, transparent);
+  border-radius: 5px; padding: 3px 8px;
+}
+.lx-en-vivo[hidden] { display: none; }
+.lx-en-vivo::before { content: ""; width: 5px; height: 5px; animation: lx-pulso 2s infinite; }
+
+/* ── Cómo llegar — pastillas neutras, un solo ícono, sin colores de marca ajena ── */
+.lx-mapas { display: flex; flex-wrap: wrap; gap: 10px; }
+.lx-mapa-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px;
+  border: 1px solid color-mix(in srgb, var(--lx-amber) 40%, transparent); border-radius: var(--r-pill);
+  font-family: var(--font-marker); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--lx-amber-light); text-decoration: none;
+  transition: background .2s ease, border-color .2s ease;
+}
+.lx-mapa-btn:hover { background: color-mix(in srgb, var(--lx-amber) 12%, transparent); border-color: var(--lx-amber); }
+.lx-mapa-ico { width: 15px; height: 15px; flex: none; }
 
 /* ── CONVOCA / LÍMITES: listas tipográficas puras, sin chips ── */
 .lx-convoca-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
@@ -497,6 +564,44 @@ section { position: relative; padding-block: 110px; }
   font-family: var(--font-display); font-weight: 800; font-size: 30px;
   letter-spacing: .01em; font-variant-numeric: tabular-nums;
 }
+
+/* ── El nombre, en grande — el momento es de la persona, no del folio ── */
+.lx-listo-nombre {
+  font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(26px, 6.5vw, 40px); letter-spacing: -.01em; line-height: 1.05;
+  margin: 4px 0 16px; color: var(--lx-amber);
+}
+.lx-listo-copy { margin: 0 auto 18px; font-size: 16px; max-width: 40ch; }
+.lx-listo-captura {
+  margin: 18px auto 0; font-size: 13.5px; max-width: 38ch;
+  color: color-mix(in srgb, var(--lx-bone) 62%, transparent);
+}
+
+/* ── La rifa como experiencia, no como una línea con un emoji ── */
+.lx-rifa-card {
+  position: relative; overflow: hidden; margin: 20px auto 0; max-width: 380px;
+  display: flex; align-items: center; gap: 16px; text-align: left;
+  padding: 18px 20px; border-radius: var(--r-lg);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--lx-amber) 22%, transparent), color-mix(in srgb, var(--lx-amber-light) 8%, transparent));
+  border: 1px solid color-mix(in srgb, var(--lx-amber) 48%, transparent);
+}
+.lx-rifa-ico { font-size: 32px; flex: none; animation: lx-rifa-tilt 2.6s ease-in-out infinite; }
+@keyframes lx-rifa-tilt {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(-7deg); }
+}
+.lx-rifa-copy { display: flex; flex-direction: column; gap: 2px; }
+.lx-rifa-copy b { font-family: var(--font-display); font-weight: 800; font-size: 15.5px; }
+.lx-rifa-copy span { font-size: 12.5px; color: color-mix(in srgb, var(--lx-bone) 78%, transparent); }
+
+/* ── Cómo llegar, ya en la confirmación — el siguiente paso natural ── */
+.lx-listo-mapas { margin-top: 26px; }
+.lx-listo-mapas-t {
+  display: block; margin-bottom: 10px;
+  font-family: var(--font-marker); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--lx-bone) 55%, transparent);
+}
+.lx-listo-mapas .lx-mapas { justify-content: center; }
 
 /* ── Generando el folio — efecto "labor illusion": ver el trabajo pasar
    aumenta el valor percibido del resultado (Kayak, TurboTax). El texto

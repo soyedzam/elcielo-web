@@ -161,9 +161,14 @@ function animarGenerando() {
 }
 
 /* Confeti vanilla, sin librería — respeta "movimiento reducido" del
-   sistema: sin partículas, sin animar, el folio aparece igual. */
+   sistema: sin partículas, sin animar, el folio aparece igual.
+   El paso de la física va por tiempo real (delta-time), no por cuadro:
+   así se ve igual de rápido en una pantalla de 60Hz que en una de 120Hz,
+   y un frame perdido no lo deja "flotando" de más. Duración dura por
+   reloj (4.2s), nunca por conteo de cuadros. */
 function confeti() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const DURACION_MS = 4200;
   const colores = ['#F2A93B', '#FFD59E', '#8A5A12', '#F7F4EE'];
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-hidden', 'true');
@@ -184,30 +189,40 @@ function confeti() {
       h: 8 + Math.random() * 6,
       rot: Math.random() * Math.PI,
       vr: (Math.random() - 0.5) * 0.3,
-      color: colores[Math.floor(Math.random() * colores.length)],
-      vida: 1
+      color: colores[Math.floor(Math.random() * colores.length)]
     });
   }
-  let cuadro = 0;
-  (function paso() {
-    cuadro++;
+  // Red de seguridad: si el tab pierde foco y el navegador congela
+  // requestAnimationFrame (pasa en pestañas en segundo plano), esto
+  // igual quita el canvas — nunca se queda flotando de por vida.
+  const quitar = setTimeout(function () { canvas.remove(); }, DURACION_MS + 500);
+
+  const inicio = performance.now();
+  let anterior = inicio;
+  (function paso(ahora) {
+    const transcurrido = ahora - inicio;
+    const dt = Math.min((ahora - anterior) / (1000 / 60), 3);   // en "cuadros de 60fps", topado
+    anterior = ahora;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let vivas = 0;
     piezas.forEach(function (p) {
-      p.vy += p.g; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.vida -= 0.006;
-      if (p.vida <= 0) return;
-      vivas++;
+      p.vy += p.g * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+      const vida = Math.max(1 - transcurrido / DURACION_MS, 0);
+      if (vida <= 0) return;
       ctx.save();
-      ctx.globalAlpha = Math.max(p.vida, 0);
+      ctx.globalAlpha = vida;
       ctx.translate(p.x, p.y);
       ctx.rotate(p.rot);
       ctx.fillStyle = p.color;
       ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
       ctx.restore();
     });
-    if (vivas > 0 && cuadro < 260) requestAnimationFrame(paso);
-    else canvas.remove();
-  })();
+    if (transcurrido < DURACION_MS) {
+      requestAnimationFrame(paso);
+    } else {
+      clearTimeout(quitar);
+      canvas.remove();
+    }
+  })(inicio);
 }
 
 function confirmar(r) {
@@ -218,14 +233,28 @@ function confirmar(r) {
     '<div class="lx-listo">' +
       '<div class="lx-listo-ico" aria-hidden="true">✓</div>' +
       '<h3>' + (r.repetido ? 'Ya tenías tu lugar' : 'Tu lugar está apartado') + '</h3>' +
-      '<p>' +
+      '<p class="lx-listo-nombre">' + escapar(r.nombre).toUpperCase() + '</p>' +
+      '<p class="lx-listo-copy">' +
         (r.repetido
-          ? escapar(r.nombre) + ', tu registro ya estaba hecho, no hace falta repetirlo. Este es tu folio:'
-          : escapar(r.nombre) + ', nos vemos del 14 al 16 de agosto. Guarda este folio, es lo que te van a pedir en la entrada:') +
+          ? 'Tu registro ya estaba hecho, no hace falta repetirlo. Este es tu folio:'
+          : 'Nos vemos del 14 al 16 de agosto. Guarda este folio, es lo que te van a pedir en la entrada:') +
       '</p>' +
       '<div class="lx-folio-caja"><span>Tu folio</span><b>' + escapar(r.folio) + '</b></div>' +
-      (r.rifa ? '<p style="margin-top:18px">🎁 <strong>Estás dentro de la rifa</strong> del congreso.</p>' : '') +
-      '<p style="margin-top:18px">Toma una captura de pantalla — así lo tienes a la mano el día del congreso.</p>' +
+      (r.rifa
+        ? '<div class="lx-rifa-card">' +
+            '<span class="lx-rifa-ico" aria-hidden="true">🎁</span>' +
+            '<span class="lx-rifa-copy"><b>Estás dentro de la rifa</b><span>Del congreso — solo por registrarte antes.</span></span>' +
+          '</div>'
+        : '') +
+      '<p class="lx-listo-captura">Toma una captura de pantalla — así lo tienes a la mano el día del congreso.</p>' +
+      '<div class="lx-listo-mapas">' +
+        '<span class="lx-listo-mapas-t">¿Cómo llegas?</span>' +
+        '<div class="lx-mapas">' +
+          '<a class="lx-mapa-btn" href="https://www.google.com/maps/place/Comunidad+M%C3%A1s+Alto/@21.027526,-89.5794081,17z/data=!3m1!4b1!4m6!3m5!1s0x8f5677b06a7551c1:0xe9d4fba775ea49f6!8m2!3d21.027521!4d-89.5768332!16s%2Fg%2F11lryyxxhf" target="_blank" rel="noopener">Google Maps</a>' +
+          '<a class="lx-mapa-btn" href="https://maps.apple.com/?ll=21.027521,-89.5768332&q=Comunidad%20M%C3%A1s%20Alto" target="_blank" rel="noopener">Apple Maps</a>' +
+          '<a class="lx-mapa-btn" href="https://waze.com/ul?ll=21.027521,-89.5768332&navigate=yes" target="_blank" rel="noopener">Waze</a>' +
+        '</div>' +
+      '</div>' +
     '</div>';
   listo.setAttribute('tabindex', '-1');
   listo.focus();
