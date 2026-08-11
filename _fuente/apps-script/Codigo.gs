@@ -40,6 +40,53 @@ function hoja_() {
   return h;
 }
 
+// Convierte 1,2,3… en A,B,C… — para armar rangos de conditional format.
+function columnaLetra_(n) {
+  let letra = '';
+  while (n > 0) {
+    const resto = (n - 1) % 26;
+    letra = String.fromCharCode(65 + resto) + letra;
+    n = Math.floor((n - 1) / 26);
+  }
+  return letra;
+}
+
+/* Le da formato de marca a la hoja — se corre UNA vez a mano desde el
+   editor (como ponerContrasena_), no cambia ningún dato, solo cómo se
+   ve. Encabezado índigo, columnas a su ancho, y quien entra a la rifa
+   resaltado en ámbar para verlo de un vistazo. */
+function formatearHoja_() {
+  const NOCHE = '#0B1033', HUESO = '#F7F4EE', AMBAR_CLARO = '#FDECC8';
+  const h = hoja_();
+
+  const encabezado = h.getRange(1, 1, 1, COLUMNAS.length);
+  encabezado.setBackground(NOCHE).setFontColor(HUESO).setFontWeight('bold')
+    .setHorizontalAlignment('center').setVerticalAlignment('middle');
+  h.setFrozenRows(1);
+  h.setRowHeight(1, 34);
+
+  // Fecha y hora · Folio · Nombre · Correo · WhatsApp · Origen · Entra a la rifa · Asistió
+  [130, 100, 200, 220, 120, 100, 120, 130].forEach(function (ancho, i) {
+    h.setColumnWidth(i + 1, ancho);
+  });
+
+  const filasDatos = Math.max(h.getMaxRows() - 1, 1);
+  h.getRange(2, 1, filasDatos, COLUMNAS.length)
+    .setFontFamily('Arial').setFontSize(10.5).setVerticalAlignment('middle');
+
+  h.clearConditionalFormatRules();
+  const colRifa = columnaLetra_(COLUMNAS.indexOf('Entra a la rifa') + 1);
+  const regla = SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied('=$' + colRifa + '2="Sí"')
+    .setBackground(AMBAR_CLARO)
+    .setRanges([h.getRange(2, 1, filasDatos, COLUMNAS.length)])
+    .build();
+  h.setConditionalFormatRules([regla]);
+
+  SpreadsheetApp.flush();
+  Logger.log('Formato aplicado a la hoja.');
+}
+
 function json_(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
