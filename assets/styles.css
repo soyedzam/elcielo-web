@@ -430,12 +430,12 @@ section { position: relative; padding-block: 110px; }
    el footer, y ahí que se vea bien: placa hueso propia (su naranja
    choca con el ámbar del congreso puesto directo sobre índigo), tamaño
    generoso, nada apretado contra el texto. ── */
-.lx-credit-cma { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.lx-credit-cma { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 2px; }
 .lx-cma-chip {
   display: inline-flex; align-items: center;
-  padding: 6px 14px; border-radius: 9px; background: var(--lx-bone);
+  padding: 10px 20px; border-radius: 11px; background: var(--lx-bone);
 }
-.lx-cma-chip img { display: block; height: 26px; width: auto; }
+.lx-cma-chip img { display: block; height: 42px; width: auto; }
 
 /* ── CONVOCA / LÍMITES: listas tipográficas puras, sin chips ── */
 .lx-convoca-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
