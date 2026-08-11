@@ -173,10 +173,12 @@ function doGet() {
   // Lo único que se sirve por GET es la página del tablero, y llega
   // vacía: los datos solo salen por las funciones de abajo, que piden
   // contraseña. Así no existe ninguna URL que devuelva nombres.
+  // (XFrameOptionsMode.DENY no existe en la API — solo ALLOWALL y
+  // DEFAULT; dejarlo puesto revienta doGet(). Sin la llamada, Apps
+  // Script usa DEFAULT solo.)
   return HtmlService.createHtmlOutputFromFile('tablero')
     .setTitle('Registros · El Cielo en mi Ciudad')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DENY);
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
 /* Las dos funciones que el tablero llama con google.script.run.
@@ -192,7 +194,8 @@ function datosTablero(clave) {
     ok: true,
     cupo: CUPO,
     registros: registros_().map(f => ({
-      fecha: f[0] ? Utilities.formatDate(new Date(f[0]), 'America/Merida', 'd MMM · HH:mm') : '',
+      // Sin mes: todo el congreso cae en agosto, ponerlo es ruido.
+      fecha: f[0] ? Utilities.formatDate(new Date(f[0]), 'America/Merida', 'd · HH:mm') : '',
       folio: f[1], nombre: f[2], correo: f[3], whatsapp: f[4],
       origen: f[5], rifa: f[6] === 'Sí', asistio: Boolean(f[7])
     })).reverse()                           // lo más reciente arriba
