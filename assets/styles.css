@@ -340,6 +340,13 @@ section { position: relative; padding-block: 110px; }
 .lx-bloque-dia { padding: 24px 0; border-top: 1px solid var(--lx-border-light); }
 .lx-bloque-dia:last-child { border-bottom: 1px solid var(--lx-border-light); }
 .lx-bloque-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+.lx-clima {
+  display: inline-flex; align-items: baseline; gap: 5px;
+  font-family: var(--font-marker); font-size: 12.5px;
+  color: color-mix(in srgb, var(--lx-night) 58%, transparent);
+}
+.lx-clima[hidden] { display: none; }
+.lx-clima b { font-weight: 600; color: var(--lx-night); font-variant-numeric: tabular-nums; }
 .lx-bloque-head .lx-dia { font-family: var(--font-marker); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--lx-amber-dark); }
 .lx-bloque-head .lx-titulo { font-family: var(--font-display); font-weight: 800; font-size: 19px; letter-spacing: -.01em; }
 .lx-itin { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }

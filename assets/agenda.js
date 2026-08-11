@@ -63,8 +63,58 @@ function actualizarEnVivo() {
   });
 }
 
+/* Clima real por Open-Meteo — sin llave, sin backend, hecho para sitios
+   estáticos. Si el día todavía no entra en su ventana de pronóstico (o
+   no hay red), la insignia simplemente no aparece: nunca un dato
+   inventado en su lugar. */
+const COORDS_CLIMA = { lat: 21.0275, lng: -89.5768 };
+const ICONO_POR_CODIGO = {
+  0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
+  45: '🌫️', 48: '🌫️',
+  51: '🌦️', 53: '🌦️', 55: '🌦️',
+  61: '🌧️', 63: '🌧️', 65: '🌧️',
+  80: '🌦️', 81: '🌧️', 82: '⛈️',
+  95: '⛈️', 96: '⛈️', 99: '⛈️'
+};
+
+async function cargarClima() {
+  const inicio = FECHA_POR_DIA.viernes;
+  const fin = FECHA_POR_DIA.domingo;
+  const url = 'https://api.open-meteo.com/v1/forecast' +
+    '?latitude=' + COORDS_CLIMA.lat + '&longitude=' + COORDS_CLIMA.lng +
+    '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode' +
+    '&timezone=America%2FMerida&start_date=' + inicio + '&end_date=' + fin;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('sin pronóstico');
+    const datos = await resp.json();
+    const fechas = datos.daily && datos.daily.time;
+    if (!fechas) throw new Error('respuesta rara');
+
+    DIAS.forEach(function (d) {
+      const el = document.getElementById('js-clima-' + d);
+      if (!el) return;
+      const idx = fechas.indexOf(FECHA_POR_DIA[d]);
+      if (idx === -1) { el.hidden = true; return; }
+
+      const max = Math.round(datos.daily.temperature_2m_max[idx]);
+      const min = Math.round(datos.daily.temperature_2m_min[idx]);
+      const lluvia = datos.daily.precipitation_probability_max[idx];
+      const icono = ICONO_POR_CODIGO[datos.daily.weathercode[idx]] || '🌡️';
+      el.innerHTML = icono + ' <b>' + max + '°</b>/' + min + '° · ' + lluvia + '% lluvia';
+      el.hidden = false;
+    });
+  } catch (err) {
+    DIAS.forEach(function (d) {
+      const el = document.getElementById('js-clima-' + d);
+      if (el) el.hidden = true;
+    });
+  }
+}
+
 iniciarTabs();
 actualizarReloj();
 actualizarEnVivo();
+cargarClima();
 setInterval(actualizarReloj, 1000);
 setInterval(actualizarEnVivo, 15000);
