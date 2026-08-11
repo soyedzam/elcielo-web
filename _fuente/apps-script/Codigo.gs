@@ -86,8 +86,11 @@ function registros_() {
   return filas.filter(f => f[1]);                 // solo las que tienen folio
 }
 
+// El primer folio real es el 111, no el 1 — arranque pedido por Ed.
+const FOLIO_INICIAL = 111;
+
 function siguienteFolio_(total) {
-  return PREFIJO_FOLIO + '-' + String(total + 1).padStart(4, '0');
+  return PREFIJO_FOLIO + '-' + String(total + FOLIO_INICIAL).padStart(4, '0');
 }
 
 // ── Alta de registro (desde el formulario del sitio) ────────────────

@@ -294,6 +294,16 @@
           </form>
         </div>
 
+        <!-- Simula la creación del folio antes de mostrarlo — efecto Kayak/TurboTax:
+             ver "trabajo" ocurriendo aumenta el valor percibido del resultado. -->
+        <div id="js-form-generando" hidden>
+          <div class="lx-generando">
+            <div class="lx-generando-spinner" aria-hidden="true"><span></span><span></span><span></span></div>
+            <p class="lx-generando-texto" id="js-generando-texto">Verificando disponibilidad…</p>
+            <div class="lx-generando-barra"><div class="lx-generando-fill" id="js-generando-fill"></div></div>
+          </div>
+        </div>
+
         <!-- Confirmación. Reemplaza al formulario cuando el registro entra. -->
         <div id="js-form-listo" hidden></div>
 
