@@ -426,21 +426,16 @@ section { position: relative; padding-block: 110px; }
 .lx-mapa-btn:hover { background: color-mix(in srgb, var(--lx-amber) 12%, transparent); border-color: var(--lx-amber); }
 .lx-mapa-ico { width: 15px; height: 15px; flex: none; }
 
-/* ── Marca real de Comunidad Más Alto (naranja + gris) — el naranja de
-   su logo choca con el ámbar del congreso puesto directo sobre índigo,
-   así que siempre va sobre su propia placa hueso, nunca a color suelto
-   sobre fondo oscuro. Mismo criterio en el chip chico del footer. ── */
-.lx-cma-brand {
-  display: inline-flex; align-items: center; margin-bottom: 18px;
-  padding: 8px 16px; border-radius: var(--r-pill);
-  background: var(--lx-bone);
-}
-.lx-cma-brand img { display: block; height: 26px; width: auto; }
+/* ── Marca real de Comunidad Más Alto (naranja + gris) — un solo lugar,
+   el footer, y ahí que se vea bien: placa hueso propia (su naranja
+   choca con el ámbar del congreso puesto directo sobre índigo), tamaño
+   generoso, nada apretado contra el texto. ── */
+.lx-credit-cma { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .lx-cma-chip {
-  display: inline-flex; align-items: center; vertical-align: -5px; margin-right: 6px;
-  padding: 3px 8px; border-radius: 5px; background: var(--lx-bone);
+  display: inline-flex; align-items: center;
+  padding: 6px 14px; border-radius: 9px; background: var(--lx-bone);
 }
-.lx-cma-chip img { display: block; height: 15px; width: auto; }
+.lx-cma-chip img { display: block; height: 26px; width: auto; }
 
 /* ── CONVOCA / LÍMITES: listas tipográficas puras, sin chips ── */
 .lx-convoca-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
