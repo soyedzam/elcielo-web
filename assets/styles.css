@@ -426,6 +426,22 @@ section { position: relative; padding-block: 110px; }
 .lx-mapa-btn:hover { background: color-mix(in srgb, var(--lx-amber) 12%, transparent); border-color: var(--lx-amber); }
 .lx-mapa-ico { width: 15px; height: 15px; flex: none; }
 
+/* ── Marca de Comunidad Más Alto — ícono + nombre, con placa propia
+   para que se note encima de foto o video de fondo, no solo sobre
+   plano oscuro. ── */
+.lx-cma-brand {
+  display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px;
+  padding: 7px 14px 7px 8px; border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--lx-night) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lx-amber) 35%, transparent);
+  backdrop-filter: blur(4px);
+}
+.lx-cma-brand img { width: 24px; height: 22px; flex: none; }
+.lx-cma-brand span {
+  font-family: var(--font-marker); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--lx-amber-light); white-space: nowrap;
+}
+
 /* ── CONVOCA / LÍMITES: listas tipográficas puras, sin chips ── */
 .lx-convoca-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
 .lx-convoca-grid .lx-h2 { font-size: clamp(25px, 3.4vw, 34px); }
