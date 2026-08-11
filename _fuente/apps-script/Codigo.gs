@@ -153,12 +153,16 @@ function doPost(e) {
   }
 
   try {
-    const datos = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    const crudo = (e && e.postData && e.postData.contents) || '{}';
+    Logger.log('doPost recibido: ' + crudo);
+
+    const datos = JSON.parse(crudo);
 
     // Trampa para robots: el formulario trae un campo oculto que una
     // persona nunca llena. Si viene con texto, se acepta en silencio
     // sin escribir nada — el bot cree que funcionó y no reintenta.
     if (normalizar_(datos.sitio)) {
+      Logger.log('doPost: trampa de robots activada, no se guarda nada.');
       return json_({ ok: true, folio: 'CIELO-0000', rifa: false });
     }
 
@@ -167,13 +171,14 @@ function doPost(e) {
     const whatsapp = normalizar_(datos.whatsapp);
     const presencial = datos.origen === 'presencial';
 
-    if (nombre.length < 3) return json_({ ok: false, error: 'nombre' });
-    if (!correoValido_(correo)) return json_({ ok: false, error: 'correo' });
-    if (telefonoClave_(whatsapp).length !== 10) return json_({ ok: false, error: 'whatsapp' });
+    if (nombre.length < 3) { Logger.log('doPost: rechazado por nombre.'); return json_({ ok: false, error: 'nombre' }); }
+    if (!correoValido_(correo)) { Logger.log('doPost: rechazado por correo: ' + correo); return json_({ ok: false, error: 'correo' }); }
+    if (telefonoClave_(whatsapp).length !== 10) { Logger.log('doPost: rechazado por whatsapp: ' + whatsapp); return json_({ ok: false, error: 'whatsapp' }); }
 
     const previos = registros_();
 
     if (previos.length >= CUPO) {
+      Logger.log('doPost: cupo lleno (' + previos.length + '/' + CUPO + ').');
       return json_({ ok: false, error: 'lleno' });
     }
 
@@ -185,6 +190,7 @@ function doPost(e) {
       String(f[3]).toLowerCase().trim() === correo || telefonoClave_(f[4]) === telClave
     );
     if (yaEsta) {
+      Logger.log('doPost: ya estaba registrado, se devuelve folio ' + yaEsta[1]);
       return json_({
         ok: true, repetido: true,
         folio: yaEsta[1], nombre: yaEsta[2],
@@ -195,19 +201,29 @@ function doPost(e) {
     const folio = siguienteFolio_(previos.length);
     const entraRifa = !presencial;   // el día del evento ya no entra a la rifa
 
-    hoja_().appendRow([
-      new Date(), folio, nombre, correo, whatsapp,
-      presencial ? 'Presencial' : 'Plataforma',
-      entraRifa ? 'Sí' : 'No',
-      presencial ? new Date() : ''
-    ]);
+    // Si appendRow truena (Sheets con hipo, permisos, lo que sea), que
+    // se sepa en el log con el mensaje real — antes se perdía en el
+    // "servidor" genérico de más abajo.
+    try {
+      hoja_().appendRow([
+        new Date(), folio, nombre, correo, whatsapp,
+        presencial ? 'Presencial' : 'Plataforma',
+        entraRifa ? 'Sí' : 'No',
+        presencial ? new Date() : ''
+      ]);
+    } catch (errFila) {
+      Logger.log('doPost: FALLÓ appendRow — ' + errFila);
+      throw errFila;
+    }
 
+    Logger.log('doPost: guardado OK, folio ' + folio);
     return json_({
       ok: true, folio: folio, nombre: nombre, rifa: entraRifa,
       lugares: CUPO - (previos.length + 1)
     });
 
   } catch (err) {
+    Logger.log('doPost: ERROR — ' + err);
     return json_({ ok: false, error: 'servidor' });
   } finally {
     candado.releaseLock();
