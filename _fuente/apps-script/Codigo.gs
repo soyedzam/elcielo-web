@@ -265,6 +265,8 @@ function datosTablero(clave) {
   });
 }
 
+// Alterna: si ya había llegado, lo desmarca (por si fue un toque
+// accidental o la persona se salió); si no, lo marca con la hora real.
 function marcarAsistio(clave, folio) {
   if (!claveCorrecta_(clave)) {
     Utilities.sleep(700);
@@ -274,8 +276,14 @@ function marcarAsistio(clave, folio) {
   const filas = h.getDataRange().getValues();
   for (let i = 1; i < filas.length; i++) {
     if (filas[i][1] === normalizar_(folio)) {
-      h.getRange(i + 1, 8).setValue(new Date());
-      return JSON.stringify({ ok: true });
+      const celda = h.getRange(i + 1, 8);
+      const yaMarcado = Boolean(filas[i][7]);
+      if (yaMarcado) {
+        celda.clearContent();
+        return JSON.stringify({ ok: true, asistio: false });
+      }
+      celda.setValue(new Date());
+      return JSON.stringify({ ok: true, asistio: true });
     }
   }
   return JSON.stringify({ ok: false, error: 'no-encontrado' });

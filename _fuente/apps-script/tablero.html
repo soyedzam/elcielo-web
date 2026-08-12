@@ -61,40 +61,41 @@
   .buscar{margin-bottom:16px}
   .conteo{font-size:14px;color:rgba(247,244,238,.55);margin-bottom:10px}
 
-  /* ── Lista ── */
+  /* ── Lista — todo grande: se usa de pie, con el celular en una mano ── */
   .fila{
-    display:flex;align-items:center;gap:12px;padding:14px 0;
+    display:flex;align-items:center;gap:14px;padding:18px 0;
     border-top:1px solid rgba(247,244,238,.08);
   }
   .fila:last-child{border-bottom:1px solid rgba(247,244,238,.08)}
   .quien{flex:1;min-width:0}
-  .nombre{font-weight:600;font-size:17px;overflow-wrap:anywhere}
-  .meta{font-size:14px;color:rgba(247,244,238,.6);overflow-wrap:anywhere}
+  .nombre{font-weight:700;font-size:19px;overflow-wrap:anywhere}
+  .meta{font-size:15.5px;color:rgba(247,244,238,.65);overflow-wrap:anywhere}
   .folio{
-    font-family:ui-monospace,Menlo,monospace;font-size:12px;
+    font-family:ui-monospace,Menlo,monospace;font-size:13px;
     color:var(--ambar-claro);letter-spacing:.04em;
   }
   .tag{
-    display:inline-block;font-size:11px;padding:2px 7px;border-radius:5px;
+    display:inline-block;font-size:12px;padding:3px 8px;border-radius:5px;
     border:1px solid var(--borde);color:rgba(247,244,238,.6);
     text-transform:uppercase;letter-spacing:.07em;margin-left:6px;
   }
   .tag.rifa{color:var(--ambar);border-color:rgba(242,169,59,.45)}
 
-  /* ── Acciones rápidas — WhatsApp, correo, llamada, un toque ── */
-  .acciones{display:flex;gap:6px;margin-top:8px}
+  /* ── Acciones rápidas — WhatsApp, correo, llamada, un toque.
+     42px es el mínimo cómodo de tocar de pie con una mano. ── */
+  .acciones{display:flex;gap:10px;margin-top:12px}
   .accion{
-    flex:0 0 auto;width:34px;height:34px;border-radius:50%;
+    flex:0 0 auto;width:42px;height:42px;border-radius:50%;
     border:1px solid var(--borde);background:var(--medio);
     display:inline-flex;align-items:center;justify-content:center;
-    font-size:16px;text-decoration:none;cursor:pointer;
+    font-size:19px;text-decoration:none;cursor:pointer;
   }
   .accion.wa{color:var(--verde);border-color:rgba(37,211,102,.4)}
 
   .check{
-    flex:0 0 auto;width:52px;height:52px;border-radius:50%;
+    flex:0 0 auto;width:60px;height:60px;border-radius:50%;
     border:2px solid var(--borde);background:none;color:rgba(247,244,238,.4);
-    font-size:22px;cursor:pointer;transition:transform .25s ease;
+    font-size:27px;cursor:pointer;transition:transform .25s ease,background .2s ease,border-color .2s ease;
   }
   .check.si{background:var(--verde);border-color:var(--verde);color:#06301A}
   .check.pop{animation:pop .35s ease}
@@ -264,7 +265,8 @@
         (acciones ? '<div class="acciones">' + acciones + '</div>' : '') +
       '</div>' +
       '<button class="check' + (x.asistio ? ' si' : '') + '" data-folio="' + esc(x.folio) + '" ' +
-        'aria-label="Marcar que llegó">' + (x.asistio ? '✓' : '') + '</button>' +
+        'aria-label="' + (x.asistio ? 'Quitar asistencia de ' : 'Marcar que llegó ') + esc(x.nombre) + '">' +
+        (x.asistio ? '✓' : '') + '</button>' +
       '<span class="casilla" aria-hidden="true"></span>' +
     '</div>';
   }
@@ -292,6 +294,14 @@
     toastTimer = setTimeout(function(){ t.className = 'toast'; }, 2200);
   }
 
+  // Pinta el botón según el estado — se usa tanto al marcar como al
+  // desmarcar, y también para revertir si falla el guardado.
+  function pintarCheck(btn, asistio, animar, nombre){
+    btn.className = 'check' + (asistio ? ' si' : '') + (animar ? ' pop' : '');
+    btn.textContent = asistio ? '✓' : '';
+    btn.setAttribute('aria-label', (asistio ? 'Quitar asistencia de ' : 'Marcar que llegó ') + nombre);
+  }
+
   $('lista').addEventListener('click', function(e){
     var accion = e.target.closest('.accion');
     if (accion) return;                        // los links de contacto siguen su curso normal
@@ -299,16 +309,19 @@
     var btn = e.target.closest('.check');
     if (!btn) return;
     var folio = btn.getAttribute('data-folio');
-    var marcado = btn.className.indexOf('si') > -1;
-    if (marcado) return;                       // no se desmarca desde aquí
-    btn.className = 'check si pop';
-    btn.textContent = '✓';
     var reg = TODOS.filter(function(x){ return x.folio === folio; })[0];
-    if (reg) { reg.asistio = true; actualizarAsistencias(); avisar('✓ Llegó ' + reg.nombre); }
+    if (!reg) return;
+
+    var nuevoEstado = !reg.asistio;             // toggle: marca y también desmarca
+    pintarCheck(btn, nuevoEstado, true, reg.nombre);
+    reg.asistio = nuevoEstado;
+    actualizarAsistencias();
+    avisar(nuevoEstado ? ('✓ Llegó ' + reg.nombre) : (reg.nombre + ' — asistencia quitada'));
+
     google.script.run
       .withFailureHandler(function(){
-        btn.className = 'check'; btn.textContent = '';
-        if (reg) reg.asistio = false;
+        pintarCheck(btn, !nuevoEstado, false, reg.nombre);
+        reg.asistio = !nuevoEstado;
         actualizarAsistencias();               // el conteo también se revierte
         alert('No se pudo guardar. Revisa la señal e inténtalo otra vez.');
       })
