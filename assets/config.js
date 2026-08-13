@@ -35,7 +35,7 @@ window.ELCIELO = {
   mapaUrl: "https://www.google.com/maps/place/Comunidad+M%C3%A1s+Alto/@21.027526,-89.5794081,17z/data=!3m1!4b1!4m6!3m5!1s0x8f5677b06a7551c1:0xe9d4fba775ea49f6!8m2!3d21.027521!4d-89.5768332!16s%2Fg%2F11lryyxxhf",
 
   // — Texto del botón «Compártelo» (hoja nativa del teléfono / WhatsApp) —
-  compartir: "El Cielo en mi Ciudad — congreso de Comunidad Más Alto. 14–16 de agosto en Mérida. Entrada libre; regístrate y entras a la rifa: elcielo.comunidadmasalto.org",
+  compartir: "El Cielo en mi Ciudad — congreso de Comunidad Más Alto. 14–16 de agosto en Mérida. Entrada libre; regístrate y asegura tu lugar: elcielo.comunidadmasalto.org",
 
   // — Video de fondo del loop de invitación (self-hosted en Cloudflare Pages,
   //   fuera de git: 6 MB). Vacío = el gradiente Amanecer hace de fondo. —
@@ -45,5 +45,11 @@ window.ELCIELO = {
   facebook: {
     url: "https://www.facebook.com/comunidadmasalto",
     handle: "Comunidad Más Alto"
-  }
+  },
+
+  // — Encuesta de evaluación —
+  // Vacía = el bloque no se muestra, sin importar la fecha (mismo patrón
+  // que urlRegistro). Se muestra desde el sábado 15 de agosto en
+  // adelante, una vez que hay link real (Google Forms/Tally/otro).
+  encuestaUrl: ""
 };

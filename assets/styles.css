@@ -282,6 +282,19 @@ section { position: relative; padding-block: 110px; }
 }
 @media (max-width: 640px) { .lx-horizon .lx-pts { grid-template-columns: 1fr; gap: 26px; } }
 
+/* ── clima actual: insignia chica bajo el horizonte del hero — solo
+   aparece si Open-Meteo responde, nunca un dato inventado en su lugar ── */
+.lx-clima-actual {
+  display: flex; align-items: baseline; gap: 10px; margin-top: 22px;
+  font-family: var(--font-body); color: color-mix(in srgb, var(--lx-bone) 78%, transparent);
+}
+.lx-clima-ico { font-size: 20px; line-height: 1; }
+.lx-clima-temp { font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--lx-bone); }
+.lx-clima-detalle {
+  font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--lx-bone) 58%, transparent);
+}
+
 /* ── EJES: un horizonte, tres nodos — trayectoria, no tarjetas ── */
 .lx-ejes-rail { position: relative; margin-top: 64px; }
 .lx-ejes-rail .lx-spine { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--lx-border-dark); }
@@ -629,23 +642,6 @@ section { position: relative; padding-block: 110px; }
   color: color-mix(in srgb, var(--lx-bone) 62%, transparent);
 }
 
-/* ── La rifa como experiencia, no como una línea con un emoji ── */
-.lx-rifa-card {
-  position: relative; overflow: hidden; margin: 20px auto 0; max-width: 380px;
-  display: flex; align-items: center; gap: 16px; text-align: left;
-  padding: 18px 20px; border-radius: var(--r-lg);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--lx-amber) 22%, transparent), color-mix(in srgb, var(--lx-amber-light) 8%, transparent));
-  border: 1px solid color-mix(in srgb, var(--lx-amber) 48%, transparent);
-}
-.lx-rifa-ico { font-size: 32px; flex: none; animation: lx-rifa-tilt 2.6s ease-in-out infinite; }
-@keyframes lx-rifa-tilt {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-3px) rotate(-7deg); }
-}
-.lx-rifa-copy { display: flex; flex-direction: column; gap: 2px; }
-.lx-rifa-copy b { font-family: var(--font-display); font-weight: 800; font-size: 15.5px; }
-.lx-rifa-copy span { font-size: 12.5px; color: color-mix(in srgb, var(--lx-bone) 78%, transparent); }
-
 /* ── Cómo llegar, ya en la confirmación — el siguiente paso natural ── */
 .lx-listo-mapas { margin-top: 26px; }
 .lx-listo-mapas-t {
@@ -737,6 +733,7 @@ section { position: relative; padding-block: 110px; }
   color: color-mix(in srgb, var(--lx-bone) 50%, transparent);
 }
 .footer .privacy a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.footer-social-links { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
 .footer-social {
   flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--font-marker); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
@@ -745,6 +742,13 @@ section { position: relative; padding-block: 110px; }
 }
 .footer-social:hover { color: var(--lx-amber-light); }
 .footer-social svg { width: 16px; height: 16px; flex: none; }
+.footer-ministerios {
+  margin: 18px 0 0; font-size: 12.5px; color: color-mix(in srgb, var(--lx-bone) 50%, transparent);
+}
+.footer-ministerios a {
+  color: color-mix(in srgb, var(--lx-bone) 80%, transparent); text-decoration: underline;
+  text-underline-offset: 2px; text-decoration-color: color-mix(in srgb, var(--lx-bone) 28%, transparent);
+}
 .footer .credits {
   display: flex; flex-wrap: wrap; align-items: center; gap: 7px 20px;
   font-size: 12px; color: color-mix(in srgb, var(--lx-bone) 55%, transparent);

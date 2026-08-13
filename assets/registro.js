@@ -240,12 +240,6 @@ function confirmar(r) {
           : 'Nos vemos del 14 al 16 de agosto. Guarda este folio, es lo que te van a pedir en la entrada:') +
       '</p>' +
       '<div class="lx-folio-caja"><span>Tu folio</span><b>' + escapar(r.folio) + '</b></div>' +
-      (r.rifa
-        ? '<div class="lx-rifa-card">' +
-            '<span class="lx-rifa-ico" aria-hidden="true">🎁</span>' +
-            '<span class="lx-rifa-copy"><b>Estás dentro de la rifa</b><span>Del congreso — solo por registrarte antes.</span></span>' +
-          '</div>'
-        : '') +
       '<p class="lx-listo-captura">Toma una captura de pantalla — así lo tienes a la mano el día del congreso.</p>' +
       '<div class="lx-listo-mapas">' +
         '<span class="lx-listo-mapas-t">¿Cómo llegas?</span>' +

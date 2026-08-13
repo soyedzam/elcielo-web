@@ -217,6 +217,21 @@ function doPost(e) {
     }
 
     Logger.log('doPost: guardado OK, folio ' + folio);
+
+    // Aviso a Ed por cada registro — la Sheet sigue siendo la fuente de
+    // verdad, así que un fallo de correo nunca debe tumbar el registro.
+    try {
+      MailApp.sendEmail({
+        to: 'soyedzam@gmail.com',
+        subject: 'Nuevo registro — ' + nombre + ' (' + folio + ')',
+        body: 'Nombre: ' + nombre + '\nFolio: ' + folio + '\nWhatsApp: ' + whatsapp +
+          '\nCorreo: ' + correo + '\nOrigen: ' + (presencial ? 'Presencial' : 'Plataforma') +
+          '\nRifa: ' + (entraRifa ? 'Sí' : 'No')
+      });
+    } catch (errCorreo) {
+      Logger.log('doPost: aviso por correo falló (registro sí se guardó) — ' + errCorreo);
+    }
+
     return json_({
       ok: true, folio: folio, nombre: nombre, rifa: entraRifa,
       lugares: CUPO - (previos.length + 1)
