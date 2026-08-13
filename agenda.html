@@ -57,10 +57,14 @@
   <section class="lx-on-bone" aria-label="Programa por día">
     <div class="lx-container lx-programa-wrap">
       <div class="lx-ghost" aria-hidden="true">6:40</div>
+      <span class="lx-kicker">// sigue el evento en vivo</span>
 
-      <div class="lx-reloj-yuc" id="js-reloj" aria-live="polite">
-        <span class="lx-reloj-punto" aria-hidden="true"></span>
-        <span>Ahora en Mérida — <b id="js-reloj-hora">—:—</b></span>
+      <div class="lx-reloj-clima-row">
+        <div class="lx-reloj-yuc" id="js-reloj" aria-live="polite">
+          <span class="lx-reloj-punto" aria-hidden="true"></span>
+          <span>Ahora en Mérida — <b id="js-reloj-hora">—:—</b></span>
+        </div>
+        <div class="lx-clima-agenda" id="js-clima-actual" hidden></div>
       </div>
 
       <div class="lx-dias-tabs" role="tablist" aria-label="Elegir día">
@@ -166,12 +170,18 @@
           </a>
         </div>
       </div>
-      <p class="footer-ministerios">Ministerios: <a href="https://kids.comunidadmasalto.org/" target="_blank" rel="noopener">Kids</a> · <a href="https://nova.comunidadmasalto.org/" target="_blank" rel="noopener">Nova</a> · <a href="https://unica.comunidadmasalto.org/" target="_blank" rel="noopener">Unica</a> · <a href="https://vanguardia.comunidadmasalto.org/" target="_blank" rel="noopener">Vanguardia</a></p>
+      <div class="footer-ministerios">
+        <span class="footer-ministerios-label">Ministerios</span>
+        <a class="footer-ministerio" href="https://kids.comunidadmasalto.org/" target="_blank" rel="noopener">Kids</a>
+        <a class="footer-ministerio" href="https://nova.comunidadmasalto.org/" target="_blank" rel="noopener">Nova</a>
+        <a class="footer-ministerio" href="https://unica.comunidadmasalto.org/" target="_blank" rel="noopener">Unica</a>
+        <a class="footer-ministerio" href="https://vanguardia.comunidadmasalto.org/" target="_blank" rel="noopener">Vanguardia</a>
+      </div>
       <div class="footer-rule"></div>
       <div class="credits">
-        <span class="lx-credit-cma">Una iniciativa de <a href="https://comunidadmasalto.org/" target="_blank" rel="noopener"><span class="lx-cma-chip"><img src="assets/brand/cma/masalto-logo-color.png" alt="Comunidad Más Alto"></span></a></span>
-        <span><span class="design-label">Estrategia, Arquitectura y Diseño</span> <a href="https://soullensstudios.live/" target="_blank" rel="noopener"><strong>Soul Lens Studios</strong></a></span>
-        <span><a href="https://xplorerstartups.ai/" target="_blank" rel="noopener">Powered by Xplorers Startups</a> × <a href="https://elarka.ong/" target="_blank" rel="noopener">EL ARKA</a></span>
+        <span class="lx-credit-cma">Una iniciativa de <a class="lx-cma-word" href="https://comunidadmasalto.org/" target="_blank" rel="noopener"><img src="assets/brand/cma/masalto-wordmark.png" alt="Comunidad Más Alto"></a></span>
+        <span><span class="design-label">Estrategia y Diseño</span> <a href="https://soullensstudios.live/" target="_blank" rel="noopener"><strong>Soul Lens Studios</strong></a></span>
+        <span><a href="https://xplorerstartups.ai/" target="_blank" rel="noopener">Powered by <strong>Xplorers Startups</strong></a> × <a href="https://elarka.ong/" target="_blank" rel="noopener"><strong>EL ARKA</strong></a></span>
         <a href="guion.html" class="footer-team">Equipo</a>
       </div>
     </div>
@@ -180,5 +190,9 @@
   <script src="assets/config.js"></script>
   <script type="module" src="assets/main.js"></script>
   <script type="module" src="assets/agenda.js"></script>
+  <script type="module">
+    import { cargarClimaActual } from './assets/clima.js';
+    cargarClimaActual('js-clima-actual');
+  </script>
 </body>
 </html>

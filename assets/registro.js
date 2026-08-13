@@ -276,9 +276,15 @@ function confirmar(r) {
       '<div class="lx-listo-mapas">' +
         '<span class="lx-listo-mapas-t">¿Cómo llegas?</span>' +
         '<div class="lx-mapas">' +
-          '<a class="lx-mapa-btn" href="https://www.google.com/maps/place/Comunidad+M%C3%A1s+Alto/@21.027526,-89.5794081,17z/data=!3m1!4b1!4m6!3m5!1s0x8f5677b06a7551c1:0xe9d4fba775ea49f6!8m2!3d21.027521!4d-89.5768332!16s%2Fg%2F11lryyxxhf" target="_blank" rel="noopener">Google Maps</a>' +
-          '<a class="lx-mapa-btn" href="https://maps.apple.com/?ll=21.027521,-89.5768332&q=Comunidad%20M%C3%A1s%20Alto" target="_blank" rel="noopener">Apple Maps</a>' +
-          '<a class="lx-mapa-btn" href="https://waze.com/ul?ll=21.027521,-89.5768332&navigate=yes" target="_blank" rel="noopener">Waze</a>' +
+          '<a class="lx-mapa-btn" href="https://www.google.com/maps/place/Comunidad+M%C3%A1s+Alto/@21.027526,-89.5794081,17z/data=!3m1!4b1!4m6!3m5!1s0x8f5677b06a7551c1:0xe9d4fba775ea49f6!8m2!3d21.027521!4d-89.5768332!16s%2Fg%2F11lryyxxhf" target="_blank" rel="noopener">' +
+            '<svg class="lx-mapa-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 6.72 11.19 7.06 11.47a1.5 1.5 0 0 0 1.88 0C13.28 21.19 20 15.25 20 10c0-4.42-3.58-8-8-8Zm0 10.5A2.5 2.5 0 1 1 12 7.5a2.5 2.5 0 0 1 0 5Z"/></svg>' +
+            'Google Maps</a>' +
+          '<a class="lx-mapa-btn" href="https://maps.apple.com/?ll=21.027521,-89.5768332&q=Comunidad%20M%C3%A1s%20Alto" target="_blank" rel="noopener">' +
+            '<svg class="lx-mapa-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16Zm3.6 3.4-5.2 2.2-2.2 5.2 5.2-2.2 2.2-5.2Z"/></svg>' +
+            'Apple Maps</a>' +
+          '<a class="lx-mapa-btn" href="https://waze.com/ul?ll=21.027521,-89.5768332&navigate=yes" target="_blank" rel="noopener">' +
+            '<svg class="lx-mapa-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 3 4 6v15l4-3 6 3 6-3V3l-6 3-6-3Zm0 2.24 4 2v10.52l-4-2V5.24Zm10-2.24v10.76l-4 2V5l4-1Z"/></svg>' +
+            'Waze</a>' +
         '</div>' +
       '</div>' +
     '</div>';

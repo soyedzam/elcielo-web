@@ -282,17 +282,31 @@ section { position: relative; padding-block: 110px; }
 }
 @media (max-width: 640px) { .lx-horizon .lx-pts { grid-template-columns: 1fr; gap: 26px; } }
 
-/* ── clima actual: insignia chica bajo el horizonte del hero — solo
-   aparece si Open-Meteo responde, nunca un dato inventado en su lugar ── */
+/* ── clima actual: insignia chica — solo aparece si Open-Meteo responde,
+   nunca un dato inventado en su lugar. El markup lo arma clima.js, igual
+   en cualquier página; cada contenedor solo define --clima-fuerte y
+   --clima-suave según si vive sobre fondo oscuro o hueso. ── */
+.lx-clima-ico { font-size: 20px; line-height: 1; }
+.lx-clima-temp { font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--clima-fuerte); }
+.lx-clima-detalle {
+  font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--clima-suave);
+}
 .lx-clima-actual {
+  --clima-fuerte: var(--lx-bone);
+  --clima-suave: color-mix(in srgb, var(--lx-bone) 58%, transparent);
   display: flex; align-items: baseline; gap: 10px; margin-top: 22px;
   font-family: var(--font-body); color: color-mix(in srgb, var(--lx-bone) 78%, transparent);
 }
-.lx-clima-ico { font-size: 20px; line-height: 1; }
-.lx-clima-temp { font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--lx-bone); }
-.lx-clima-detalle {
-  font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
-  color: color-mix(in srgb, var(--lx-bone) 58%, transparent);
+
+/* ── misma insignia, en la agenda — junto al reloj de Mérida, sobre
+   fondo hueso: "sigue el evento en vivo" es la promesa de esta pantalla ── */
+.lx-reloj-clima-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; margin-bottom: 26px; }
+.lx-reloj-clima-row .lx-reloj-yuc { margin-bottom: 0; }
+.lx-clima-agenda {
+  --clima-fuerte: var(--lx-night);
+  --clima-suave: color-mix(in srgb, var(--lx-night) 55%, transparent);
+  display: inline-flex; align-items: baseline; gap: 8px;
 }
 
 /* ── EJES: un horizonte, tres nodos — trayectoria, no tarjetas ── */
@@ -466,11 +480,14 @@ section { position: relative; padding-block: 110px; }
 .lx-mapa-btn:hover { background: color-mix(in srgb, var(--lx-amber) 12%, transparent); border-color: var(--lx-amber); }
 .lx-mapa-ico { width: 15px; height: 15px; flex: none; }
 
-/* ── Marca real de Comunidad Más Alto (naranja + gris) — un solo lugar,
-   el footer, y ahí que se vea bien: placa hueso propia (su naranja
-   choca con el ámbar del congreso puesto directo sobre índigo), tamaño
-   generoso, nada apretado contra el texto. ── */
-.lx-credit-cma { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 2px; }
+/* ── Marca real de Comunidad Más Alto en el cierre del footer — el
+   wordmark en su propio ámbar va directo sobre índigo (misma familia de
+   color que el ámbar del congreso, no choca como el combo naranja+gris
+   del logo completo) — tamaño generoso, es quien convoca. ── */
+.lx-credit-cma { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+.lx-cma-word { display: inline-flex; align-items: center; }
+.lx-cma-word img { display: block; height: 50px; width: auto; }
+
 .lx-cma-chip {
   display: inline-flex; align-items: center;
   padding: 10px 20px; border-radius: 11px; background: var(--lx-bone);
@@ -764,18 +781,31 @@ section { position: relative; padding-block: 110px; }
 }
 .footer-social:hover { color: var(--lx-amber-light); }
 .footer-social svg { width: 16px; height: 16px; flex: none; }
-.footer-ministerios {
-  margin: 18px 0 0; font-size: 12.5px; color: color-mix(in srgb, var(--lx-bone) 50%, transparent);
+/* Ministerios como pastillas, no una línea de texto subrayado — mismo
+   peso visual que footer-social. Sin logo propio de cada uno todavía
+   (no hay archivo real que usar); esto es lo mejor sin inventar uno. */
+.footer-ministerios { margin: 18px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.footer-ministerios-label {
+  font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--lx-bone) 42%, transparent); margin-right: 2px;
 }
-.footer-ministerios a {
-  color: color-mix(in srgb, var(--lx-bone) 80%, transparent); text-decoration: underline;
-  text-underline-offset: 2px; text-decoration-color: color-mix(in srgb, var(--lx-bone) 28%, transparent);
+.footer-ministerio {
+  display: inline-flex; align-items: center; padding: 6px 14px; border-radius: var(--r-pill);
+  border: 1px solid color-mix(in srgb, var(--lx-bone) 18%, transparent);
+  font-family: var(--font-marker); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--lx-bone) 82%, transparent); text-decoration: none;
+  transition: border-color .2s var(--lx-ease), color .2s var(--lx-ease), background .2s var(--lx-ease);
 }
+.footer-ministerio:hover { border-color: var(--lx-amber); color: var(--lx-bone); background: color-mix(in srgb, var(--lx-amber) 10%, transparent); }
+
 .footer .credits {
   display: flex; flex-wrap: wrap; align-items: center; gap: 7px 20px;
   font-size: 12px; color: color-mix(in srgb, var(--lx-bone) 55%, transparent);
 }
 .footer .credits a { color: color-mix(in srgb, var(--lx-bone) 80%, transparent); }
+/* Los 3 nombres de marca al mismo peso — antes solo Soul Lens Studios
+   llevaba <strong>, y sin color propio se perdía igual que el resto. */
+.footer .credits strong { color: var(--lx-bone); font-weight: 700; }
 .footer .credits .design-label {
   font-family: var(--font-marker); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--lx-amber); margin-right: 5px;
