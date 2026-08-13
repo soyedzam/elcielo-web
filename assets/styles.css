@@ -570,6 +570,28 @@ section { position: relative; padding-block: 110px; }
 }
 .lx-campo.lx-mal .lx-error { display: block; }
 
+/* ── ¿Qué día(s) vienes? — chips, no un select: se ven las 3 opciones
+   de un vistazo y se tocan directo, sin abrir nada. ── */
+.lx-dias-label {
+  display: block; margin-bottom: 10px;
+  font-size: 15px; font-weight: 600; color: var(--lx-bone);
+}
+.lx-dias-check { display: flex; flex-wrap: wrap; gap: 10px; }
+.lx-dia-opt {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 18px; border-radius: var(--r-pill);
+  border: 1px solid var(--lx-border-dark); cursor: pointer;
+  font-size: 15px; color: color-mix(in srgb, var(--lx-bone) 78%, transparent);
+  transition: border-color .2s var(--lx-ease), background .2s var(--lx-ease), color .2s var(--lx-ease);
+}
+.lx-dia-opt:has(input:checked) {
+  border-color: var(--lx-amber);
+  background: color-mix(in srgb, var(--lx-amber) 16%, transparent);
+  color: var(--lx-bone);
+}
+.lx-dia-opt input { width: 18px; height: 18px; accent-color: var(--lx-amber); }
+.lx-campo.lx-mal .lx-dias-check { outline: 1px solid #FF9A8E; border-radius: var(--r-pill); }
+
 /* Trampa para robots: fuera de pantalla pero no display:none, porque
    los que rellenan solos ignoran lo que está oculto del todo. */
 .lx-trampa {

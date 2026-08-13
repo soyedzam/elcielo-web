@@ -57,11 +57,18 @@ function validar(nombre, whatsapp, correo) {
   return errores;
 }
 
+/* Checkboxes, no un input de texto — se leen directo del DOM en vez de
+   con campo(), que asume un solo <input>. */
+function diasSeleccionados() {
+  return Array.from(document.querySelectorAll('input[name="dias"]:checked')).map(function (c) { return c.value; });
+}
+
 function iniciar() {
   const nombre   = campo('f-nombre');
   const whatsapp = campo('f-whatsapp');
   const correo   = campo('f-correo');
   const trampa   = document.getElementById('f-sitio');
+  const cajaDias = document.getElementById('e-dias') ? document.getElementById('e-dias').closest('.lx-campo') : null;
 
   /* El error se quita en cuanto la persona corrige, no al reenviar:
      que el formulario responda mientras escribes quita la sensación
@@ -72,6 +79,11 @@ function iniciar() {
       if (c.caja && c.caja.classList.contains('lx-mal')) marcarMal(c, false);
     });
   });
+  document.querySelectorAll('input[name="dias"]').forEach(function (c) {
+    c.addEventListener('change', function () {
+      if (cajaDias && cajaDias.classList.contains('lx-mal')) cajaDias.classList.remove('lx-mal');
+    });
+  });
 
   form.addEventListener('submit', async function (ev) {
     ev.preventDefault();
@@ -80,9 +92,15 @@ function iniciar() {
     [nombre, whatsapp, correo].forEach(function (c) {
       marcarMal(c, errores.indexOf(c) > -1);
     });
+    const dias = diasSeleccionados();
+    if (cajaDias) cajaDias.classList.toggle('lx-mal', dias.length === 0);
     if (errores.length) {
       errores[0].input.focus();
       errores[0].input.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return;
+    }
+    if (dias.length === 0) {
+      cajaDias.scrollIntoView({ block: 'center', behavior: 'smooth' });
       return;
     }
 
@@ -106,7 +124,8 @@ function iniciar() {
           whatsapp: soloDigitos(whatsapp.input.value),
           correo: correo.input.value.trim(),
           sitio: trampa ? trampa.value : '',
-          origen: 'plataforma'
+          origen: 'plataforma',
+          dias: dias
         })
       }).then(function (resp) { return resp.json(); });
 
@@ -225,10 +244,22 @@ function confeti() {
   })(inicio);
 }
 
+/* "Viernes 14 · Domingo 16", o "los 3 días" si marcó todo — nunca la
+   lista técnica de claves (viernes/sabado/domingo) que usa el backend. */
+function textoDias(dias) {
+  if (!dias) return '';
+  const NOMBRE = { viernes: 'Viernes 14', sabado: 'Sábado 15', domingo: 'Domingo 16' };
+  const marcados = ['viernes', 'sabado', 'domingo'].filter(function (d) { return dias[d]; });
+  if (marcados.length === 3) return 'los 3 días';
+  if (marcados.length === 0) return '';
+  return marcados.map(function (d) { return NOMBRE[d]; }).join(' · ');
+}
+
 function confirmar(r) {
   zona.hidden = true;
   if (generando) generando.hidden = true;
   listo.hidden = false;
+  const dias = textoDias(r.dias);
   listo.innerHTML =
     '<div class="lx-listo">' +
       '<div class="lx-listo-ico" aria-hidden="true">✓</div>' +
@@ -237,9 +268,10 @@ function confirmar(r) {
       '<p class="lx-listo-copy">' +
         (r.repetido
           ? 'Tu registro ya estaba hecho, no hace falta repetirlo. Este es tu folio:'
-          : 'Nos vemos del 14 al 16 de agosto. Guarda este folio, es lo que te van a pedir en la entrada:') +
+          : 'Guarda este folio, es lo que te van a pedir en la entrada:') +
       '</p>' +
       '<div class="lx-folio-caja"><span>Tu folio</span><b>' + escapar(r.folio) + '</b></div>' +
+      (dias ? '<p class="lx-listo-copy">Te esperamos: <strong>' + escapar(dias) + '</strong></p>' : '') +
       '<p class="lx-listo-captura">Toma una captura de pantalla — así lo tienes a la mano el día del congreso.</p>' +
       '<div class="lx-listo-mapas">' +
         '<span class="lx-listo-mapas-t">¿Cómo llegas?</span>' +

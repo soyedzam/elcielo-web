@@ -52,11 +52,23 @@
   header.top h1{font-size:21px;margin:0;letter-spacing:-.01em}
   .salir{background:none;border:0;color:rgba(247,244,238,.5);font-size:15px;
     cursor:pointer;font-family:inherit;padding:4px}
+  /* ── Pestañas de día — mismo patrón que la agenda pública: se abre
+     en la de HOY, y todo lo de abajo (cifras, lista, check) se filtra
+     por la pestaña activa. ── */
+  .dia-tabs{display:flex;gap:8px;margin-bottom:16px}
+  .dia-tab{
+    flex:1;padding:13px 0;border-radius:10px;border:1px solid var(--borde);
+    background:var(--medio);color:rgba(247,244,238,.65);
+    font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  .dia-tab.activo{background:var(--ambar);border-color:var(--ambar);color:#3A2408}
+
   .cifras{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
   .cifra{background:var(--medio);border-radius:12px;padding:14px 12px;text-align:center}
   .cifra b{display:block;font-size:28px;line-height:1.1;font-variant-numeric:tabular-nums}
   .cifra span{font-size:12px;color:rgba(247,244,238,.6);text-transform:uppercase;letter-spacing:.08em}
   .cifra.rifa b{color:var(--ambar)}
+  .tag.dia{color:rgba(247,244,238,.55);border-color:var(--borde)}
 
   .buscar{margin-bottom:16px}
   .conteo{font-size:14px;color:rgba(247,244,238,.55);margin-bottom:10px}
@@ -126,7 +138,7 @@
   @media print{
     @page{ size:letter portrait; margin:14mm 12mm; }
     body{background:#fff;color:#111}
-    .puerta,.salir,.btn-imprimir,.buscar,.acciones,.check,.toast{display:none!important}
+    .puerta,.salir,.btn-imprimir,.buscar,.acciones,.check,.toast,.dia-tabs{display:none!important}
     .logo-cma{background:none;padding:0;height:28px;margin:0 0 4px}
     header.top{margin-bottom:8px}
     .fecha-impresion{display:block;font-size:12px;color:#555;margin:-4px 0 14px}
@@ -171,8 +183,14 @@
 
     <p class="fecha-impresion" id="fecha-impresion"></p>
 
+    <div class="dia-tabs" id="dia-tabs">
+      <button class="dia-tab" data-dia="viernes">Vie 14</button>
+      <button class="dia-tab" data-dia="sabado">Sáb 15</button>
+      <button class="dia-tab" data-dia="domingo">Dom 16</button>
+    </div>
+
     <div class="cifras">
-      <div class="cifra"><b id="c-total">—</b><span>Registrados</span></div>
+      <div class="cifra"><b id="c-total">—</b><span>Registrados hoy</span></div>
       <div class="cifra rifa"><b id="c-rifa">—</b><span>En la rifa</span></div>
       <div class="cifra"><b id="c-asis">—</b><span>Ya llegaron</span></div>
     </div>
@@ -190,6 +208,20 @@
   var TODOS = [];
   var CUPO_TOTAL = 0;
 
+  // El cupo (300) sigue siendo global para todo el congreso — lo único
+  // que cambia por pestaña es a quién se le espera y a quién ya se le
+  // marcó asistencia ESE día. Nunca se divide el cupo entre los 3 días.
+  var DIAS = ['viernes', 'sabado', 'domingo'];
+  var DIA_LABEL = { viernes: 'Viernes 14', sabado: 'Sábado 15', domingo: 'Domingo 16' };
+  var FECHA_POR_DIA = { viernes: '2026-08-14', sabado: '2026-08-15', domingo: '2026-08-16' };
+  var DIA_ACTIVO = diaDeHoy();
+
+  function diaDeHoy(){
+    var hoy = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Merida' }).format(new Date());
+    for (var i = 0; i < DIAS.length; i++) { if (FECHA_POR_DIA[DIAS[i]] === hoy) return DIAS[i]; }
+    return 'viernes'; // fuera de la ventana del congreso (pruebas, etc.) — arranca en el primer día
+  }
+
   function $(id){ return document.getElementById(id); }
 
   function entrar(){
@@ -205,33 +237,62 @@
         try { sessionStorage.setItem('cl', clave); } catch(e){}
         $('puerta').className = 'puerta oculto';
         $('panel').className = 'env';
+        pintarTabs();
         pintar(r);
       })
       .withFailureHandler(function(){ $('err').textContent = 'No se pudo conectar. Reintenta.'; })
       .datosTablero(clave);
   }
 
+  function pintarTabs(){
+    document.querySelectorAll('.dia-tab').forEach(function(btn){
+      btn.classList.toggle('activo', btn.getAttribute('data-dia') === DIA_ACTIVO);
+    });
+  }
+
+  // Quién marcó que viene el día activo — el cupo NO se toca aquí, solo
+  // filtra a quién se le espera y a quién se le puede marcar asistencia.
+  function registrosDelDia(){
+    return TODOS.filter(function(x){ return x.dias && x.dias[DIA_ACTIVO]; });
+  }
+
+  function actualizarCifras(){
+    var hoy = registrosDelDia();
+    $('c-total').textContent = hoy.length;
+    $('c-rifa').textContent  = TODOS.filter(function(x){ return x.rifa; }).length;
+    $('c-asis').textContent  = hoy.filter(function(x){ return x.asistio && x.asistio[DIA_ACTIVO]; }).length;
+  }
+
   function pintar(r){
     TODOS = r.registros || [];
-    $('c-total').textContent = TODOS.length;
-    $('c-rifa').textContent  = TODOS.filter(function(x){ return x.rifa; }).length;
-    $('c-asis').textContent  = TODOS.filter(function(x){ return x.asistio; }).length;
+    actualizarCifras();
     $('fecha-impresion').textContent = 'Generado el ' + new Date().toLocaleString('es-MX', {
       day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
+    }) + ' · ' + DIA_LABEL[DIA_ACTIVO];
     filtrar();
   }
 
   function filtrar(){
     var q = $('buscar').value.toLowerCase().trim();
-    var vis = !q ? TODOS : TODOS.filter(function(x){
+    var base = registrosDelDia();
+    var vis = !q ? base : base.filter(function(x){
       return (x.nombre + ' ' + x.folio + ' ' + x.whatsapp + ' ' + x.correo).toLowerCase().indexOf(q) > -1;
     });
     $('conteo').textContent = q
-      ? vis.length + ' de ' + TODOS.length
-      : TODOS.length + (TODOS.length === 1 ? ' persona' : ' personas') + ' · cupo ' + (TODOS.length) + '/' + CUPO_TOTAL;
+      ? vis.length + ' de ' + base.length + ' para ' + DIA_LABEL[DIA_ACTIVO].toLowerCase()
+      : base.length + (base.length === 1 ? ' persona' : ' personas') + ' para ' + DIA_LABEL[DIA_ACTIVO].toLowerCase() +
+        ' · cupo total ' + TODOS.length + '/' + CUPO_TOTAL;
     $('lista').innerHTML = vis.length ? vis.map(tarjeta).join('') : '<div class="vacio">Nadie coincide.</div>';
   }
+
+  document.querySelectorAll('.dia-tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      DIA_ACTIVO = btn.getAttribute('data-dia');
+      pintarTabs();
+      actualizarCifras();
+      filtrar();
+    });
+  });
 
   function esc(s){
     return String(s == null ? '' : s)
@@ -242,6 +303,16 @@
   // Solo dígitos, para armar los links de WhatsApp/llamada — el dato
   // en la hoja ya viene limpio (10 dígitos), esto es nomás un seguro.
   function soloDigitos(s){ return String(s || '').replace(/\D/g, '').slice(-10); }
+
+  var DIA_CORTA = { viernes: 'V', sabado: 'S', domingo: 'D' };
+
+  // Tags de día solo para los días que SÍ marcó — sin ruido por los que no.
+  function tagsDia(dias){
+    if (!dias) return '';
+    return DIAS.filter(function(d){ return dias[d]; })
+      .map(function(d){ return '<span class="tag dia">' + DIA_CORTA[d] + '</span>'; })
+      .join('');
+  }
 
   function tarjeta(x){
     var tel = soloDigitos(x.whatsapp);
@@ -254,19 +325,21 @@
     if (x.correo) {
       acciones += '<a class="accion" href="mailto:' + esc(x.correo) + '" aria-label="Correo">✉️</a>';
     }
+    var yaLlego = Boolean(x.asistio && x.asistio[DIA_ACTIVO]);
     return '<div class="fila">' +
       '<div class="quien">' +
         '<div class="nombre">' + esc(x.nombre) +
           (x.rifa ? '<span class="tag rifa">rifa</span>' : '<span class="tag">en puerta</span>') +
+          tagsDia(x.dias) +
         '</div>' +
         '<div class="meta">' + esc(x.whatsapp) + ' · ' + esc(x.correo) + '</div>' +
         '<div class="meta">' + esc(x.fecha) + '</div>' +
         '<div class="folio">' + esc(x.folio) + '</div>' +
         (acciones ? '<div class="acciones">' + acciones + '</div>' : '') +
       '</div>' +
-      '<button class="check' + (x.asistio ? ' si' : '') + '" data-folio="' + esc(x.folio) + '" ' +
-        'aria-label="' + (x.asistio ? 'Quitar asistencia de ' : 'Marcar que llegó ') + esc(x.nombre) + '">' +
-        (x.asistio ? '✓' : '') + '</button>' +
+      '<button class="check' + (yaLlego ? ' si' : '') + '" data-folio="' + esc(x.folio) + '" ' +
+        'aria-label="' + (yaLlego ? 'Quitar asistencia de ' : 'Marcar que llegó ') + esc(x.nombre) + '">' +
+        (yaLlego ? '✓' : '') + '</button>' +
       '<span class="casilla" aria-hidden="true"></span>' +
     '</div>';
   }
@@ -279,11 +352,6 @@
     try { sessionStorage.removeItem('cl'); } catch(e){}
     location.reload();
   });
-
-  // Marcar asistencia — se pinta al instante y se guarda detrás.
-  function actualizarAsistencias(){
-    $('c-asis').textContent = TODOS.filter(function(x){ return x.asistio; }).length;
-  }
 
   var toastTimer = null;
   function avisar(texto){
@@ -311,21 +379,23 @@
     var folio = btn.getAttribute('data-folio');
     var reg = TODOS.filter(function(x){ return x.folio === folio; })[0];
     if (!reg) return;
+    if (!reg.asistio) reg.asistio = {};
 
-    var nuevoEstado = !reg.asistio;             // toggle: marca y también desmarca
+    var dia = DIA_ACTIVO;                       // el día de la pestaña activa AL MOMENTO del toque
+    var nuevoEstado = !reg.asistio[dia];         // toggle: marca y también desmarca
     pintarCheck(btn, nuevoEstado, true, reg.nombre);
-    reg.asistio = nuevoEstado;
-    actualizarAsistencias();
-    avisar(nuevoEstado ? ('✓ Llegó ' + reg.nombre) : (reg.nombre + ' — asistencia quitada'));
+    reg.asistio[dia] = nuevoEstado;
+    actualizarCifras();
+    avisar(nuevoEstado ? ('✓ Llegó ' + reg.nombre + ' — ' + DIA_LABEL[dia]) : (reg.nombre + ' — asistencia quitada'));
 
     google.script.run
       .withFailureHandler(function(){
         pintarCheck(btn, !nuevoEstado, false, reg.nombre);
-        reg.asistio = !nuevoEstado;
-        actualizarAsistencias();               // el conteo también se revierte
+        reg.asistio[dia] = !nuevoEstado;
+        actualizarCifras();                     // el conteo también se revierte
         alert('No se pudo guardar. Revisa la señal e inténtalo otra vez.');
       })
-      .marcarAsistio(CLAVE, folio);
+      .marcarAsistio(CLAVE, folio, dia);
   });
 
   // Si ya entró en esta sesión del navegador, no vuelve a pedir la clave.
