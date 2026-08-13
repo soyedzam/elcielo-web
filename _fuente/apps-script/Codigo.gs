@@ -21,6 +21,12 @@ const HOJA = 'Registros';
 const CUPO = 300;                    // [VALIDAR] tope real de asistentes
 const PREFIJO_FOLIO = 'CIELO';
 
+// Ed pidió dejar el aviso por correo en pausa hasta revisarlo con calma
+// — el registro no depende de esto (va en try/catch de todos modos),
+// solo evita mandar correos antes de que lo confirme. Cambiar a true
+// cuando dé el visto bueno.
+const CORREO_ACTIVO = false;
+
 // Las 6 columnas de día se agregan AL FINAL a propósito — nunca en medio
 // de las que ya existen — para que ningún dato real ya guardado se
 // recorra de columna. 'Asistió' (índice 7) queda como columna huérfana,
@@ -287,16 +293,19 @@ function doPost(e) {
 
     // Aviso a Ed por cada registro — la Sheet sigue siendo la fuente de
     // verdad, así que un fallo de correo nunca debe tumbar el registro.
-    try {
-      MailApp.sendEmail({
-        to: 'soyedzam@gmail.com',
-        subject: 'Nuevo registro — ' + nombre + ' (' + folio + ')',
-        body: 'Nombre: ' + nombre + '\nFolio: ' + folio + '\nWhatsApp: ' + whatsapp +
-          '\nCorreo: ' + correo + '\nOrigen: ' + (presencial ? 'Presencial' : 'Plataforma') +
-          '\nRifa: ' + (entraRifa ? 'Sí' : 'No') + '\nDías: ' + dias.map(function (d) { return NOMBRE_DIA[d]; }).join(', ')
-      });
-    } catch (errCorreo) {
-      Logger.log('doPost: aviso por correo falló (registro sí se guardó) — ' + errCorreo);
+    // En pausa (CORREO_ACTIVO) hasta que Ed lo confirme.
+    if (CORREO_ACTIVO) {
+      try {
+        MailApp.sendEmail({
+          to: 'soyedzam@gmail.com',
+          subject: 'Nuevo registro — ' + nombre + ' (' + folio + ')',
+          body: 'Nombre: ' + nombre + '\nFolio: ' + folio + '\nWhatsApp: ' + whatsapp +
+            '\nCorreo: ' + correo + '\nOrigen: ' + (presencial ? 'Presencial' : 'Plataforma') +
+            '\nRifa: ' + (entraRifa ? 'Sí' : 'No') + '\nDías: ' + dias.map(function (d) { return NOMBRE_DIA[d]; }).join(', ')
+        });
+      } catch (errCorreo) {
+        Logger.log('doPost: aviso por correo falló (registro sí se guardó) — ' + errCorreo);
+      }
     }
 
     return json_({
