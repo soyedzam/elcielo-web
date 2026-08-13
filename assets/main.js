@@ -82,7 +82,35 @@ function iniciarHeroVideo() {
   cont.appendChild(video);
 }
 
+/* — Menú móvil: cajón a pantalla completa bajo 720px —
+   Antes los links (Agenda/Momentos/Info) se ocultaban con display:none
+   y solo quedaba el CTA — sin forma de navegar el sitio desde el celular. */
+function iniciarMenuMovil() {
+  const btn = document.getElementById("js-top-burger");
+  const nav = document.getElementById("js-top-nav");
+  if (!btn || !nav) return;
+
+  function cerrar() {
+    nav.classList.remove("abierto");
+    btn.classList.remove("abierto");
+    btn.setAttribute("aria-expanded", "false");
+    document.documentElement.classList.remove("lx-nav-lock");
+  }
+
+  btn.addEventListener("click", () => {
+    const abrir = !nav.classList.contains("abierto");
+    nav.classList.toggle("abierto", abrir);
+    btn.classList.toggle("abierto", abrir);
+    btn.setAttribute("aria-expanded", abrir ? "true" : "false");
+    document.documentElement.classList.toggle("lx-nav-lock", abrir);
+  });
+
+  nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", cerrar));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrar(); });
+}
+
 iniciarReveals();
 iniciarConversion();
 iniciarCompartir();
 iniciarHeroVideo();
+iniciarMenuMovil();

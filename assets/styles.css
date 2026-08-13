@@ -130,37 +130,69 @@ section { position: relative; padding-block: 110px; }
 }
 .top-nav a:hover, .top-nav a[aria-current="page"] { color: var(--lx-bone); }
 .top-nav .lx-btn { font-size: 13px; }
-@media (max-width: 720px) { .top-nav a:not(.lx-btn) { display: none; } }
 .top-solid { position: static; padding-top: 22px; padding-bottom: 22px; background: var(--lx-night); }
+
+/* ── menú móvil — hamburguesa + cajón a pantalla completa.
+   Antes los links (Agenda/Momentos/Info) simplemente se ocultaban bajo
+   720px y solo quedaba el botón de CTA — Ed reportó que no podía
+   navegar el sitio desde el celular. ── */
+.top-burger {
+  display: none; flex: 0 0 auto; width: 34px; height: 34px; border: 0; background: none;
+  cursor: pointer; padding: 0; position: relative; z-index: 91;
+}
+.top-burger span {
+  position: absolute; left: 6px; right: 6px; height: 2px; background: var(--lx-bone);
+  border-radius: 2px; transition: transform .3s var(--lx-ease), opacity .2s var(--lx-ease), top .3s var(--lx-ease);
+}
+.top-burger span:nth-child(1) { top: 12px; }
+.top-burger span:nth-child(2) { top: 20px; }
+.top-burger span:nth-child(3) { top: 28px; }
+.top-burger.abierto span:nth-child(1) { top: 20px; transform: rotate(45deg); }
+.top-burger.abierto span:nth-child(2) { opacity: 0; }
+.top-burger.abierto span:nth-child(3) { top: 20px; transform: rotate(-45deg); }
+
+@media (max-width: 720px) {
+  .top-burger { display: block; }
+  .top-nav {
+    position: fixed; inset: 0; z-index: 90;
+    flex-direction: column; align-items: flex-start; justify-content: center; gap: 30px;
+    padding: 32px 40px; background: var(--lx-night);
+    transform: translateX(100%); opacity: 0;
+    transition: transform .38s var(--lx-ease), opacity .3s var(--lx-ease);
+  }
+  .top-nav.abierto { transform: translateX(0); opacity: 1; }
+  .top-nav a:not(.lx-btn) {
+    font-family: var(--font-display); font-size: 34px; font-weight: 800;
+    letter-spacing: -.01em; text-transform: none; color: var(--lx-bone);
+  }
+  .top-nav .lx-btn { margin-top: 8px; }
+  html.lx-nav-lock, html.lx-nav-lock body { overflow: hidden; }
+}
 
 /* ── HERO: cine sobre el gradiente Amanecer — el video entra cuando está listo,
    el gradiente es el primer fotograma. Cifra fantasma + horizonte con los datos. ── */
 .lx-hero { padding-top: 150px; padding-bottom: 0; overflow: hidden; }
-/* La congregación en adoración es el fondo REAL del hero: se ve siempre,
+/* La comunidad reunida es el fondo REAL del hero: se ve siempre,
    con o sin movimiento reducido. El video es una capa de más encima —
    quien pidió menos movimiento pierde el adorno, nunca la imagen. */
 .lx-hero-media {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  /* Velo propio: la congregación entra como SILUETA, no como fotografía.
-     Nadie debe quedar reconocible y el titular manda sobre la imagen.
-     El encuadre corre a la izquierda para dejar fuera el equipo de foto. */
+  /* Velo propio: el orador y la audiencia entran como atmósfera y el
+     titular conserva la jerarquía. */
   background:
     linear-gradient(180deg,
       color-mix(in srgb, var(--lx-night) 74%, transparent) 0%,
       color-mix(in srgb, var(--lx-night) 60%, transparent) 42%,
       color-mix(in srgb, var(--lx-night) 68%, transparent) 72%,
       color-mix(in srgb, var(--lx-night) 88%, transparent) 100%),
-    url("fotos/007-congregacion-en-adoracion.webp") 8% 42% / cover no-repeat;
+    url("fotos/CMA_Auditorio-Comunidad-Mas-Alto-orador-frente-audiencia_260802_v1.0.webp") 62% 44% / cover no-repeat;
 }
 .lx-hero-media video { opacity: 0; transition: opacity 1.8s var(--lx-ease); }
 .lx-hero-media.lx-listo video { opacity: 1; }
 
-/* Reutilizable: la congregación como textura de fondo — SIEMPRE en silueta,
-   nunca rostro reconocible. Mismo archivo que el hero, otro recorte, para
-   que "Aparta tu lugar" y el kiosko del countdown no se sientan huérfanos
-   de imagen sobre índigo plano. El velo es más fuerte que el del hero
-   porque aquí hay texto de conversión y, en el kiosko, cifras enormes que
-   se leen a distancia — la foto es atmósfera, nunca puede competir. */
+/* Reutilizable: la participación de la comunidad como textura de fondo.
+   Usa una toma distinta al hero para evitar repetición. El velo es más
+   fuerte porque aquí vive texto de conversión y la foto nunca compite. */
 .lx-fondo-comunidad { position: relative; isolation: isolate; }
 .lx-fondo-comunidad::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
@@ -169,7 +201,7 @@ section { position: relative; padding-block: 110px; }
       color-mix(in srgb, var(--lx-night) 88%, transparent) 0%,
       color-mix(in srgb, var(--lx-night) 80%, transparent) 45%,
       color-mix(in srgb, var(--lx-night) 90%, transparent) 100%),
-    url("fotos/016-encuentro-al-aire-libre.webp") 50% 25% / cover no-repeat;
+    url("fotos/CMA_Auditorio-Comunidad-Mas-Alto-audiencia-participando_260802_v1.0.webp") 50% 32% / cover no-repeat;
 }
 .lx-hero-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .lx-hero-media::after {
@@ -274,12 +306,7 @@ section { position: relative; padding-block: 110px; }
   margin-top: 56px; border: 1px solid var(--lx-border-dark-soft); border-radius: var(--r-lg); overflow: hidden;
 }
 .lx-voces-photo { position: relative; min-height: 460px; background: var(--lx-mid); }
-.lx-voces-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
-/* Dos fotos reales, una por ponente — mismo marco, sin fingir que es una sola sesión */
-.lx-voces-duo { position: absolute; inset: 0; display: flex; }
-.lx-voces-duo-item { flex: 1; position: relative; overflow: hidden; }
-.lx-voces-duo-item:first-child { border-right: 1px solid color-mix(in srgb, var(--lx-bone) 14%, transparent); }
-.lx-voces-duo-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+.lx-voces-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 14%; }
 .lx-voces-photo .lx-tint {
   position: absolute; inset: 0;
   background:
@@ -688,28 +715,52 @@ section { position: relative; padding-block: 110px; }
 .lx-registro-alt a { color: var(--lx-amber-light); }
 
 /* ── footer ── */
-.footer { background: var(--lx-night); border-top: 1px solid var(--lx-border-dark); padding: 56px 0 44px; }
-.footer .ministry { margin-bottom: 26px; font-size: 15px; color: color-mix(in srgb, var(--lx-bone) 72%, transparent); }
-.footer .privacy { margin: 0 0 26px; font-size: 13px; color: color-mix(in srgb, var(--lx-bone) 50%, transparent); }
-.footer .credits { display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; color: color-mix(in srgb, var(--lx-bone) 62%, transparent); }
-.footer .credits a { color: color-mix(in srgb, var(--lx-bone) 82%, transparent); }
-.footer .credits .design-label { font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--lx-amber); margin-right: 6px; }
-.footer .fb {
-  display: inline-flex; align-items: center; gap: 16px; margin-bottom: 30px;
-  color: var(--lx-bone); text-decoration: none;
-  border: 1px solid var(--lx-border-dark); border-radius: var(--r-lg); padding: 16px 22px;
-  background: linear-gradient(120deg, color-mix(in srgb, var(--lx-amber) 10%, transparent), transparent 60%);
-  transition: border-color .25s var(--lx-ease), transform .25s var(--lx-ease), background .25s var(--lx-ease);
+/* ── footer — colofón editorial: masthead, regla, fila legal+social,
+   créditos en una sola línea discreta. Antes era una pila de párrafos
+   grises de tamaño parecido + una tarjeta de CTA — se sentía a plantilla,
+   no a cierre de revista. ── */
+.footer { background: var(--lx-night); border-top: 1px solid var(--lx-border-dark); padding: 64px 0 40px; }
+.footer-masthead { margin-bottom: 32px; }
+.footer-brand {
+  font-family: var(--font-display); font-weight: 800; font-size: clamp(21px, 2.6vw, 27px);
+  letter-spacing: -.01em; margin: 0 0 10px; color: var(--lx-bone);
 }
-.footer .fb:hover { border-color: var(--lx-amber); transform: translateY(-2px); background: linear-gradient(120deg, color-mix(in srgb, var(--lx-amber) 18%, transparent), transparent 70%); }
-.footer .fb-ico {
-  display: grid; place-items: center; flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%;
-  background: color-mix(in srgb, var(--lx-amber) 16%, transparent); color: var(--lx-amber-light);
+.footer .ministry { margin: 0; font-size: 15px; color: color-mix(in srgb, var(--lx-bone) 66%, transparent); }
+.footer .ministry a {
+  color: color-mix(in srgb, var(--lx-bone) 88%, transparent); text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--lx-bone) 28%, transparent);
 }
-.footer .fb-copy { display: flex; flex-direction: column; gap: 2px; }
-.footer .fb-sub { font-size: 13px; opacity: .68; font-weight: 400; }
-.footer .fb-go { margin-left: auto; padding-left: 12px; color: var(--lx-amber); font-family: var(--font-display); font-weight: 800; transition: transform .25s var(--lx-ease); }
-.footer .fb:hover .fb-go { transform: translateX(4px); }
+.footer-rule { height: 1px; background: var(--lx-border-dark); margin: 28px 0; }
+.footer-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.footer .privacy {
+  flex: 1 1 380px; margin: 0; font-size: 13px; line-height: 1.65;
+  color: color-mix(in srgb, var(--lx-bone) 50%, transparent);
+}
+.footer .privacy a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.footer-social {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-marker); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--lx-bone) 68%, transparent); text-decoration: none;
+  transition: color .2s var(--lx-ease);
+}
+.footer-social:hover { color: var(--lx-amber-light); }
+.footer-social svg { width: 16px; height: 16px; flex: none; }
+.footer .credits {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 7px 20px;
+  font-size: 12px; color: color-mix(in srgb, var(--lx-bone) 55%, transparent);
+}
+.footer .credits a { color: color-mix(in srgb, var(--lx-bone) 80%, transparent); }
+.footer .credits .design-label {
+  font-family: var(--font-marker); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--lx-amber); margin-right: 5px;
+}
+.footer .credits .footer-team { margin-left: auto; opacity: .4; font-size: 10.5px; transition: opacity .2s var(--lx-ease); }
+.footer .credits .footer-team:hover { opacity: .75; }
+@media (max-width: 640px) {
+  .footer-row { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .footer .credits { flex-direction: column; align-items: flex-start; gap: 9px; }
+  .footer .credits .footer-team { margin-left: 0; }
+}
 
 /* ── revelado al hacer scroll (compositor; sin JS todo es visible) ── */
 .lx-rv { opacity: 1; transform: none; }

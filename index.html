@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/styles.css?v=260811">
 
   <script type="application/ld+json">
   {
@@ -65,12 +65,15 @@
       <a class="top-logo" href="index.html" aria-label="El Cielo en mi Ciudad — inicio">
         <img src="assets/brand/logo-reducida-sin-descriptor.svg" alt="El Cielo en mi Ciudad">
       </a>
-      <nav class="top-nav" aria-label="Navegación">
+      <nav class="top-nav" id="js-top-nav" aria-label="Navegación">
         <a href="agenda.html">Agenda</a>
         <a href="momentos.html">Momentos</a>
         <a href="info.html">Info</a>
         <a class="lx-btn" href="#registro" data-cta="nav">Aparta tu lugar</a>
       </nav>
+      <button class="top-burger" id="js-top-burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="js-top-nav">
+        <span></span><span></span><span></span>
+      </button>
     </header>
     <div class="lx-container lx-hero-inner">
       <div class="lx-ghost" aria-hidden="true">6:40</div>
@@ -131,10 +134,7 @@
       <h2 id="voces-t" class="lx-h2">Ponentes</h2>
       <div class="lx-voces">
         <div class="lx-voces-photo">
-          <div class="lx-voces-duo">
-            <div class="lx-voces-duo-item"><img src="assets/fotos/010-pastor-ofir-pena.webp" alt="Ps Ofir Peña" loading="eager"></div>
-            <div class="lx-voces-duo-item"><img src="assets/fotos/011-pastora-tere-guillen.webp" alt="Ps Tere Guillén" loading="eager"></div>
-          </div>
+          <img src="assets/fotos/CMA_Retrato-Comunidad-Mas-Alto-pastores-ofir-tere-sentado_260812_v1.0.webp" alt="Ps Ofir Peña y Ps Tere Guillén, equipo pastoral del seminario" loading="eager" width="600" height="900">
           <div class="lx-tint" aria-hidden="true"></div>
         </div>
         <div class="lx-voces-copy">
@@ -202,9 +202,11 @@
       <h2 id="comunidad-t" class="lx-h2">La comunidad que convoca</h2>
       <p class="lx-lead">El congreso nace de la vida real de Comunidad Más Alto en Mérida — la casa que abre sus puertas del 14 al 16 de agosto.</p>
       <div class="lx-comunidad-grid">
-        <figure class="lx-foto"><img src="assets/fotos/015-kids-comunidad.webp" alt="Más Alto Kids: niños y voluntarias celebrando al aire libre" loading="eager"></figure>
-        <figure class="lx-foto"><img src="assets/fotos/012-jovenes-proposito.webp" alt="Dos jóvenes de Comunidad Más Alto sosteniendo un letrero: tu vida tiene un propósito" loading="eager"></figure>
-        <figure class="lx-foto"><img src="assets/fotos/014-jovenes-en-encuentro.webp" alt="Jóvenes conviviendo en un encuentro al aire libre de Comunidad Más Alto" loading="eager"></figure>
+        <figure class="lx-foto"><img src="assets/fotos/CMA_Auditorio-Comunidad-Mas-Alto-orador-sonriendo_260802_v1.0.webp" alt="Orador sonriente con micrófono durante una presentación en Comunidad Más Alto" loading="lazy" width="1280" height="1920"></figure>
+        <figure class="lx-foto"><img src="assets/fotos/CMA_Auditorio-Comunidad-Mas-Alto-vocalista-alabanza_260802_v1.0.webp" alt="Vocalista con un brazo levantado durante una presentación de música en vivo en el Auditorio Comunidad Más Alto" loading="lazy" width="1280" height="1920"></figure>
+        <figure class="lx-foto"><img src="assets/fotos/CMA_Auditorio-Comunidad-Mas-Alto-momento-oracion_260802_v1.0.webp" alt="Asistente con las manos juntas y los ojos cerrados durante un momento de oración en Comunidad Más Alto" loading="lazy" width="1280" height="1920"></figure>
+        <figure class="lx-foto"><img src="assets/fotos/CMA_Auditorio-Comunidad-Mas-Alto-audiencia-participando_260802_v1.0.webp" alt="Asistentes participando de pie durante una reunión en el Auditorio Comunidad Más Alto" loading="lazy" width="1280" height="1920"></figure>
+        <figure class="lx-foto"><img src="assets/fotos/CMA_Auditorio-Comunidad-Mas-Alto-mujer-hablando-auditorio_260802_v1.0.webp" alt="Mujer con micrófono hablando ante el público del Auditorio Comunidad Más Alto" loading="lazy" width="1280" height="1920"></figure>
       </div>
       <a class="lx-comunidad-cta" href="momentos.html">La comunidad en movimiento →</a>
     </div>
@@ -322,18 +324,24 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="lx-container">
-      <p class="ministry">El Cielo en mi Ciudad es un congreso de <a href="https://comunidadmasalto.org/" target="_blank" rel="noopener"><strong>Comunidad Más Alto</strong></a> — Mérida, Yucatán.</p>
-      <a class="fb" href="https://www.facebook.com/comunidadmasalto" target="_blank" rel="noopener" aria-label="Seguir a Comunidad Más Alto en Facebook">
-        <span class="fb-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.9 3.78-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94Z"/></svg></span>
-        <span class="fb-copy"><strong>Síguenos en Facebook</strong><span class="fb-sub">Sé parte de Comunidad Más Alto todo el año</span></span>
-        <span class="fb-go" aria-hidden="true">→</span>
-      </a>
-      <p class="privacy">Este sitio no usa cookies ni te rastrea. Los datos del formulario de registro se guardan solo para organizar el congreso y no se comparten con nadie — <a href="privacidad.html">Aviso de Privacidad</a>.</p>
-      <p style="margin-top:8px;font-size:10.5px;opacity:.35"><a href="guion.html" style="color:inherit">Equipo</a></p>
+      <div class="footer-masthead">
+        <p class="footer-brand">El Cielo en mi Ciudad</p>
+        <p class="ministry">Congreso de <a href="https://comunidadmasalto.org/" target="_blank" rel="noopener">Comunidad Más Alto</a> — Mérida, Yucatán</p>
+      </div>
+      <div class="footer-rule"></div>
+      <div class="footer-row">
+        <p class="privacy">Este sitio no usa cookies ni te rastrea. Los datos del formulario de registro se guardan solo para organizar el congreso y no se comparten con nadie — <a href="privacidad.html">Aviso de Privacidad</a>.</p>
+        <a class="footer-social" href="https://www.facebook.com/comunidadmasalto" target="_blank" rel="noopener" aria-label="Comunidad Más Alto en Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.9 3.78-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94Z"/></svg>
+          Facebook
+        </a>
+      </div>
+      <div class="footer-rule"></div>
       <div class="credits">
         <span class="lx-credit-cma">Una iniciativa de <a href="https://comunidadmasalto.org/" target="_blank" rel="noopener"><span class="lx-cma-chip"><img src="assets/brand/cma/masalto-logo-color.png" alt="Comunidad Más Alto"></span></a></span>
         <span><span class="design-label">Estrategia, Arquitectura y Diseño</span> <a href="https://soullensstudios.live/" target="_blank" rel="noopener"><strong>Soul Lens Studios</strong></a></span>
         <span><a href="https://xplorerstartups.ai/" target="_blank" rel="noopener">Powered by Xplorers Startups</a> × <a href="https://elarka.ong/" target="_blank" rel="noopener">EL ARKA</a></span>
+        <a href="guion.html" class="footer-team">Equipo</a>
       </div>
     </div>
   </footer>
