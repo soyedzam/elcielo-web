@@ -772,7 +772,11 @@ section { position: relative; padding-block: 110px; }
   color: color-mix(in srgb, var(--lx-bone) 50%, transparent);
 }
 .footer .privacy a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-.footer-social-links { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+/* Columna derecha del footer-row: redes + ministerios apilados, no dos
+   filas sueltas casi vacías — así el bloque pesa lo que su contenido,
+   no todo el ancho del footer. */
+.footer-links-col { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
+.footer-social-links { flex: 0 0 auto; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 10px 18px; }
 .footer-social {
   flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--font-marker); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
@@ -784,7 +788,7 @@ section { position: relative; padding-block: 110px; }
 /* Ministerios como pastillas, no una línea de texto subrayado — mismo
    peso visual que footer-social. Sin logo propio de cada uno todavía
    (no hay archivo real que usar); esto es lo mejor sin inventar uno. */
-.footer-ministerios { margin: 18px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.footer-ministerios { margin: 0; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px 10px; }
 .footer-ministerios-label {
   font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
   color: color-mix(in srgb, var(--lx-bone) 42%, transparent); margin-right: 2px;
@@ -798,24 +802,27 @@ section { position: relative; padding-block: 110px; }
 }
 .footer-ministerio:hover { border-color: var(--lx-amber); color: var(--lx-bone); background: color-mix(in srgb, var(--lx-amber) 10%, transparent); }
 
+/* ── Cierre del footer — colofón de 2 líneas, no una fila estirada con
+   "Equipo" aislado al otro extremo. El ancho lo pone el contenido, no
+   el footer completo: así nunca queda un vacío a la mitad. ── */
 .footer .credits {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 7px 20px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
   font-size: 12px; color: color-mix(in srgb, var(--lx-bone) 55%, transparent);
 }
 .footer .credits a { color: color-mix(in srgb, var(--lx-bone) 80%, transparent); }
-/* Los 3 nombres de marca al mismo peso — antes solo Soul Lens Studios
-   llevaba <strong>, y sin color propio se perdía igual que el resto. */
 .footer .credits strong { color: var(--lx-bone); font-weight: 700; }
 .footer .credits .design-label {
   font-family: var(--font-marker); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--lx-amber); margin-right: 5px;
 }
-.footer .credits .footer-team { margin-left: auto; opacity: .4; font-size: 10.5px; transition: opacity .2s var(--lx-ease); }
-.footer .credits .footer-team:hover { opacity: .75; }
+.credits-linea { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 10px; margin: 0; }
+.credits-sep { color: color-mix(in srgb, var(--lx-bone) 28%, transparent); }
+.footer .credits .footer-team { opacity: .5; font-size: 10.5px; transition: opacity .2s var(--lx-ease); }
+.footer .credits .footer-team:hover { opacity: .85; }
 @media (max-width: 640px) {
   .footer-row { flex-direction: column; align-items: flex-start; gap: 18px; }
-  .footer .credits { flex-direction: column; align-items: flex-start; gap: 9px; }
-  .footer .credits .footer-team { margin-left: 0; }
+  .footer-links-col { align-items: flex-start; }
+  .footer-social-links, .footer-ministerios { justify-content: flex-start; }
 }
 
 /* ── revelado al hacer scroll (compositor; sin JS todo es visible) ── */
