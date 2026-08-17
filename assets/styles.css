@@ -50,6 +50,16 @@ img { max-width: 100%; }
 
 section { position: relative; padding-block: 110px; }
 @media (max-width: 720px) { section { padding-block: 72px; } }
+/* El respiro de cierre de la última sección y el arranque del footer se
+   suman (110 + 64 = 174px sin nada que leer). Ese aire separa secciones
+   entre sí; contra el footer solo deja la página colgando. Se recorta la
+   última sección VISIBLE — hay secciones que el JS destapa según la fecha
+   (#js-encuesta, #js-viv-teaser), y el recorte debe seguir a la que de
+   verdad cierra la página, no a una oculta. */
+body > section:not([hidden]):not(:has(~ section:not([hidden]))) { padding-bottom: 72px; }
+@media (max-width: 720px) {
+  body > section:not([hidden]):not(:has(~ section:not([hidden]))) { padding-bottom: 48px; }
+}
 .lx-on-night { background: var(--lx-night); }
 .lx-on-mid { background: var(--lx-mid); }
 .lx-on-bone { background: var(--lx-bone); color: var(--lx-night); }
@@ -257,9 +267,11 @@ section { position: relative; padding-block: 110px; }
 /* Ese margen es para el hero, donde debajo sigue la franja de fecha/sede.
    En una sección de cierre justo antes del footer, se suma al padding de
    la sección Y al padding del footer — el resultado es un hueco enorme
-   que no aporta nada. Se anula puntualmente donde el CTA es lo último
-   antes de que termine la página. */
-#js-viv-vacio .lx-cta-row, #viv-cierre .lx-cta-row, #cierre .lx-cta-row { margin-bottom: 0; }
+   que no aporta nada. Se anula donde el CTA es lo último antes de que
+   termine la página; por estructura y no por lista de IDs, para que una
+   página nueva no herede el hueco por olvido. */
+#js-viv-vacio .lx-cta-row,
+body > section:not([hidden]):not(:has(~ section:not([hidden]))) .lx-cta-row { margin-bottom: 0; }
 
 .lx-horizon { position: relative; padding-bottom: 64px; }
 .lx-horizon .lx-line { height: 1px; background: var(--lx-border-dark); }
@@ -490,7 +502,7 @@ section { position: relative; padding-block: 110px; }
    wordmark en su propio ámbar va directo sobre índigo (misma familia de
    color que el ámbar del congreso, no choca como el combo naranja+gris
    del logo completo) — tamaño generoso, es quien convoca. ── */
-.lx-credit-cma { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+.lx-credit-cma { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .lx-cma-word { display: inline-flex; align-items: center; }
 .lx-cma-word img { display: block; height: 50px; width: auto; }
 
@@ -760,8 +772,8 @@ section { position: relative; padding-block: 110px; }
    créditos en una sola línea discreta. Antes era una pila de párrafos
    grises de tamaño parecido + una tarjeta de CTA — se sentía a plantilla,
    no a cierre de revista. ── */
-.footer { background: var(--lx-night); border-top: 1px solid var(--lx-border-dark); padding: 64px 0 40px; }
-.footer-masthead { margin-bottom: 32px; }
+.footer { background: var(--lx-night); border-top: 1px solid var(--lx-border-dark); padding: 56px 0 32px; }
+.footer-masthead { margin-bottom: 24px; }
 .footer-brand {
   font-family: var(--font-display); font-weight: 800; font-size: clamp(21px, 2.6vw, 27px);
   letter-spacing: -.01em; margin: 0 0 10px; color: var(--lx-bone);
@@ -771,7 +783,9 @@ section { position: relative; padding-block: 110px; }
   color: color-mix(in srgb, var(--lx-bone) 88%, transparent); text-decoration: underline;
   text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--lx-bone) 28%, transparent);
 }
-.footer-rule { height: 1px; background: var(--lx-border-dark); margin: 28px 0; }
+/* Dos reglas = cuatro márgenes en la misma columna corta; a 28px el
+   footer se leía como tres bloques sueltos, no como un colofón. */
+.footer-rule { height: 1px; background: var(--lx-border-dark); margin: 22px 0; }
 .footer-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 .footer .privacy {
   flex: 1 1 380px; margin: 0; font-size: 13px; line-height: 1.65;
@@ -812,7 +826,7 @@ section { position: relative; padding-block: 110px; }
    "Equipo" aislado al otro extremo. El ancho lo pone el contenido, no
    el footer completo: así nunca queda un vacío a la mitad. ── */
 .footer .credits {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
   font-size: 12px; color: color-mix(in srgb, var(--lx-bone) 55%, transparent);
 }
 .footer .credits a { color: color-mix(in srgb, var(--lx-bone) 80%, transparent); }
@@ -821,12 +835,20 @@ section { position: relative; padding-block: 110px; }
   font-family: var(--font-marker); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--lx-amber); margin-right: 5px;
 }
-.credits-linea { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 10px; margin: 0; }
+/* Es un <p>, así que heredaba el `max-width: 60ch` global de párrafo y se
+   partía en dos renglones aun sobrando ancho — el segundo casi vacío. El
+   colofón no es prosa: mide lo que mide su línea. */
+.credits-linea { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 10px; margin: 0; max-width: none; }
 .credits-sep { color: color-mix(in srgb, var(--lx-bone) 28%, transparent); }
 .footer .credits .footer-team { opacity: .5; font-size: 10.5px; transition: opacity .2s var(--lx-ease); }
 .footer .credits .footer-team:hover { opacity: .85; }
 @media (max-width: 640px) {
   .footer-row { flex-direction: column; align-items: flex-start; gap: 18px; }
+  /* Al apilar, el eje principal pasa a ser el vertical: el `flex: 1 1 380px`
+     del aviso deja de ser un ancho mínimo y se vuelve una ALTURA de 380px
+     que el texto no llena — ~290px de vacío negro dentro del footer en
+     móvil. Aquí el párrafo debe medir lo que mide su texto. */
+  .footer .privacy { flex: 0 0 auto; }
   .footer-links-col { align-items: flex-start; }
   .footer-social-links, .footer-ministerios { justify-content: flex-start; }
 }
@@ -1100,8 +1122,18 @@ html.mom-lock { overflow: hidden; }
    el tipo es grande, las opciones son áreas de toque de 56px+ y no hay
    nada más en pantalla compitiendo con la pregunta.
    ───────────────────────────────────────────────────────────────────────────── */
-.enc-wrap { background: var(--lx-night); min-height: 100vh; padding-block: 0; }
-.enc-container { max-width: 720px; }
+/* El 100vh reserva pantalla completa, pero un paso corto solo llena la
+   mitad: como el fondo del wrap y el del footer son el mismo índigo, lo
+   que sobraba se leía como un agujero de ~440px antes del colofón. Con la
+   columna flexible el aire se reparte arriba y abajo de la pregunta —
+   sigue siendo pantalla completa, ya no un hueco al final. */
+/* Sin min-height: 100vh. Esa regla estiraba el contenedor a la altura
+   completa de la pantalla aunque la pregunta en turno fuera corta, y el
+   sobrante (272px medidos en móvil) quedaba como una franja de aire justo
+   antes del footer — se leía como una sección vacía. La encuesta ya tiene
+   su propio padding: que mida lo que mide su contenido. */
+.enc-wrap { background: var(--lx-night); padding-block: 0; display: flex; flex-direction: column; }
+.enc-container { max-width: 720px; flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }
 
 /* Progreso: fijo bajo el header, para que el avance se vea sin buscarlo. */
 .enc-progreso {
