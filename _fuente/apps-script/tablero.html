@@ -176,6 +176,7 @@
         <h1>Registros</h1>
       </div>
       <div class="acciones-top">
+        <button class="btn-imprimir" id="reporte" aria-label="Reporte para el chat de MKT">📊 Reporte MKT</button>
         <button class="btn-imprimir" id="imprimir" aria-label="Imprimir lista">🖨️ Imprimir</button>
         <button class="salir" id="salir">Salir</button>
       </div>
@@ -346,6 +347,87 @@
 
   $('entrar').addEventListener('click', entrar);
   $('imprimir').addEventListener('click', function(){ window.print(); });
+
+  /* ── Reporte para el chat de MKT El Cielo ─────────────────────────
+     🔴 REGLA DURA: el reporte lleva SOLO cifras agregadas. Ni un nombre,
+     ni un teléfono, ni un correo. Un chat de WhatsApp se reenvía, se
+     respalda en la nube de quien sea y sale del control del equipo —
+     la lista de asistentes es dato de personas y se queda en la Sheet.
+
+     Tampoco se envía solo: se arma el texto y lo manda una persona.
+     WhatsApp no deja precargar texto a un GRUPO (wa.me solo apunta a
+     números sueltos), así que el camino honesto es copiar/compartir y
+     que quien opera elija el chat de MKT. */
+  function textoReporte(){
+    var ahora = new Date().toLocaleString('es-MX', {
+      timeZone: 'America/Merida', weekday: 'long', day: 'numeric',
+      month: 'long', hour: 'numeric', minute: '2-digit'
+    });
+
+    var total = TODOS.length;
+    var enLinea = TODOS.filter(function(x){ return x.origen !== 'Presencial'; }).length;
+    var enPuerta = total - enLinea;
+    var pct = function(a, b){ return b ? Math.round(a / b * 100) + '%' : '0%'; };
+
+    var L = [];
+    L.push('*EL CIELO EN MI CIUDAD*');
+    L.push('_Reporte de asistencia · ' + ahora + '_');
+    L.push('');
+    L.push('*REGISTROS*');
+    L.push('Total: ' + total + ' de ' + CUPO_TOTAL + ' (' + pct(total, CUPO_TOTAL) + ' del cupo)');
+    L.push('En línea: ' + enLinea + '  ·  En puerta: ' + enPuerta);
+    L.push('');
+    L.push('*ASISTENCIA POR DÍA*');
+
+    DIAS.forEach(function(d){
+      var esperados = TODOS.filter(function(x){ return x.dias && x.dias[d]; }).length;
+      var llegaron = TODOS.filter(function(x){ return x.asistio && x.asistio[d]; }).length;
+      L.push(DIA_LABEL[d] + ': ' + llegaron + ' de ' + esperados + ' esperados (' + pct(llegaron, esperados) + ')');
+    });
+
+    // Personas distintas que pisaron el congreso al menos un día — es la
+    // cifra que de verdad se reporta hacia arriba, no la suma de los 3
+    // días (que cuenta tres veces a quien vino los tres).
+    var unicos = TODOS.filter(function(x){
+      return x.asistio && (x.asistio.viernes || x.asistio.sabado || x.asistio.domingo);
+    }).length;
+    L.push('');
+    L.push('*ACUMULADO*');
+    L.push('Personas distintas que asistieron: ' + unicos);
+    L.push('Sobre los registrados: ' + pct(unicos, total));
+    L.push('');
+    L.push('_Cifras agregadas. La lista con datos personales no sale de la hoja del equipo._');
+
+    return L.join('\n');
+  }
+
+  $('reporte').addEventListener('click', function(){
+    var texto = textoReporte();
+
+    // La hoja nativa de compartir es el mejor camino en celular: deja
+    // elegir el chat de MKT directo. En escritorio no existe, y ahí el
+    // portapapeles es lo más rápido para pegarlo en WhatsApp Web.
+    if (navigator.share) {
+      navigator.share({ text: texto }).catch(function(){ /* canceló */ });
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(texto).then(
+        function(){ avisar('Reporte copiado — pégalo en el chat de MKT'); },
+        function(){ mostrarReporte(texto); }
+      );
+      return;
+    }
+    mostrarReporte(texto);
+  });
+
+  /* Último recurso: si ni compartir ni portapapeles están disponibles
+     (pasa en navegadores viejos y en contextos sin HTTPS), se enseña el
+     texto para copiarlo a mano en vez de fallar en silencio. */
+  function mostrarReporte(texto){
+    var caja = window.prompt('Copia el reporte y pégalo en el chat de MKT El Cielo:', texto);
+    if (caja === null) return;
+  }
   $('clave').addEventListener('keydown', function(e){ if (e.key === 'Enter') entrar(); });
   $('buscar').addEventListener('input', filtrar);
   $('salir').addEventListener('click', function(){
