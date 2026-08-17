@@ -240,6 +240,15 @@ function doPost(e) {
   try {
     const sonda = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (sonda.accion === 'evaluacion') return guardarEvaluacion_(sonda);
+    /* Lectura de resultados para el tablero de KPIs (resultados.html).
+       Va por POST y no por doGet a propósito: así la contraseña viaja en
+       el cuerpo y nunca queda escrita en la URL, en el historial del
+       navegador ni en los registros del servidor. */
+    if (sonda.accion === 'resultados') {
+      return ContentService
+        .createTextOutput(datosEvaluacion(sonda.clave))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
   } catch (errAccion) {
     // JSON inválido: que siga al camino normal y falle donde ya fallaba.
   }
@@ -437,6 +446,51 @@ function doGet() {
 /* Las dos funciones que el tablero llama con google.script.run.
    Devuelven texto JSON porque google.script.run no serializa objetos
    con fechas de forma predecible. */
+
+/* Resultados de la encuesta para el tablero de KPIs. Devuelve SOLO
+   agregados y los textos abiertos — nunca nombre ni contacto, aunque
+   estén en la hoja: el tablero de resultados se comparte en pantalla, y
+   una respuesta honesta deja de serlo si la persona sabe que su nombre
+   aparece junto a ella. Quien necesite el dato de contacto lo busca en
+   la hoja, con su propia autorización. */
+function datosEvaluacion(clave) {
+  if (!claveCorrecta_(clave)) {
+    Utilities.sleep(700);
+    return JSON.stringify({ ok: false, error: 'clave' });
+  }
+
+  const libro = SpreadsheetApp.getActiveSpreadsheet();
+  const h = libro.getSheetByName(HOJA_EVAL);
+  if (!h) return JSON.stringify({ ok: true, respuestas: [] });
+
+  const filas = h.getDataRange().getValues();
+  filas.shift();                                   // encabezados
+
+  const respuestas = filas
+    .filter(function (f) { return f[0]; })         // solo las que tienen fecha
+    .map(function (f) {
+      return {
+        fecha: f[0] ? Utilities.formatDate(new Date(f[0]), 'America/Merida', 'd MMM · HH:mm') : '',
+        dias: String(f[1] || ''),
+        recomienda: Number(f[2]) || 0,
+        notas: {
+          alabanza: Number(f[3]) || 0,
+          conferencias: Number(f[4]) || 0,
+          acceso: Number(f[5]) || 0,
+          lugar: Number(f[6]) || 0,
+          info: Number(f[7]) || 0
+        },
+        entero: String(f[8] || ''),
+        cambiar: String(f[9] || ''),
+        faltar: String(f[10] || ''),
+        volver: String(f[11] || ''),
+        palabra: String(f[12] || '')
+        // f[13] Nombre y f[14] Contacto NO se envían, a propósito.
+      };
+    });
+
+  return JSON.stringify({ ok: true, respuestas: respuestas });
+}
 
 function datosTablero(clave) {
   if (!claveCorrecta_(clave)) {

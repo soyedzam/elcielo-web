@@ -254,6 +254,12 @@ section { position: relative; padding-block: 110px; }
 .lx-t2 { display: block; color: var(--lx-amber-light); }
 .lx-hero .lx-lead { margin-bottom: 64px; }
 .lx-cta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 56px; }
+/* Ese margen es para el hero, donde debajo sigue la franja de fecha/sede.
+   En una sección de cierre justo antes del footer, se suma al padding de
+   la sección Y al padding del footer — el resultado es un hueco enorme
+   que no aporta nada. Se anula puntualmente donde el CTA es lo último
+   antes de que termine la página. */
+#js-viv-vacio .lx-cta-row, #viv-cierre .lx-cta-row, #cierre .lx-cta-row { margin-bottom: 0; }
 
 .lx-horizon { position: relative; padding-bottom: 64px; }
 .lx-horizon .lx-line { height: 1px; background: var(--lx-border-dark); }
@@ -1518,3 +1524,178 @@ html.viv-lock, html.viv-lock body { overflow: hidden; }
   .viv-prev { left: 6px; } .viv-next { right: 6px; }
   .viv-teatro-caja.es-video { width: 100%; }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESULTADOS DE LA ENCUESTA (resultados.html) — tablero interno de KPIs.
+   Se opera y se proyecta, no se lee de corrido: la cifra va primero, la
+   explicación después, y el estado se codifica en color además de número.
+   ───────────────────────────────────────────────────────────────────────────── */
+.res-body { background: var(--lx-night); min-height: 100vh; }
+
+/* ── Puerta ── */
+/* [hidden] no le gana a un display propio por especificidad — sin este
+   :not(), la puerta se queda pintada por encima del panel aunque el JS
+   ya la haya marcado hidden. */
+.res-puerta:not([hidden]) { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.res-puerta-caja { max-width: 420px; width: 100%; }
+.res-form { margin-top: 26px; display: flex; flex-direction: column; gap: 12px; }
+.res-label { font-size: 14px; font-weight: 600; color: var(--lx-bone); }
+.res-form input {
+  width: 100%; min-height: 54px; padding: 14px 16px;
+  font-family: var(--font-body); font-size: 17px;
+  color: var(--lx-bone); background: color-mix(in srgb, var(--lx-mid) 45%, transparent);
+  border: 1px solid var(--lx-border-dark); border-radius: var(--r);
+}
+.res-form input:focus { outline: 2px solid var(--lx-amber); outline-offset: 2px; border-color: transparent; }
+
+/* ── Panel ── */
+.res-panel { max-width: 1120px; margin-inline: auto; padding: 30px 22px 70px; }
+@media (min-width: 720px) { .res-panel { padding: 44px 34px 80px; } }
+.res-top {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap; padding-bottom: 22px; margin-bottom: 26px;
+  border-bottom: 1px solid var(--lx-border-dark);
+}
+.res-h1 {
+  margin: 4px 0 0; font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(28px, 5vw, 40px); letter-spacing: -.028em; line-height: 1.02;
+}
+.res-top-acciones { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.res-vivo {
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px;
+  border-radius: var(--r-pill); font-size: 12.5px; font-weight: 600;
+  color: #4CDBA0; background: color-mix(in srgb, #4CDBA0 13%, transparent);
+  border: 1px solid color-mix(in srgb, #4CDBA0 38%, transparent);
+}
+.res-vivo-punto { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+@media (prefers-reduced-motion: no-preference) {
+  .res-vivo-punto { animation: res-latido 2s ease-in-out infinite; }
+  @keyframes res-latido { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+}
+/* El demo se distingue de un vistazo: nadie debe confundir un ejemplo
+   con cifras reales del congreso. */
+.res-vivo.es-demo {
+  color: var(--lx-amber); background: color-mix(in srgb, var(--lx-amber) 14%, transparent);
+  border-color: color-mix(in srgb, var(--lx-amber) 45%, transparent);
+}
+.res-btn-ghost {
+  padding: 7px 14px; border-radius: var(--r-pill); cursor: pointer;
+  font-family: var(--font-body); font-size: 13.5px;
+  color: color-mix(in srgb, var(--lx-bone) 72%, transparent);
+  background: none; border: 1px solid var(--lx-border-dark);
+  transition: color .2s var(--lx-ease), border-color .2s var(--lx-ease);
+}
+.res-btn-ghost:hover { color: var(--lx-bone); border-color: var(--lx-bone); }
+
+/* ── Estado sin respuestas ── */
+.res-vacio { text-align: center; padding: 60px 20px; }
+.res-vacio-ico {
+  width: 60px; height: 60px; margin: 0 auto 18px; border-radius: 50%;
+  display: grid; place-items: center; color: var(--lx-amber);
+  background: color-mix(in srgb, var(--lx-amber) 12%, transparent);
+}
+.res-vacio-ico svg { width: 26px; height: 26px; }
+.res-vacio .lx-lead { margin: 10px auto 0; }
+.res-link-encuesta {
+  margin-top: 18px; font-family: var(--font-marker); font-size: 13px;
+  color: var(--lx-amber); letter-spacing: .04em;
+}
+
+/* ── KPIs ── */
+.res-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+@media (max-width: 860px) { .res-kpis { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { .res-kpis { grid-template-columns: 1fr; } }
+.res-kpi {
+  background: color-mix(in srgb, var(--lx-mid) 42%, transparent);
+  border: 1px solid var(--lx-border-dark); border-radius: 14px; padding: 17px 18px 15px;
+}
+.res-kpi-alto { background: color-mix(in srgb, var(--lx-amber) 10%, transparent); border-color: color-mix(in srgb, var(--lx-amber) 32%, transparent); }
+.res-kpi-l {
+  display: block; font-family: var(--font-marker); font-size: 10.5px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--lx-bone) 52%, transparent);
+}
+.res-kpi-n {
+  display: block; margin-top: 6px; font-family: var(--font-display); font-weight: 900;
+  font-size: 34px; letter-spacing: -.03em; line-height: 1;
+}
+.res-kpi-pie { display: block; margin-top: 5px; font-size: 12.5px; color: color-mix(in srgb, var(--lx-bone) 58%, transparent); }
+.res-medidor {
+  margin-top: 11px; height: 5px; border-radius: var(--r-pill); overflow: hidden;
+  background: color-mix(in srgb, var(--lx-bone) 11%, transparent);
+}
+.res-medidor-fill { height: 100%; border-radius: var(--r-pill); transition: width .6s var(--lx-ease); }
+/* Semáforo: separado del ámbar de marca a propósito — el color aquí es
+   dato (bien/regular/mal), no identidad. */
+.res-medidor-fill.es-bien, .res-barra-fill.es-bien { background: #4CDBA0; }
+.res-medidor-fill.es-medio, .res-barra-fill.es-medio { background: var(--lx-amber); }
+.res-medidor-fill.es-mal, .res-barra-fill.es-mal { background: #FF9A8E; }
+.res-barra-fill.es-neutro { background: color-mix(in srgb, var(--lx-amber) 62%, transparent); }
+
+.res-estrellas-vis { display: flex; gap: 2px; margin-top: 10px; }
+.res-estrella svg { width: 15px; height: 15px; fill: color-mix(in srgb, var(--lx-bone) 16%, transparent); }
+.res-estrella.es-llena svg { fill: var(--lx-amber); }
+
+/* ── Cajas ── */
+.res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
+@media (max-width: 860px) { .res-grid { grid-template-columns: 1fr; } }
+.res-caja {
+  background: color-mix(in srgb, var(--lx-mid) 30%, transparent);
+  border: 1px solid var(--lx-border-dark); border-radius: 14px; padding: 20px;
+}
+.res-caja-ancha { grid-column: 1 / -1; }
+.res-caja-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 14px; flex-wrap: wrap; margin-bottom: 16px;
+}
+.res-caja-t { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -.015em; }
+.res-caja-nota { font-size: 12.5px; color: color-mix(in srgb, var(--lx-bone) 48%, transparent); }
+
+/* ── Barras ── */
+.res-barras { display: flex; flex-direction: column; gap: 11px; }
+.res-barra-fila { display: grid; grid-template-columns: 148px 1fr 64px; align-items: center; gap: 12px; }
+@media (max-width: 520px) { .res-barra-fila { grid-template-columns: 110px 1fr 54px; gap: 8px; } }
+.res-barra-l { font-size: 13.5px; color: color-mix(in srgb, var(--lx-bone) 84%, transparent); }
+.res-barra-pista {
+  height: 20px; border-radius: 6px; overflow: hidden;
+  background: color-mix(in srgb, var(--lx-bone) 8%, transparent);
+}
+.res-barra-fill { height: 100%; border-radius: 6px; transition: width .6s var(--lx-ease); }
+.res-barra-n { font-size: 14px; font-weight: 700; text-align: right; }
+.res-barra-pct { font-size: 11.5px; font-weight: 500; color: color-mix(in srgb, var(--lx-bone) 48%, transparent); }
+.res-lectura {
+  margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--lx-border-dark-soft);
+  font-size: 14px; line-height: 1.55; color: color-mix(in srgb, var(--lx-bone) 70%, transparent);
+}
+.res-lectura b { color: var(--lx-bone); }
+.res-sin { margin: 0; font-size: 13.5px; color: color-mix(in srgb, var(--lx-bone) 45%, transparent); }
+
+/* ── Nube de palabras ── */
+.res-nube { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; }
+.res-palabra {
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -.02em; line-height: 1.15;
+  color: color-mix(in srgb, var(--lx-bone) 78%, transparent);
+}
+
+/* ── Citas ── */
+.res-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.res-tab {
+  padding: 6px 13px; border-radius: var(--r-pill); cursor: pointer;
+  font-family: var(--font-body); font-size: 13px;
+  color: color-mix(in srgb, var(--lx-bone) 62%, transparent);
+  background: none; border: 1px solid var(--lx-border-dark);
+}
+.res-tab[aria-selected="true"] { color: var(--lx-night); background: var(--lx-amber); border-color: var(--lx-amber); }
+.res-citas { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.res-cita {
+  margin: 0; padding: 14px 16px; border-radius: var(--r);
+  border-left: 3px solid color-mix(in srgb, var(--lx-amber) 55%, transparent);
+  background: color-mix(in srgb, var(--lx-night) 55%, transparent);
+  font-size: 14px; line-height: 1.55; color: color-mix(in srgb, var(--lx-bone) 82%, transparent);
+}
+
+.res-pie {
+  margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--lx-border-dark-soft);
+  font-size: 12.5px; color: color-mix(in srgb, var(--lx-bone) 45%, transparent);
+}
+.res-pie-sep { margin-inline: 6px; opacity: .5; }

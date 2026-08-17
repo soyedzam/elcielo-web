@@ -12,8 +12,7 @@
      calidad adaptativa y que vivan en el canal de la comunidad.
    El reproductor modal es UNO solo y sabe tratar a los dos. */
 
-const cfgRaiz = window.ELCIELO || {};
-const cfg = cfgRaiz.asiVivimos || {};
+const cfg = (window.ELCIELO && window.ELCIELO.asiVivimos) || {};
 
 const DIAS = ['viernes', 'sabado', 'domingo'];
 const NOMBRE_DIA = { viernes: 'Viernes 14', sabado: 'Sábado 15', domingo: 'Domingo 16' };
@@ -176,7 +175,7 @@ function pintarReels() {
     const txt = $('js-viv-progreso-txt');
     const fill = $('js-viv-progreso-fill');
     if (prog && txt && fill) {
-      txt.innerHTML = '<b>' + reels.length + ' de ' + total + '</b> momentos ya están aquí — el resto va subiendo estos días';
+      txt.innerHTML = '<b>' + reels.length + ' de ' + total + '</b> momentos ya están aquí — el resto llega estos días';
       fill.style.width = Math.round((reels.length / total) * 100) + '%';
       prog.hidden = false;
     }
@@ -343,16 +342,6 @@ if (teatro) {
     else if (e.key === 'ArrowRight') pintarPieza(idx + 1);
   });
 }
-
-/* ── "¿Tú también grabaste algo?" — WhatsApp con mensaje precargado ── */
-(function iniciarComparte() {
-  const btn = $('js-comparte-wa');
-  if (!btn) return;
-  const numero = String(cfgRaiz.whatsapp || '').replace(/\D/g, '');
-  if (!numero) { btn.hidden = true; return; }
-  const texto = 'Hola, les quiero compartir algo que grabé en El Cielo en mi Ciudad 🙌';
-  btn.href = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(texto);
-})();
 
 /* ── Arranque ────────────────────────────────────────────────────── */
 

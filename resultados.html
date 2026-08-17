@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resultados de la encuesta — El Cielo en mi Ciudad</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B1033">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=260817">
+</head>
+<body class="res-body">
+
+  <!-- PUERTA — misma contraseña del tablero de asistencia. Los datos solo
+       salen del servidor después de verificarla; esta pantalla no guarda
+       nada ni decide nada por su cuenta. -->
+  <div class="res-puerta" id="js-puerta">
+    <div class="res-puerta-caja">
+      <span class="lx-kicker">// solo equipo</span>
+      <h1 class="lx-h2">Resultados de la encuesta</h1>
+      <p class="lx-lead">Cómo se vivió el congreso, según quienes estuvieron. Necesitas la contraseña del equipo.</p>
+      <form id="js-form-clave" class="res-form">
+        <label for="clave" class="res-label">Contraseña</label>
+        <input type="password" id="clave" autocomplete="current-password" required>
+        <button class="enc-btn" type="submit" id="js-entrar">Entrar</button>
+        <p class="enc-error" id="js-err" hidden></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- TABLERO -->
+  <main class="res-panel" id="js-panel" hidden>
+
+    <header class="res-top">
+      <div>
+        <span class="lx-kicker">// El Cielo en mi Ciudad · 1ª edición</span>
+        <h1 class="res-h1">Cómo se vivió</h1>
+      </div>
+      <div class="res-top-acciones">
+        <span class="res-vivo" id="js-vivo" title="Se actualiza solo cada 60 segundos">
+          <span class="res-vivo-punto"></span><span id="js-vivo-txt">En vivo</span>
+        </span>
+        <button class="res-btn-ghost" type="button" id="js-refrescar">Actualizar</button>
+        <button class="res-btn-ghost" type="button" id="js-salir">Salir</button>
+      </div>
+    </header>
+
+    <!-- Estado sin respuestas: honesto, no un tablero de ceros -->
+    <div class="res-vacio" id="js-res-vacio" hidden>
+      <div class="res-vacio-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h2 class="lx-h3">Todavía no hay respuestas</h2>
+      <p class="lx-lead">En cuanto alguien conteste la encuesta, sus cifras aparecen aquí solas. Comparte el link para empezar a recibirlas.</p>
+      <p class="res-link-encuesta">elcielo.comunidadmasalto.org/encuesta.html</p>
+    </div>
+
+    <div id="js-res-datos" hidden>
+
+      <!-- KPIs de cabecera -->
+      <section class="res-kpis" aria-label="Indicadores principales">
+        <article class="res-kpi res-kpi-alto">
+          <span class="res-kpi-l">Respuestas</span>
+          <b class="res-kpi-n tabular" id="k-total">—</b>
+          <span class="res-kpi-pie" id="k-total-pie"></span>
+        </article>
+        <article class="res-kpi">
+          <span class="res-kpi-l">Recomendación</span>
+          <b class="res-kpi-n tabular" id="k-nps">—</b>
+          <span class="res-kpi-pie">de 100 · qué tanto lo recomiendan</span>
+          <div class="res-medidor"><div class="res-medidor-fill" id="k-nps-fill"></div></div>
+        </article>
+        <article class="res-kpi">
+          <span class="res-kpi-l">Volvería el próximo año</span>
+          <b class="res-kpi-n tabular" id="k-volver">—</b>
+          <span class="res-kpi-pie" id="k-volver-pie"></span>
+          <div class="res-medidor"><div class="res-medidor-fill" id="k-volver-fill"></div></div>
+        </article>
+        <article class="res-kpi">
+          <span class="res-kpi-l">Calificación general</span>
+          <b class="res-kpi-n tabular" id="k-prom">—</b>
+          <span class="res-kpi-pie">promedio de las 5 partes, sobre 5</span>
+          <div class="res-estrellas-vis" id="k-prom-estrellas" aria-hidden="true"></div>
+        </article>
+      </section>
+
+      <div class="res-grid">
+
+        <!-- Qué funcionó y qué no — el dato accionable -->
+        <section class="res-caja res-caja-ancha" aria-labelledby="partes-t">
+          <div class="res-caja-head">
+            <h2 id="partes-t" class="res-caja-t">Qué funcionó y qué no</h2>
+            <span class="res-caja-nota">Promedio sobre 5 · ordenado de mejor a peor</span>
+          </div>
+          <div class="res-barras" id="k-partes"></div>
+          <p class="res-lectura" id="k-partes-lectura"></p>
+        </section>
+
+        <!-- Cómo se enteraron — a dónde va el esfuerzo el año que viene -->
+        <section class="res-caja" aria-labelledby="canal-t">
+          <div class="res-caja-head">
+            <h2 id="canal-t" class="res-caja-t">Cómo se enteraron</h2>
+            <span class="res-caja-nota">Dónde invertir el año que viene</span>
+          </div>
+          <div class="res-barras res-barras-canal" id="k-canales"></div>
+        </section>
+
+        <!-- Asistencia por día declarada -->
+        <section class="res-caja" aria-labelledby="dias-t">
+          <div class="res-caja-head">
+            <h2 id="dias-t" class="res-caja-t">Qué día vinieron</h2>
+            <span class="res-caja-nota">De quienes contestaron</span>
+          </div>
+          <div class="res-barras res-barras-canal" id="k-dias"></div>
+        </section>
+
+        <!-- Una palabra — el pulso emocional -->
+        <section class="res-caja res-caja-ancha" aria-labelledby="palabra-t">
+          <div class="res-caja-head">
+            <h2 id="palabra-t" class="res-caja-t">Cómo se fueron</h2>
+            <span class="res-caja-nota">En una palabra · el tamaño es cuántas veces se repitió</span>
+          </div>
+          <div class="res-nube" id="k-palabras"></div>
+        </section>
+
+        <!-- Textos abiertos: lo que de verdad se lee -->
+        <section class="res-caja res-caja-ancha" aria-labelledby="abiertas-t">
+          <div class="res-caja-head">
+            <h2 id="abiertas-t" class="res-caja-t">Lo que escribieron</h2>
+            <div class="res-tabs" role="tablist" aria-label="Elegir pregunta">
+              <button class="res-tab" type="button" role="tab" aria-selected="true" data-campo="cambiar">Qué cambiarían</button>
+              <button class="res-tab" type="button" role="tab" aria-selected="false" data-campo="faltar">Qué no puede faltar</button>
+            </div>
+          </div>
+          <div class="res-citas" id="k-citas"></div>
+        </section>
+
+      </div>
+
+      <p class="res-pie">
+        <span id="k-actualizado"></span>
+        <span class="res-pie-sep">·</span>
+        Solo cifras y comentarios. Nombre y contacto no salen de la hoja del equipo.
+      </p>
+    </div>
+  </main>
+
+  <script src="assets/config.js?v=260817"></script>
+  <script src="assets/resultados.js?v=260817"></script>
+</body>
+</html>
