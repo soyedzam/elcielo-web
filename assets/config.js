@@ -82,11 +82,16 @@ window.ELCIELO = {
     // Base de los .mp4 autohospedados. Se antepone a cada "archivo".
     baseMedia: "https://xs-elcielo-media.pages.dev/asi-lo-vivimos/",
 
-    // Los 9 reels verticales (9:16). "ig" es opcional: pone el link
+    // Los reels verticales (9:16). "ig" es opcional: pone el link
     // «Ver en Instagram» debajo, para quien quiera reaccionar allá.
     // Orden = orden de aparición en el carril.
+    // Primeros 3 de 9 — domingo 16, cierre del congreso (hora de captura
+    // 11:03-11:11am Mérida, coincide exacto con Bienvenida/Alabanza del
+    // programa real). H.264 8-bit, 608×1080, con póster — subidos 260817.
     reels: [
-      // { archivo: "reel-01.mp4", poster: "reel-01.jpg", titulo: "…", dia: "viernes", ig: "https://www.instagram.com/reel/…" }
+      { archivo: "el-cielo-domingo-bienvenida-cierre.mp4", poster: "el-cielo-domingo-bienvenida-cierre.jpg", titulo: "Bienvenida del domingo de cierre", dia: "domingo" },
+      { archivo: "el-cielo-domingo-carpa-llena.mp4", poster: "el-cielo-domingo-carpa-llena.jpg", titulo: "La carpa llena, domingo de cierre", dia: "domingo" },
+      { archivo: "el-cielo-domingo-alabanza-cierre.mp4", poster: "el-cielo-domingo-alabanza-cierre.jpg", titulo: "Alabanza en el domingo de cierre", dia: "domingo" }
     ],
 
     // Pieza insignia. id = el ID de YouTube, nada más (no la URL completa).
