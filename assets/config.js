@@ -124,7 +124,24 @@ window.ELCIELO = {
     fotos: {
       viernes: [],   // { n: "v-01.webp", alt: "…" }
       sabado: [],
-      domingo: []
+      domingo: [
+        { n: "domingo-bienvenida-congreso.webp", alt: "Letreros de bienvenida junto al acceso del congreso El Cielo en mi Ciudad." },
+        { n: "domingo-alabanza-en-comunidad.webp", alt: "Mujeres adultas participan en un momento de alabanza en comunidad." },
+        { n: "domingo-audiencia-reunida-01.webp", alt: "Audiencia reunida en El Cielo en mi Ciudad, Mérida, Yucatán." },
+        { n: "domingo-audiencia-vista-lateral-02.webp", alt: "Vista lateral amplia de la audiencia de El Cielo en mi Ciudad." },
+        { n: "domingo-auditorio-cubierto-01.webp", alt: "Vista lateral del auditorio de El Cielo en mi Ciudad." },
+        { n: "domingo-mensaje-biblico.webp", alt: "Mensaje bíblico presentado ante la audiencia de El Cielo en mi Ciudad." },
+        { n: "domingo-predicacion-ante-audiencia.webp", alt: "Orador comparte un mensaje ante la audiencia de El Cielo en mi Ciudad." },
+        { n: "domingo-testimonio-en-comunidad.webp", alt: "Mujer comparte un testimonio con micrófono acompañada por integrantes de Comunidad Más Alto." },
+        { n: "domingo-oracion-acompanamiento.webp", alt: "Dos participantes adultos comparten un momento de oración y acompañamiento en El Cielo en mi Ciudad." },
+        { n: "domingo-equipo-servicio.webp", alt: "Integrante del equipo de servicio durante el encuentro de Comunidad Más Alto en Mérida." },
+        { n: "domingo-escucha-en-comunidad.webp", alt: "Participante escucha una intervención durante el encuentro comunitario." },
+        { n: "domingo-hombre-en-reflexion.webp", alt: "Hombre participa en un momento de reflexión durante el congreso." },
+        { n: "domingo-momento-reflexion-01.webp", alt: "Primer plano de un participante adulto durante un momento de reflexión." },
+        { n: "domingo-participantes-atentos.webp", alt: "Participantes adultos escuchan atentamente durante El Cielo en mi Ciudad." },
+        { n: "domingo-participantes-en-reflexion.webp", alt: "Dos participantes adultos durante una reflexión de Comunidad Más Alto." },
+        { n: "domingo-vista-lateral-audiencia.webp", alt: "Participantes escuchan el mensaje desde un costado del auditorio." }
+      ]
     }
   }
 };

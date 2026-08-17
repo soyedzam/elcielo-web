@@ -242,6 +242,7 @@ function pintarFotos() {
   });
 
   mostrar('js-viv-fotos');
+  return true;
 }
 
 function seleccionarDia(dia, conFotos) {
