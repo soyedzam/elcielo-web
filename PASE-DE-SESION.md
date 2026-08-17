@@ -1,212 +1,136 @@
 # Pase de Sesión — El Cielo en mi Ciudad
 > Handoff para la instancia nueva de Claude que retome este sitio.
-> **Léelo completo antes de tocar nada.** Escrito 2-ago-2026 · v2.0 el 10-ago-2026 ·
-> v3.0 el 12/13-ago-2026 · **reescrito a fondo v4.0 el 13/14-ago-2026** (sesión larga:
-> registro por día en vivo, backend de Apps Script desplegado con acceso real de Ed,
-> rediseño del footer completo).
+> **Léelo completo antes de tocar nada.** v2.0 el 10-ago · v3.0 el 12/13-ago ·
+> v4.0 el 13/14-ago · **v5.0 el 16/17-ago-2026 — el congreso YA PASÓ.**
+> Esta versión reescribe el pase para el mundo post-evento: qué quedó vivo, qué se
+> aprendió y qué sigue abierto.
 
 ---
 
 ## 0 · Quién eres aquí
 
 Sitio estático en producción de **"El Cielo en mi Ciudad"** — congreso de **Comunidad
-Más Alto** (CMA), Mérida, Yucatán, 14–16 de agosto de 2026. Está **EN VIVO** en
-`https://elcielo.comunidadmasalto.org`. **🔴 EL CONGRESO EMPIEZA HOY, 14-ago, 20:00 hrs.**
-No hay margen para experimentar en producción — cualquier cambio se prueba en local
-primero. El sitio ya escribe registros reales de personas.
+Más Alto** (CMA), Mérida, Yucatán. **La 1ª edición ya se celebró: 14–16 de agosto de 2026.**
+Vive en `https://elcielo.comunidadmasalto.org`.
+
+El sitio pasó de "vende el evento" a **"guarda la memoria del evento y recoge qué
+sintió la gente"**. Escribe datos reales de personas: trátalos como tales.
 
 ## 1 · 🔴 Rutas y reglas duras
 
-- **Repo:** `~/Dev/CMA/elcielo-web` — git propio, remoto `github.com/soyedzam/elcielo-web`, público.
+- **Repo:** `~/Dev/CMA/elcielo-web` — remoto `github.com/soyedzam/elcielo-web`, **público**.
+  🔴 Por eso: **jamás un dato personal en este repo.** Los nombres/correos/WhatsApp
+  viven solo en la Sheet del equipo y en `ACTIVOS/…/260817_confidencial/`.
 - **Stack: HTML + CSS + JS vanilla. Cero build, cero framework.**
-- **Hosting: GitHub Pages**, rama `main`, deploy automático en cada push (source: rama
-  `main`, path `/` — confirmado con `gh api repos/soyedzam/elcielo-web/pages`).
-  Fastly cachea ~600s — después de cada push, verifica con `curl -I`
-  (headers `age`/`last-modified`), nunca con un screenshot con caché.
-  **A veces el build de GitHub Pages queda en `errored` sin razón real** (pasó esta
-  sesión) — reintenta con `gh api -X POST repos/soyedzam/elcielo-web/pages/builds` antes
-  de asumir que el código está mal.
-- **Backend: Google Apps Script** (`_fuente/apps-script/Codigo.gs` + `tablero.html`) —
-  proyecto real "El Cielo 2026 — Registro y Tablero", cuenta `soyedzam@gmail.com`.
-  URL de despliegue (web app, la misma que usa `config.js.urlRegistro`):
-  `.../macros/s/AKfycbywpR5sr99FA1DeTlmJbyWMkgwaGPRUYw1fExBZRrIB9d0h2DtN5kc-8y_EtHq_t0dV/exec`
-  — **Versión 4 activa** (14-ago). Ver §3 para cómo desplegar una nueva versión sin
-  romper esta URL.
-- **`sips` de macOS NO exporta a WebP** — usa Python + Pillow (`python3 -c "import PIL"` confirma que está instalado).
-- **Dominio:** `elcielo.comunidadmasalto.org` — DNS en Hostinger, HTTPS de GitHub OK.
+- **Hosting: GitHub Pages**, rama `main`, deploy automático en cada push.
+  Fastly cachea ~600s — verifica con `curl -I` (`age`/`last-modified`), **nunca con una
+  captura**. Si el build queda `errored` sin razón, reintenta con
+  `gh api -X POST repos/soyedzam/elcielo-web/pages/builds` antes de sospechar del código.
+- **Backend: Google Apps Script** — proyecto "El Cielo 2026 — Registro y Tablero",
+  cuenta `soyedzam@gmail.com`. **Versión 6 activa** (17-ago). La URL `/exec` es la misma
+  desde el inicio y **no debe cambiar**: para actualizar, siempre
+  *Implementar → Administrar implementaciones → editar la activa → Nueva versión*.
+  **Nunca "Nueva implementación"** (crea URL nueva y rompe `config.js`).
+- **Media pesada:** Cloudflare Pages `xs-elcielo-media` (cuenta c3f13d0a). Los reels y el
+  video del hero viven ahí, **fuera de git**. Antes de desplegar, **espeja lo que ya está
+  publicado** o el deploy lo borra (`~/Dev/CMA/_deploy-media-stage/` tiene el mirror).
+- **Dominio:** DNS en Hostinger, HTTPS de GitHub OK.
 - **Repo compartido — Ed edita en paralelo.** `git status` antes de cualquier `git add -A`.
 
-## 2 · Voz y marca — sistema Amanecer v1.0 (sin cambios)
+## 2 · Voz y marca — sistema Amanecer v1.0
 
 índigo noche `#0B1033` · soporte `#1A2158` · ámbar `#F2A93B` · ámbar claro `#FFD59E` ·
 hueso `#F7F4EE`. Archivo (display) · Instrument Sans (cuerpo) · IBM Plex Mono (kickers).
-**Ya NO se promete "rifa"** en ningún lado del sitio (Ed lo pidió quitar el 13-ago —
-el mecanismo/premio nunca lo confirmaron los pastores). El backend interno (Sheet,
-tablero) sigue con la columna "Entra a la rifa" por compatibilidad, pero es dato
-interno, no promesa pública.
 
-## 3 · 🟢 Registro por día — EN VIVO, backend y frontend desplegados
+**Palabras prohibidas por pedido explícito de Ed:**
+- ❌ **"carpa"** — se dice *el lugar*, *la casa*. (17-ago)
+- ❌ **"rifa"** — ya no se promete en ningún lado (13-ago). La columna sigue en la Sheet
+  por compatibilidad, pero es dato interno, no promesa pública.
 
-Cambio grande de esta sesión: el registro pasó de "un solo checkbox implícito para
-todo el congreso" a **marcar explícitamente qué día(s) vienes** (Viernes/Sábado/
-Domingo, checkboxes, los 3 marcados por defecto). **El cupo (300) sigue siendo
-global para todo el congreso — Ed confirmó explícitamente que NO se reparte por
-día.** Solo cambia a quién se le espera y a quién se le marca asistencia cada día.
-
-**Sheet — 6 columnas nuevas, agregadas AL FINAL, nunca en medio** (para que ningún
-dato real ya guardado se corriera de columna): `Asiste viernes/sábado/domingo`
-(lo que la persona marcó al registrarse) + `Asistió viernes/sábado/domingo` (lo que
-el equipo marca en la puerta). La columna vieja `Asistió` (índice 7) quedó huérfana,
-sin usarse, en vez de reciclarla. **Los registros de ANTES de este cambio no tienen
-nada en esas 3 columnas de "Asiste"** — `diasDeFila_()` en `Codigo.gs` los trata como
-"asiste los 3 días" automáticamente, así nadie desaparece del tablero de la puerta.
-
-**Tablero** (`tablero.html`, servido por `doGet()`): ahora tiene pestañas
-Viernes/Sábado/Domingo (arranca en la de HOY, `diaDeHoy()` client-side). Filtra la
-lista + las cifras por la pestaña activa. El cupo mostrado en el contador (`cupo
-total X/300`) sigue siendo GLOBAL, no por día — no lo confundas si lo tocas.
-El check de asistencia marca/desmarca el día activo específicamente
-(`marcarAsistio(clave, folio, dia)` — la función ahora recibe un 3er parámetro `dia`).
-
-**Formulario** (`index.html` + `registro.js`): checkboxes `name="dias"`, valida
-mínimo 1 marcado antes de enviar. La confirmación muestra "Te esperamos: Viernes 14 ·
-Domingo 16" (o "los 3 días" si marcó todo) usando `textoDias(r.dias)`.
-
-**🔴 El correo de aviso a Ed por cada registro está escrito pero DESACTIVADO**
-a propósito: `const CORREO_ACTIVO = false;` al inicio de `Codigo.gs`. Ed pidió
-dejarlo en pausa. Cuando confirme que sí lo quiere, cambia esa línea a `true`,
-pega el archivo completo en el editor real (ver receta abajo), guarda, y
-**Implementar → Administrar implementaciones → editar la activa → Nueva versión →
-Implementar** (nunca "Nueva implementación": eso crea una URL nueva y rompe
-`config.js`).
-
-**Cómo pegar código en Apps Script sin gastar el contexto del chat en base64:**
-```js
-// En la consola del editor de Apps Script (con el archivo correcto seleccionado):
-const r = await fetch('https://raw.githubusercontent.com/soyedzam/elcielo-web/main/_fuente/apps-script/Codigo.gs');
-const src = await r.text();
-window.monaco.editor.getEditors()[0].setValue(src);
-```
-Igual para `tablero.html`. Muchísimo más barato que pasar el archivo completo
-(sobre todo `tablero.html`, que trae un logo en base64 de ~35 KB) como string
-escapado dentro del prompt — evita eso a toda costa.
-
-**🔴 El selector de "Ejecutar función" del editor de Apps Script OCULTA las
-funciones que terminan en `_`** (convención de "privado" — `agregarColumnasDia_`,
-`hoja_`, etc. nunca aparecen en el dropdown). Para correr una así una sola vez
-(como la migración de columnas), agrega un wrapper temporal sin guion bajo:
-```js
-function correrLoQueSea() { funcionPrivada_(); }
-```
-selecciónalo, ejecútalo, revisa el log, y **vuelve a pegar el archivo limpio desde
-GitHub raw** para quitar el wrapper (no lo dejes en el código real).
-
-**Migración de columnas ya corrida** (`agregarColumnasDia_()`) — es idempotente, no
-la vuelvas a correr por accidente pensando que hace falta, pero tampoco pasa nada
-grave si se corre de más (revisa primero si ya están antes de escribir).
-
-## 4 · 🟢 Footer — rediseñado completo esta sesión
-
-Ed pidió revisar "mucho espacio vacío" en el cierre del footer. Cambios (en vivo,
-5 páginas: index/agenda/momentos/info/privacidad):
-
-- **Logo de CMA**: antes placa hueso + logo chico (naranja+gris, `masalto-logo-color.png`).
-  Ahora el **wordmark** (`masalto-wordmark.png`, script en ámbar) directo sobre índigo,
-  más grande — su ámbar es de la misma familia que el del sitio, no choca. La placa
-  hueso vieja (`.lx-cma-chip`) SIGUE existiendo para el crédito inline de
-  `momentos.html` (no tocar esa, es un uso distinto).
-- **Redes + Ministerios**: antes 2 filas sueltas casi vacías. Ahora comparten una sola
-  columna a la derecha (`.footer-links-col`), apiladas. Ministerios son pastillas de
-  TEXTO — **no hay logos reales de Kids/Nova/Unica/Vanguardia**, si Ed los pasa,
-  reemplaza los `<a class="footer-ministerio">` por `<img>`.
-- **Cierre (créditos)**: antes una fila estirada con "Equipo" aislado muy a la derecha
-  (el vacío que Ed señaló). Ahora es un colofón de 2 líneas — el ancho lo pone el
-  contenido, no el footer completo, así nunca vuelve a quedar un hueco sin importar
-  el viewport. Clase nueva `.credits-linea` + `.credits-sep` (el punto `·`).
-- **Mapas en la confirmación de registro**: los 3 botones (Google/Apple/Waze) ahora
-  llevan un ícono SVG genérico (pin/brújula/ruta) — **no son los logos oficiales**,
-  para no fabricar marca ajena (regla dura del proyecto).
-- **Clima en Agenda**: se agregó la misma insignia de clima en vivo (reusa
-  `assets/clima.js`, `cargarClimaActual()`) junto al reloj de Mérida, con el kicker
-  "// sigue el evento en vivo" — es la pantalla que más se comparte.
-
-## 5 · Estado real de cada pieza (verificado, no de memoria)
+## 3 · 🟢 Lo que está en vivo hoy
 
 | Pieza | Estado |
 |---|---|
-| `index.html` | Registro con selector de día, clima actual en el hero, encuesta condicional (oculta, ver §6), footer nuevo, sin rifa |
-| `agenda.html` | Clima en vivo junto al reloj, footer nuevo |
-| `momentos.html`, `info.html`, `privacidad.html` | Footer nuevo, sin otros cambios de fondo |
-| `assets/registro.js` | Selector de día, íconos de mapa, sin rifa |
-| `assets/styles.css` | Footer reestructurado, clima con custom properties (`--clima-fuerte`/`--clima-suave` por contexto claro/oscuro) |
-| `_fuente/apps-script/Codigo.gs` | 14 columnas, registro por día, correo en pausa (`CORREO_ACTIVO=false`) |
-| `_fuente/apps-script/tablero.html` | Pestañas de día, asistencia por día — **Versión 4 desplegada y verificada con un fetch real desde el navegador** |
+| `index.html` | Modo post-evento: hero en pasado, sin cuenta regresiva, sin cupo, sin formulario |
+| `asi-lo-vivimos.html` | **La memoria del congreso.** 3 de 9 reels + barra de progreso honesta + tarjetas "Próximamente" + "¿Tú también grabaste algo?" |
+| `encuesta.html` | 8 preguntas, una por pantalla, anónima. **Guardando de verdad** (probado end-to-end) |
+| `resultados.html` | **Tablero público de KPIs**, sin contraseña (pedido explícito de Ed). Solo agregados |
+| `agenda.html` · `info.html` · `momentos.html` · `privacidad.html` | Nav volteado a post-evento |
+| Tablero de puerta (Apps Script) | Asistencia por día + **botón "Reporte MKT"** (solo cifras, cero datos personales) |
 
-## 6 · 🔴 Abierto — preguntas sin responder
+**El interruptor pre/post:** `config.ctaDestino` en `assets/config.js` manda **todos** los
+`[data-cta]` del sitio. Voltear el sitio entero ya no requiere tocar código.
 
-1. **Encuesta de evaluación**: Ed confirmó que se muestra **desde** el sábado 15
-   (`config.js.encuestaUrl` vacío por ahora → bloque oculto por defecto, patrón
-   "vacío = no se muestra"). **Sigue faltando el link real** (Google Forms/Tally/
-   otro) — en cuanto lo tengas, pégalo en `config.js` y se activa solo, cero código.
-2. **Logos reales de Kids/Nova/Unica/Vanguardia** — si Ed los manda, reemplazan las
-   pastillas de texto en el footer (ver §4).
-3. **Correo de aviso** (`CORREO_ACTIVO`) — activarlo requiere que Ed lo confirme
-   explícitamente, no solo que tengas acceso técnico (ver §3).
-4. Heredado de v2.0/v3.0, sigue sin resolver: título/eje de sábado-noche y domingo,
-   si el Taller de sábado-mañana sigue en pie, mecánica de rifa (ahora irrelevante,
-   ya no se promete públicamente), las 3 fotos con menores sin autorización.
+## 4 · 🔴 Lo que NUNCA debe pasar
 
-## 7 · 🔴 El "plan grande estilo app" (Concierge IA, i18n, bottom-tabs) — SIGUE SIN TOCAR
+1. **Datos personales al repo.** Es público. El informe con los 31 correos/WhatsApp vive
+   en `ACTIVOS/06_COMUNIDADES/CMA_Mas-Alto/El-Cielo-en-mi-Ciudad/260817_confidencial/`.
+2. **`resultados.html` no muestra nombre ni contacto.** Está verificado en el backend
+   (`datosEvaluacion()` NO devuelve esas columnas), no solo en el front. Si tocas esa
+   función, vuelve a verificarlo.
+3. **Fotos con menores identificables** no se publican sin autorización escrita de
+   madre/padre o tutor. Hay 3 congeladas desde agosto por esto.
 
-Ed pidió en algún momento un preview tipo `capacitacion2026.lacumbreglobalmexico.org`
-(SPA con bottom-tabs, saludo dinámico, Concierge IA, i18n ES/EN) desplegado en un
-`.pages.dev` aparte, nunca en el dominio real. **Se llegó a crear un preview temporal
-mínimo** (`xs-elcielo-preview-registro.pages.dev`, Cloudflare Pages direct-upload,
-proyecto separado) solo para que Ed viera el registro-por-día ANTES de aprobarlo —
-ese preview usa un `fetch` simulado (no le pega a la Sheet real) y **puede borrarse**,
-ya cumplió su propósito. **La app completa (Concierge IA, i18n, bottom-tabs) NUNCA se
-construyó** — quedó en el plan de `/Users/soyedzam/.claude/plans/dynamic-greeting-clover.md`
-si aún existe en el home de Ed. Dado que el congreso es HOY, esto es candidato claro
-a "después del evento, sin presión de fecha" — no lo empieces sin que Ed lo pida de
-nuevo explícitamente.
+## 5 · Lecciones pagadas — no las repitas
 
-## 8 · Lecciones pagadas esta sesión — no las repitas
+Las de esta sesión ya subieron al canon como leyes formales; aquí las que muerden a diario:
 
-- **El selector de "Ejecutar" de Apps Script oculta funciones `nombre_()`** — usa un
-  wrapper temporal sin guion bajo para correrlas una vez (ver §3).
-- **`curl` puro falla al hacer POST a una URL `exec` de Apps Script** (Google
-  redirige y el redirect se rompe con curl, incluso con `--post302 --post301`) — la
-  respuesta es una página de error de Drive que no significa que el backend esté
-  roto. **Prueba siempre con un `fetch()` real desde el navegador** (mismo código
-  que usa el sitio), no con curl, antes de concluir que algo falló.
-- **El build de GitHub Pages a veces queda en `errored` sin razón real** — antes de
-  investigar el código, reintenta con
-  `gh api -X POST repos/soyedzam/elcielo-web/pages/builds`.
-- **Traer archivos grandes a Apps Script vía `fetch` a GitHub raw**, no pegándolos
-  como string escapado en el prompt — ya estaba documentado en v3.0, se repitió el
-  error esta sesión (se gastó contexto pegando `tablero.html` en trozos antes de
-  acordarse). Es la única forma sana de mover archivos con base64 embebido.
-- **El pane de preview sandbox (`Claude_Browser`) no hace scroll real de forma
-  confiable para screenshots** — `scrollIntoView`/`scrollTo` por JS no mueve lo que
-  la captura ve. En el navegador real (`claude-in-chrome`) sí funciona, pero el
-  `computer scroll` tiene tope de `scroll_amount<=10` y `repeat<=100`: hacen falta
-  varias llamadas encadenadas para bajar una página larga (~7500px).
-- **`git status` reveló que Ed sí tiene sesión de Google activa en su Chrome real**
-  (`claude-in-chrome`) cuando hace falta — no asumas que no hay acceso, confírmalo
-  navegando a `script.google.com/home` antes de decir que estás bloqueado.
+- **`curl` NO puede hacer POST a Apps Script.** El redirect de Google lo rompe y devuelve
+  una página de error de Drive que **parece backend roto**. Verifica con `fetch()` real
+  desde el navegador.
+- **`Content-Type: text/plain` a propósito.** Con `application/json` el navegador manda un
+  preflight CORS que Apps Script no contesta, y el envío **nunca llega, en silencio**.
+- **Columnas nuevas siempre AL FINAL** de la Sheet. En medio, corre los datos guardados.
+- **El selector "Ejecutar" de Apps Script oculta las funciones que terminan en `_`.**
+  Wrapper temporal sin guion bajo, córrelo, y repega el archivo limpio desde GitHub raw.
+- **Mueve archivos a Apps Script con `fetch` a GitHub raw + `monaco.editor.setValue()`**,
+  nunca pegando strings escapados. Esta lección se pagó **tres veces**.
+- **`if (!valor)` casi tumba el tablero público** — cuidado con falsy en booleanos y ceros.
+- **HEVC 10-bit de los Pixel/iPhone no reproduce en web.** Transcodifica a H.264 8-bit
+  (`-pix_fmt yuv420p`) o falla con "high profile doesn't support a bit depth of 10".
+- **`sips` no exporta WebP** en esta Mac — usa Python + Pillow.
+- **El pane de preview no avanza las transiciones CSS.** Un `getComputedStyle` puede
+  devolver el valor inicial y hacerte creer que una regla no aplica. Neutraliza la
+  transición para verificar.
+- **`flex-basis` se interpretó como altura** y creó 486px de aire en el footer. El
+  diagnóstico falló dos veces antes de encontrarlo: mide con `getBoundingClientRect`.
+- **WhatsApp Web no acepta adjuntos por automatización.** El input de imágenes
+  (`accept="image/*"`) rechaza PDFs en silencio; hay que abrir el menú Documento para que
+  aparezca el input `accept="*"`. Aun así, el envío final exige un clic humano real.
 
-## 9 · Cómo se responde a Ed
+## 6 · ⚠️ Abierto
 
-Directo, conciso, mínimo texto. Verifica en vivo con evidencia real (curl, fetch
-real desde el navegador, computed styles) antes de decir "listo" — nunca con un
-screenshot con caché ni con curl puro contra Apps Script. Cierre de respuesta larga:
-✅ qué se hizo · ➡️ siguiente paso · ⚠️ pendientes. Ed pidió varias veces "no
-despliegues hasta que las revise" — respeta eso literalmente incluso si técnicamente
-ya tienes acceso para hacerlo; el "sí, dale" tiene que ser explícito para cada pieza
-(pasó con el registro por día vs. el correo: aprobó una y dejó la otra en pausa en el
-mismo mensaje).
+1. **6 reels faltantes** (van 3 de 9) — el buzón es `~/Dev/CMA/_entrada-medios/reels/`.
+2. **Recap y teaser** en post-producción → van a **YouTube** (pesan más de lo que
+   Cloudflare Pages admite por archivo), y su ID entra en `config.asiVivimos`.
+3. **~66 fotos** pendientes, con el filtro de menores aplicado.
+4. **El PDF confidencial no se envió a Val por WhatsApp** — los 2 mensajes de texto sí.
+   Ed tiene que arrastrarlo desde Descargas.
+5. **Correo de aviso por registro** sigue en pausa: `CORREO_ACTIVO = false`, por decisión
+   explícita de Ed. No lo actives sin que lo pida.
+6. **Los pastores no han contestado** si la encuesta se queda abierta.
 
-## 10 · El guion de cabina NO es la agenda pública (sin cambios, ver v2.0 §8)
+## 7 · Cómo se responde a Ed
+
+Directo, conciso, mínimo texto. Tablas antes que párrafos. Estado con 🟢🟡🔴.
+Verifica en vivo con evidencia real antes de decir "listo" — nunca con una captura
+cacheada ni con `curl` puro contra Apps Script.
+**"No despliegues hasta que lo revise" es literal y por pieza**: el "va" tiene que ser
+explícito para cada cosa. Pasó con el registro por día vs. el correo: aprobó uno y dejó
+el otro en pausa en el mismo mensaje.
+
+## 8 · Este sitio es la 3ª corrida de EventForge
+
+El motor de eventos del ecosistema (`_SISTEMA/SoS/EventForge/`) **calibró su doctrina el
+17-ago** usando este sitio como evidencia. Dos cosas que importan aquí:
+
+- **Este sitio ganó el ship contra el motor Next.js**, por una razón estructural: el
+  dominio del cliente vive en Squarespace, y `custom_domain` de Cloudflare exige la zona
+  DNS dentro de Cloudflare. GitHub Pages + CNAME funciona con cualquier registrador.
+- **Pero este repo ya muestra la descomposición que el motor existía para evitar:** las
+  fechas del evento están escritas en 3 archivos y las coordenadas de Mérida en 4. Si vas
+  a clonar esto para otro evento, **lee la doctrina primero** — la conclusión fue que
+  EventForge debe ser un *generador* de estático, no una app ni un clon a mano.
 
 ---
-*El Cielo en mi Ciudad · Pase de Sesión · v4.0 · 13/14-ago-2026 · La fragua produce; el taller archiva.* 🕊️
+*El Cielo en mi Ciudad · Pase de Sesión · v5.0 · 17·ago·2026 · El evento pasa; la plataforma queda.* 🕊️
