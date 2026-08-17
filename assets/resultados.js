@@ -85,6 +85,28 @@
 
   /* ── Entrada ──────────────────────────────────────────────────── */
 
+  /* Entrada pública: sin depender del campo de contraseña (que ni
+     siquiera se pinta en este modo). Si Apps Script se desincroniza y
+     ya no es público, pedirDatos('') simplemente vuelve con
+     error:'clave' — se muestra la puerta normal en vez de romperse. */
+  function entrarPublico() {
+    pedirDatos('').then(function (r) {
+      if (!r.ok) { mostrarPuertaConError('El tablero ya no es público — se necesita la contraseña del equipo.'); return; }
+      respuestas = r.respuestas || [];
+      abrirPanel();
+      pintar();
+      arrancarRefresco();
+    }).catch(function () {
+      mostrarPuertaConError('No se pudieron cargar los resultados. Revisa tu conexión e inténtalo otra vez.');
+    });
+  }
+
+  function mostrarPuertaConError(msg) {
+    $('js-puerta').hidden = false;
+    $('js-panel').hidden = true;
+    error(msg);
+  }
+
   function entrar(ev) {
     if (ev) ev.preventDefault();
 
@@ -393,9 +415,14 @@
     });
   });
 
-  // Demo: entra directo, sin puerta — no hay dato real que proteger.
+  // Demo, o el sitio marcado como público (config.resultadosPublico):
+  // entra directo, sin puerta. El público real solo aplica si Apps
+  // Script TAMBIÉN trae RESULTADOS_PUBLICO=true — si algún día se
+  // desincroniza, el servidor manda y esto simplemente pedirá la clave.
   if (esDemo()) {
     entrar();
+  } else if (cfg.resultadosPublico) {
+    entrarPublico();
   } else {
     // Sesión ya abierta en esta pestaña: no vuelve a pedir la clave.
     try {

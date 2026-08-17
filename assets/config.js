@@ -63,6 +63,14 @@ window.ELCIELO = {
   // pestaña nueva solo; una ruta relativa se abre en la misma.
   encuestaUrl: "encuesta.html",
 
+  // — Tablero de resultados (resultados.html) —
+  // true = se abre directo, sin pedir contraseña. Pedido explícito para
+  // compartirlo con los pastores sin fricción — nunca expone nombre ni
+  // contacto (eso lo filtra el propio Apps Script, no esta bandera).
+  // Poner en false en cuanto se decida que sí necesita clave — y cambiar
+  // también RESULTADOS_PUBLICO en Codigo.gs, los dos deben ir juntos.
+  resultadosPublico: true,
+
   /* ═══════════════════════════════════════════════════════════════════
      ASÍ LO VIVIMOS — la memoria del congreso. EDITAR SOLO AQUÍ.
      ───────────────────────────────────────────────────────────────────

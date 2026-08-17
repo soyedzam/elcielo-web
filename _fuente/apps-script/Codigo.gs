@@ -22,6 +22,13 @@ const HOJA_EVAL = 'Evaluación';      // encuesta post-congreso, hoja aparte
 const CUPO = 300;                    // [VALIDAR] tope real de asistentes
 const PREFIJO_FOLIO = 'CIELO';
 
+// Ed pidió que el tablero de resultados de la encuesta (resultados.html)
+// NO pida contraseña por ahora, para compartirlo directo con los
+// pastores — es información agregada y citas abiertas, nunca nombre ni
+// contacto (eso lo garantiza datosEvaluacion(), no esta bandera). Poner
+// en false en cuanto se decida que sí necesita clave.
+const RESULTADOS_PUBLICO = true;
+
 // Ed pidió dejar el aviso por correo en pausa hasta revisarlo con calma
 // — el registro no depende de esto (va en try/catch de todos modos),
 // solo evita mandar correos antes de que lo confirme. Cambiar a true
@@ -454,7 +461,7 @@ function doGet() {
    aparece junto a ella. Quien necesite el dato de contacto lo busca en
    la hoja, con su propia autorización. */
 function datosEvaluacion(clave) {
-  if (!claveCorrecta_(clave)) {
+  if (!RESULTADOS_PUBLICO && !claveCorrecta_(clave)) {
     Utilities.sleep(700);
     return JSON.stringify({ ok: false, error: 'clave' });
   }
