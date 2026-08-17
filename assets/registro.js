@@ -295,7 +295,7 @@ function confirmar(r) {
 }
 
 function avisarLleno() {
-  /* El cupo es real (300 personas, el aforo de la carpa) y ya se llenó
+  /* El cupo es real (300 personas, el aforo del lugar) y ya se llenó
      con este mismo registro en línea o presencial — no prometemos un
      lugar en la puerta que no podemos garantizar. */
   zona.hidden = true;

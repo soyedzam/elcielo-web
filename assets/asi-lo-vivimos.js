@@ -12,7 +12,8 @@
      calidad adaptativa y que vivan en el canal de la comunidad.
    El reproductor modal es UNO solo y sabe tratar a los dos. */
 
-const cfg = (window.ELCIELO && window.ELCIELO.asiVivimos) || {};
+const cfgRaiz = window.ELCIELO || {};
+const cfg = cfgRaiz.asiVivimos || {};
 
 const DIAS = ['viernes', 'sabado', 'domingo'];
 const NOMBRE_DIA = { viernes: 'Viernes 14', sabado: 'Sábado 15', domingo: 'Domingo 16' };
@@ -46,15 +47,34 @@ function escapar(t) {
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+const ICONO_RELOJ =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+  '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>';
+
+/* Bloque "Próximamente" genérico — reemplaza el silencio de una sección
+   vacía por una promesa concreta. Solo se usa cuando YA hay algo más en
+   la página (si todo está vacío, manda el mensaje único de #js-viv-vacio;
+   ver el cierre de este archivo). */
+function proximamente(seccionId, contenedorId, texto) {
+  const cont = $(contenedorId);
+  if (!cont) return;
+  cont.innerHTML =
+    '<div class="viv-proximamente">' +
+      '<span class="viv-proximamente-ico" aria-hidden="true">' + ICONO_RELOJ + '</span>' +
+      '<p>' + escapar(texto) + '</p>' +
+    '</div>';
+  mostrar(seccionId);
+}
+
 /* ── Bloques de YouTube (recap y teaser) ─────────────────────────── */
 
 /* Fachada: se pinta la miniatura de YouTube y el iframe solo entra al
    tocar. Así la página no carga nada de Google hasta que alguien de
    verdad quiere ver el video. */
 function pintarYouTube(cajaId, seccionId, dato) {
-  if (!dato || !dato.id) return;
+  if (!dato || !dato.id) return false;
   const caja = $(cajaId);
-  if (!caja) return;
+  if (!caja) return false;
 
   const i = piezas.length;
   piezas.push({ tipo: 'youtube', id: dato.id, titulo: dato.titulo || '' });
@@ -69,9 +89,14 @@ function pintarYouTube(cajaId, seccionId, dato) {
   btn.addEventListener('click', () => abrir(i));
   caja.appendChild(btn);
   mostrar(seccionId);
+  return true;
 }
 
 /* ── Carril de reels ─────────────────────────────────────────────── */
+
+const ICONO_CANDADO =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+  '<rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5"/></svg>';
 
 function pintarReels() {
   const reels = Array.isArray(cfg.reels) ? cfg.reels : [];
@@ -81,6 +106,7 @@ function pintarReels() {
 
   const base = cfg.baseMedia || '';
   const frag = document.createDocumentFragment();
+  let indice = 0;
 
   reels.forEach(function (r) {
     if (!r || !r.archivo) return;
@@ -94,6 +120,7 @@ function pintarReels() {
 
     const item = document.createElement('div');
     item.className = 'viv-reel';
+    item.style.setProperty('--i', indice++);
     item.setAttribute('role', 'listitem');
 
     const btn = document.createElement('button');
@@ -123,7 +150,38 @@ function pintarReels() {
     frag.appendChild(item);
   });
 
+  /* Tarjetas "Próximamente": el resto de los reels que aún no llegan.
+     No son clicables — prometen sin fingir que ya se puede ver algo. */
+  const total = Number(cfg.reelsTotal) || 0;
+  const faltan = Math.max(0, total - reels.length);
+  for (let n = 0; n < faltan; n++) {
+    const item = document.createElement('div');
+    item.className = 'viv-reel';
+    item.style.setProperty('--i', indice++);
+    item.setAttribute('role', 'listitem');
+    item.innerHTML =
+      '<div class="viv-reel-proximo" aria-label="Momento en camino">' +
+        ICONO_CANDADO + '<span>Próximamente</span>' +
+      '</div>';
+    frag.appendChild(item);
+  }
+
   rail.appendChild(frag);
+
+  /* Barra "X de N momentos ya están aquí" — solo si config.js trae un
+     total y de verdad falta algo; se retira sola en cuanto se completa,
+     nunca se queda prometiendo algo que ya pasó. */
+  if (total > 0 && reels.length < total) {
+    const prog = $('js-viv-progreso');
+    const txt = $('js-viv-progreso-txt');
+    const fill = $('js-viv-progreso-fill');
+    if (prog && txt && fill) {
+      txt.innerHTML = '<b>' + reels.length + ' de ' + total + '</b> momentos ya están aquí — el resto va subiendo estos días';
+      fill.style.width = Math.round((reels.length / total) * 100) + '%';
+      prog.hidden = false;
+    }
+  }
+
   mostrar('js-viv-reels');
 }
 
@@ -134,11 +192,11 @@ function pintarFotos() {
   const conFotos = DIAS.filter(function (d) {
     return Array.isArray(fotos[d]) && fotos[d].length;
   });
-  if (!conFotos.length) return;
+  if (!conFotos.length) return false;
 
   const tabs = $('js-viv-tabs');
   const galeria = $('js-viv-galeria');
-  if (!tabs || !galeria) return;
+  if (!tabs || !galeria) return false;
 
   // Solo se ponen pestañas si hay más de un día con fotos: una sola
   // pestaña es un botón que no decide nada.
@@ -161,7 +219,7 @@ function pintarFotos() {
     panel.setAttribute('role', 'tabpanel');
     panel.hidden = n !== 0;
 
-    fotos[d].forEach(function (f) {
+    fotos[d].forEach(function (f, iFoto) {
       if (!f || !f.n) return;
       const i = piezas.length;
       piezas.push({ tipo: 'foto', src: RUTA_FOTOS + f.n, titulo: f.alt || '' });
@@ -169,6 +227,7 @@ function pintarFotos() {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'viv-foto';
+      btn.style.setProperty('--i', iFoto);
       btn.setAttribute('aria-label', 'Ver más grande: ' + (f.alt || 'foto del congreso'));
       const img = document.createElement('img');
       img.src = RUTA_FOTOS + miniatura(f.n);
@@ -249,11 +308,18 @@ function pintarPieza(i) {
   if (cuenta) cuenta.textContent = (idx + 1) + ' / ' + piezas.length;
 }
 
+let disparador = null;   // qué botón abrió el modal, para devolverle el foco al cerrar
+
 function abrir(i) {
+  disparador = document.activeElement;
   pintarPieza(i);
   teatro.classList.add('abierto');
   teatro.setAttribute('aria-hidden', 'false');
   document.documentElement.classList.add('viv-lock');
+  // El foco viaja con el modal: quien navega con teclado o lector de
+  // pantalla no se queda "atrás", en la página, sin saber que algo se abrió.
+  const cerrarBtn = $('js-viv-cerrar');
+  if (cerrarBtn) cerrarBtn.focus();
 }
 
 function cerrar() {
@@ -261,6 +327,8 @@ function cerrar() {
   teatro.setAttribute('aria-hidden', 'true');
   frame.innerHTML = '';          // corta la reproducción de golpe
   document.documentElement.classList.remove('viv-lock');
+  if (disparador && typeof disparador.focus === 'function') disparador.focus();
+  disparador = null;
 }
 
 if (teatro) {
@@ -276,14 +344,55 @@ if (teatro) {
   });
 }
 
+/* ── "¿Tú también grabaste algo?" — WhatsApp con mensaje precargado ── */
+(function iniciarComparte() {
+  const btn = $('js-comparte-wa');
+  if (!btn) return;
+  const numero = String(cfgRaiz.whatsapp || '').replace(/\D/g, '');
+  if (!numero) { btn.hidden = true; return; }
+  const texto = 'Hola, les quiero compartir algo que grabé en El Cielo en mi Ciudad 🙌';
+  btn.href = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(texto);
+})();
+
 /* ── Arranque ────────────────────────────────────────────────────── */
 
-pintarYouTube('js-viv-recap-caja', 'js-viv-recap', cfg.recap);
+const recapTuvoDato = pintarYouTube('js-viv-recap-caja', 'js-viv-recap', cfg.recap);
 pintarReels();
-pintarFotos();
+const fotosTuvoDato = pintarFotos();
 pintarYouTube('js-viv-teaser-caja', 'js-viv-teaser', cfg.teaser);
 
-/* Si no hay NADA todavía, la página no puede quedarse en blanco: se
-   dice con todas sus letras que el material está en edición, en vez de
-   fingir una galería vacía. */
-if (!piezas.length) mostrar('js-viv-vacio');
+if (!piezas.length) {
+  /* Si no hay NADA todavía, la página no puede quedarse en blanco: se
+     dice con todas sus letras que el material está en edición, en vez
+     de fingir una galería vacía. */
+  mostrar('js-viv-vacio');
+} else {
+  /* Ya hay algo (los reels) — las secciones que TODAVÍA no tienen su
+     material no se quedan en silencio: prometen algo concreto en vez
+     de simplemente desaparecer sin explicación. */
+  if (!recapTuvoDato) {
+    proximamente('js-viv-recap', 'js-viv-recap-caja', 'El recap está en edición — el resumen completo de los tres días llega en los próximos días.');
+  }
+  if (!fotosTuvoDato) {
+    proximamente('js-viv-fotos', 'js-viv-galeria', 'La galería se va llenando estos días — vuelve pronto y búscate en las fotos.');
+  }
+}
+
+/* ── Cascada de entrada: cada tarjeta aparece un poco después de la
+   anterior conforme entra en pantalla. Solo se activa si el sistema
+   permite movimiento Y existe IntersectionObserver — si cualquiera de
+   los dos falla, las tarjetas se quedan tal cual el CSS las pinta por
+   default: visibles, sin animar (nunca invisibles por un fallo). */
+(function iniciarCascada() {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion || !('IntersectionObserver' in window)) return;
+  const tarjetas = document.querySelectorAll('.viv-reel, .viv-foto');
+  if (!tarjetas.length) return;
+  document.body.classList.add('viv-anim');
+  const io = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('viv-in'); io.unobserve(en.target); }
+    });
+  }, { threshold: .15 });
+  tarjetas.forEach(function (t) { io.observe(t); });
+})();

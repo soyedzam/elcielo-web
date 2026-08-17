@@ -60,7 +60,7 @@
        sin tocar una línea de este archivo. -->
 
   <!-- RECAP — la pieza insignia -->
-  <section class="lx-on-night viv-sec" id="js-viv-recap" hidden aria-labelledby="recap-t">
+  <section class="lx-on-night viv-sec lx-rv" id="js-viv-recap" hidden aria-labelledby="recap-t">
     <div class="lx-container">
       <span class="lx-kicker">// el recap</span>
       <h2 id="recap-t" class="lx-h2">Los tres días en un video</h2>
@@ -69,19 +69,42 @@
   </section>
 
   <!-- REELS — carril vertical, como se filmaron -->
-  <section class="lx-on-mid viv-sec" id="js-viv-reels" hidden aria-labelledby="reels-t">
+  <section class="lx-on-mid viv-sec lx-rv" id="js-viv-reels" hidden aria-labelledby="reels-t">
     <div class="lx-container">
       <span class="lx-kicker">// en corto</span>
       <h2 id="reels-t" class="lx-h2">Momentos sueltos</h2>
       <p class="lx-lead">Lo que se alcanzó a grabar entre una cosa y otra. Toca para verlos.</p>
+      <!-- Progreso honesto: solo aparece si config.js trae un total y aún
+           falta material — en cuanto se completa, desaparece solo. -->
+      <div class="viv-progreso" id="js-viv-progreso" hidden>
+        <p class="viv-progreso-txt" id="js-viv-progreso-txt"></p>
+        <div class="viv-progreso-pista"><div class="viv-progreso-fill" id="js-viv-progreso-fill"></div></div>
+      </div>
     </div>
     <!-- Fuera del container a propósito: el carril sangra hasta el borde
          de la pantalla, que es lo que invita a deslizarlo. -->
     <div class="viv-rail" id="js-viv-rail" role="list"></div>
   </section>
 
+  <!-- COMPARTE EL TUYO — justo después de los reels, mientras la persona
+       sigue con el teléfono en la mano y el ánimo de haberlos visto. No
+       pide "contenido", pide LO QUE YA GRABÓ — más fácil de dar. -->
+  <section class="lx-on-night viv-sec viv-comparte lx-rv" aria-labelledby="comparte-t">
+    <div class="lx-container" style="max-width:680px">
+      <span class="lx-kicker">// tu turno</span>
+      <h2 id="comparte-t" class="lx-h2">¿Tú también grabaste algo?</h2>
+      <p class="lx-lead">Estos son los primeros de varios. Si tienes un video, una foto o algo que quieras contar de estos tres días, mándanoslo — los mejores se suman aquí, junto a los demás.</p>
+      <div class="viv-comparte-acciones">
+        <a class="lx-btn" id="js-comparte-wa" href="#" target="_blank" rel="noopener">Compártelo por WhatsApp</a>
+        <a class="lx-btn lx-btn-ghost" href="https://www.instagram.com/comunidad_masalto/" target="_blank" rel="noopener">Etiqueta a Comunidad Más Alto</a>
+      </div>
+      <p class="viv-comparte-tag">Usa <b>#ElCieloEnMiCiudad</b> en tu publicación — así lo encontramos.</p>
+    </div>
+  </section>
+  <div class="lx-seam"></div>
+
   <!-- FOTOS — por día, como la agenda y el tablero -->
-  <section class="lx-on-night viv-sec" id="js-viv-fotos" hidden aria-labelledby="fotos-t">
+  <section class="lx-on-night viv-sec lx-rv" id="js-viv-fotos" hidden aria-labelledby="fotos-t">
     <div class="lx-container">
       <span class="lx-kicker">// la galería</span>
       <h2 id="fotos-t" class="lx-h2">Búscate</h2>
@@ -92,7 +115,7 @@
   </section>
 
   <!-- TEASER — cierra el círculo: lo que prometimos -->
-  <section class="lx-on-mid viv-sec" id="js-viv-teaser" hidden aria-labelledby="teaser-t">
+  <section class="lx-on-mid viv-sec lx-rv" id="js-viv-teaser" hidden aria-labelledby="teaser-t">
     <div class="lx-container" style="max-width:820px">
       <span class="lx-kicker">// antes de todo</span>
       <h2 id="teaser-t" class="lx-h2">Así lo anunciamos</h2>
@@ -116,7 +139,7 @@
   </section>
 
   <!-- CIERRE -->
-  <section class="lx-on-night viv-sec" aria-labelledby="viv-cierre-t">
+  <section class="lx-on-night viv-sec lx-rv" aria-labelledby="viv-cierre-t">
     <div class="lx-container" style="max-width:700px">
       <span class="lx-kicker">// y ahora</span>
       <h2 id="viv-cierre-t" class="lx-h2">¿Cómo te fue a ti?</h2>

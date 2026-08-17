@@ -82,6 +82,12 @@ window.ELCIELO = {
     // Base de los .mp4 autohospedados. Se antepone a cada "archivo".
     baseMedia: "https://xs-elcielo-media.pages.dev/asi-lo-vivimos/",
 
+    // Cuántos reels habrá en total al final (9, confirmado por Ed). Con
+    // esto la página arma sola la barra "X de 9 momentos" y las tarjetas
+    // "Próximamente" del carril — nunca hay que tocar HTML para eso.
+    // 0 = no se muestra ninguna promesa de "vienen más".
+    reelsTotal: 9,
+
     // Los reels verticales (9:16). "ig" es opcional: pone el link
     // «Ver en Instagram» debajo, para quien quiera reaccionar allá.
     // Orden = orden de aparición en el carril.
@@ -90,7 +96,7 @@ window.ELCIELO = {
     // programa real). H.264 8-bit, 608×1080, con póster — subidos 260817.
     reels: [
       { archivo: "el-cielo-domingo-bienvenida-cierre.mp4", poster: "el-cielo-domingo-bienvenida-cierre.jpg", titulo: "Bienvenida del domingo de cierre", dia: "domingo" },
-      { archivo: "el-cielo-domingo-carpa-llena.mp4", poster: "el-cielo-domingo-carpa-llena.jpg", titulo: "La carpa llena, domingo de cierre", dia: "domingo" },
+      { archivo: "el-cielo-domingo-casa-llena.mp4", poster: "el-cielo-domingo-casa-llena.jpg", titulo: "La casa llena, domingo de cierre", dia: "domingo" },
       { archivo: "el-cielo-domingo-alabanza-cierre.mp4", poster: "el-cielo-domingo-alabanza-cierre.jpg", titulo: "Alabanza en el domingo de cierre", dia: "domingo" }
     ],
 

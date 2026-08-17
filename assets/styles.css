@@ -1306,8 +1306,19 @@ html.mom-lock { overflow: hidden; }
   border-radius: var(--r-lg);
 }
 .viv-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Viñeta cinematográfica: oscurece el borde inferior de cada miniatura
+   (recap, reels) para que el botón de play y cualquier texto encima
+   siempre lean legibles, sin importar qué tan clara sea la foto de fondo. */
+.viv-facade::after, .viv-reel-btn::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 15%, transparent 55%, rgba(4,6,24,.35) 100%),
+    linear-gradient(0deg, rgba(4,6,24,.62) 0%, transparent 42%);
+}
+
 .viv-play {
-  position: absolute; inset: 0; margin: auto;
+  position: absolute; inset: 0; margin: auto; z-index: 1;
   width: 78px; height: 78px; border-radius: 50%;
   display: grid; place-items: center; color: var(--lx-night);
   background: var(--lx-amber);
@@ -1318,6 +1329,38 @@ html.mom-lock { overflow: hidden; }
 .viv-facade:hover .viv-play { transform: scale(1.08); background: var(--lx-amber-light); }
 .viv-play-sm { width: 52px; height: 52px; }
 .viv-play-sm svg { width: 22px; height: 22px; }
+
+/* Anillo que respira alrededor del play — llama la atención sin gritar.
+   Solo corre si el sistema permite movimiento. */
+@media (prefers-reduced-motion: no-preference) {
+  .viv-play::before {
+    content: ""; position: absolute; inset: -8px; border-radius: 50%;
+    border: 1.5px solid color-mix(in srgb, var(--lx-amber) 65%, transparent);
+    animation: viv-respiro 2.6s ease-out infinite;
+  }
+  @keyframes viv-respiro {
+    0% { transform: scale(.82); opacity: .9; }
+    70%, 100% { transform: scale(1.28); opacity: 0; }
+  }
+}
+
+/* ── Progreso del carril: "X de 9 momentos ya están aquí" — honesto,
+   nunca inventa una cifra. Desaparece solo en cuanto se completa. ── */
+.viv-progreso { margin-top: 22px; max-width: 420px; }
+.viv-progreso-txt {
+  margin: 0 0 8px; font-size: 13.5px; font-weight: 600;
+  color: color-mix(in srgb, var(--lx-bone) 82%, transparent);
+}
+.viv-progreso-txt b { color: var(--lx-amber-light); }
+.viv-progreso-pista {
+  height: 6px; border-radius: var(--r-pill); overflow: hidden;
+  background: color-mix(in srgb, var(--lx-bone) 12%, transparent);
+}
+.viv-progreso-fill {
+  height: 100%; border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--lx-amber-dark), var(--lx-amber));
+  transition: width .6s var(--lx-ease);
+}
 
 /* ── Carril de reels: sangra hasta el borde, que es lo que invita a
    deslizarlo. El scroll se ancla con snap para que no quede a medias. ── */
@@ -1338,8 +1381,38 @@ html.mom-lock { overflow: hidden; }
 .viv-reel-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .viv-reel-sinposter { position: absolute; inset: 0; background: var(--grad-hero); opacity: .55; }
 .viv-reel-btn:hover { transform: translateY(-4px); border-color: var(--lx-amber); }
+
+/* Tarjeta "Próximamente" — mismo molde que un reel real, pero apagada y
+   sin click: promete sin fingir que ya está. */
+.viv-reel-proximo {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; aspect-ratio: 9 / 16; border-radius: var(--r);
+  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--lx-bone) 4%, transparent) 0 10px, transparent 10px 20px), var(--lx-mid);
+  border: 1px dashed var(--lx-border-dark);
+  color: color-mix(in srgb, var(--lx-bone) 45%, transparent);
+}
+.viv-reel-proximo svg { width: 26px; height: 26px; opacity: .7; }
+.viv-reel-proximo span {
+  font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+}
+
+/* ── Bloque "Próximamente" genérico — recap y galería mientras se sube el
+   material. Distinto adrede de .viv-facade/.viv-grid: se ve a propósito
+   como un espacio reservado, no como contenido roto. ── */
+.viv-proximamente {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  text-align: center; padding: 44px 24px; border-radius: var(--r-lg);
+  border: 1px dashed var(--lx-border-dark);
+  background: color-mix(in srgb, var(--lx-amber) 5%, transparent);
+}
+.viv-proximamente-ico {
+  width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--lx-amber) 14%, transparent); color: var(--lx-amber);
+}
+.viv-proximamente-ico svg { width: 22px; height: 22px; }
+.viv-proximamente p { margin: 0; max-width: 42ch; color: color-mix(in srgb, var(--lx-bone) 68%, transparent); font-size: 15px; }
 .viv-reel-dia {
-  position: absolute; top: 10px; left: 10px;
+  position: absolute; top: 10px; left: 10px; z-index: 1;
   padding: 5px 11px; border-radius: var(--r-pill);
   font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .1em;
   text-transform: uppercase; color: var(--lx-night); background: var(--lx-amber);
@@ -1348,6 +1421,13 @@ html.mom-lock { overflow: hidden; }
   display: block; margin-top: 10px; font-size: 14px; line-height: 1.35;
   color: color-mix(in srgb, var(--lx-bone) 72%, transparent);
 }
+
+/* ── Comparte el tuyo — invitación a subir contenido propio ── */
+.viv-comparte-acciones { display: flex; flex-wrap: wrap; gap: 22px; align-items: baseline; margin-top: 24px; }
+.viv-comparte-tag {
+  margin-top: 18px; font-size: 14px; color: color-mix(in srgb, var(--lx-bone) 58%, transparent);
+}
+.viv-comparte-tag b { color: var(--lx-amber-light); font-weight: 700; }
 
 /* ── Galería de fotos ── */
 #js-viv-tabs { margin-top: 26px; }
@@ -1366,6 +1446,21 @@ html.mom-lock { overflow: hidden; }
   transition: transform .4s var(--lx-ease);
 }
 .viv-foto:hover img { transform: scale(1.05); }
+
+/* ── Entrada escalonada: cada tarjeta aparece un pelín después de la
+   anterior conforme entra en pantalla — cascada, no parpadeo simultáneo.
+   Visibles por default a propósito (mismo patrón que .lx-rv en main.js):
+   si el JS no corre, o IntersectionObserver no existe, o hay movimiento
+   reducido, las tarjetas se quedan como están — visibles — en vez de
+   arriesgarse a desaparecer para siempre por un fallo silencioso. Solo
+   cuando asi-lo-vivimos.js confirma que puede animar agrega
+   body.viv-anim, y AHÍ empieza la coreografía. */
+body.viv-anim .viv-reel, body.viv-anim .viv-foto {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity .5s var(--lx-ease), transform .5s var(--lx-ease);
+  transition-delay: calc(var(--i, 0) * 55ms);
+}
+body.viv-anim .viv-reel.viv-in, body.viv-anim .viv-foto.viv-in { opacity: 1; transform: none; }
 
 /* ── Teatro: un solo modal para YouTube, .mp4 y fotos ── */
 html.viv-lock, html.viv-lock body { overflow: hidden; }
