@@ -1087,3 +1087,339 @@ html.mom-lock { overflow: hidden; }
   .lxi-logo { opacity: 1; filter: none; transform: translate(-50%, -50%) scale(.58); top: 19%; }
   .lxi-mensaje .lxi-clip { clip-path: none; }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ENCUESTA DE EVALUACIÓN (encuesta.html) — una pregunta por pantalla.
+   Casi todo se contesta desde el teléfono al salir del congreso: por eso
+   el tipo es grande, las opciones son áreas de toque de 56px+ y no hay
+   nada más en pantalla compitiendo con la pregunta.
+   ───────────────────────────────────────────────────────────────────────────── */
+.enc-wrap { background: var(--lx-night); min-height: 100vh; padding-block: 0; }
+.enc-container { max-width: 720px; }
+
+/* Progreso: fijo bajo el header, para que el avance se vea sin buscarlo. */
+.enc-progreso {
+  position: sticky; top: 0; z-index: 20;
+  height: 3px; background: var(--lx-border-dark-soft);
+}
+.enc-progreso-fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--lx-amber-dark), var(--lx-amber));
+  transition: width .45s var(--lx-ease);
+}
+
+.enc-paso {
+  padding-block: clamp(48px, 9vh, 88px);
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .4s var(--lx-ease), transform .4s var(--lx-ease);
+}
+.enc-paso.is-activo { opacity: 1; transform: none; }
+.enc-paso[hidden] { display: none; }
+.enc-h1 { font-size: clamp(42px, 9vw, 84px); }
+.enc-lead { max-width: 46ch; margin-bottom: 32px; }
+.enc-nota {
+  margin-top: 18px; font-family: var(--font-marker); font-size: 12.5px;
+  letter-spacing: .06em; color: color-mix(in srgb, var(--lx-bone) 45%, transparent);
+}
+.enc-nota-aviso { color: var(--lx-amber-light); letter-spacing: 0; font-family: var(--font-body); font-size: 14.5px; }
+
+.enc-conteo {
+  display: block; margin-bottom: 18px;
+  font-family: var(--font-marker); font-size: 12px; letter-spacing: .28em;
+  text-transform: uppercase; color: var(--lx-amber);
+}
+.enc-preg {
+  margin: 0 0 10px; font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(27px, 5.2vw, 44px); line-height: 1.06; letter-spacing: -.022em;
+  text-wrap: balance; color: var(--lx-bone);
+}
+.enc-preg em, .enc-fila-t em { font-style: normal; color: var(--lx-amber-light); }
+.enc-preg label { cursor: text; }
+.enc-preg:focus-visible { outline-offset: 6px; }
+.enc-ayuda {
+  margin: 0 0 26px; font-size: 16px; max-width: 46ch;
+  color: color-mix(in srgb, var(--lx-bone) 62%, transparent);
+}
+
+/* ── Opciones de una sola respuesta ── */
+.enc-opciones { display: flex; flex-direction: column; gap: 10px; }
+.enc-opciones-fila { flex-direction: row; flex-wrap: wrap; }
+.enc-opcion {
+  display: flex; align-items: center; gap: 13px;
+  min-height: 58px; padding: 14px 18px;
+  border: 1px solid var(--lx-border-dark); border-radius: var(--r);
+  cursor: pointer; font-size: 16.5px; line-height: 1.35;
+  color: color-mix(in srgb, var(--lx-bone) 84%, transparent);
+  background: color-mix(in srgb, var(--lx-mid) 32%, transparent);
+  transition: border-color .2s var(--lx-ease), background .2s var(--lx-ease), color .2s var(--lx-ease);
+}
+.enc-opciones-fila .enc-opcion { flex: 1 1 auto; justify-content: center; text-align: center; }
+.enc-opcion:hover { border-color: color-mix(in srgb, var(--lx-bone) 30%, transparent); }
+.enc-opcion input { width: 20px; height: 20px; flex: 0 0 auto; accent-color: var(--lx-amber); }
+.enc-opciones-fila .enc-opcion input { display: none; }
+.enc-opcion:has(input:checked) {
+  border-color: var(--lx-amber);
+  background: color-mix(in srgb, var(--lx-amber) 15%, transparent);
+  color: var(--lx-bone);
+}
+
+/* ── Chips de día ── */
+.enc-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.enc-chip {
+  display: inline-flex; align-items: center; gap: 9px;
+  min-height: 54px; padding: 13px 20px; border-radius: var(--r-pill);
+  border: 1px solid var(--lx-border-dark); cursor: pointer; font-size: 16px;
+  color: color-mix(in srgb, var(--lx-bone) 80%, transparent);
+  transition: border-color .2s var(--lx-ease), background .2s var(--lx-ease), color .2s var(--lx-ease);
+}
+.enc-chip input { width: 19px; height: 19px; accent-color: var(--lx-amber); }
+.enc-chip:has(input:checked) {
+  border-color: var(--lx-amber);
+  background: color-mix(in srgb, var(--lx-amber) 16%, transparent);
+  color: var(--lx-bone);
+}
+
+/* ── Estrellas por parte del congreso ── */
+.enc-estrellas-lista { display: flex; flex-direction: column; gap: 4px; }
+.enc-fila {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 15px 0; border-bottom: 1px solid var(--lx-border-dark-soft);
+}
+.enc-fila:last-child { border-bottom: 0; }
+.enc-fila-t {
+  font-size: 16.5px; font-weight: 600; line-height: 1.3; color: var(--lx-bone);
+}
+.enc-fila-t em { display: block; font-size: 13.5px; font-weight: 400; margin-top: 2px; }
+.enc-estrellas { display: flex; gap: 2px; flex: 0 0 auto; }
+.enc-estrella {
+  display: grid; place-items: center; width: 42px; height: 44px; cursor: pointer;
+}
+.enc-estrella input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.enc-estrella svg {
+  width: 27px; height: 27px;
+  fill: color-mix(in srgb, var(--lx-bone) 18%, transparent);
+  transition: fill .18s var(--lx-ease), transform .18s var(--lx-ease);
+}
+.enc-estrella:hover svg { transform: scale(1.12); }
+.enc-estrellas[data-valor="1"] .enc-estrella:nth-child(-n+1) svg,
+.enc-estrellas[data-valor="2"] .enc-estrella:nth-child(-n+2) svg,
+.enc-estrellas[data-valor="3"] .enc-estrella:nth-child(-n+3) svg,
+.enc-estrellas[data-valor="4"] .enc-estrella:nth-child(-n+4) svg,
+.enc-estrellas[data-valor="5"] .enc-estrella:nth-child(-n+5) svg { fill: var(--lx-amber); }
+.enc-estrella:has(input:focus-visible) svg { outline: 2px solid var(--lx-amber-light); outline-offset: 2px; border-radius: 4px; }
+
+/* ── Texto abierto ── */
+.enc-texto {
+  width: 100%; padding: 15px 16px;
+  font-family: var(--font-body); font-size: 17px; line-height: 1.5;
+  color: var(--lx-bone); background: color-mix(in srgb, var(--lx-mid) 40%, transparent);
+  border: 1px solid var(--lx-border-dark); border-radius: var(--r);
+  resize: vertical;
+  transition: border-color .2s var(--lx-ease), background .2s var(--lx-ease);
+}
+.enc-texto-corto { resize: none; min-height: 56px; }
+.enc-texto::placeholder { color: color-mix(in srgb, var(--lx-bone) 32%, transparent); }
+.enc-texto:hover { border-color: color-mix(in srgb, var(--lx-bone) 26%, transparent); }
+.enc-texto:focus {
+  outline: 2px solid var(--lx-amber); outline-offset: 2px; border-color: transparent;
+}
+.enc-campo { margin-bottom: 16px; }
+.enc-campo label {
+  display: block; margin-bottom: 7px; font-size: 15px; font-weight: 600; color: var(--lx-bone);
+}
+.enc-sub { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--lx-border-dark-soft); }
+.enc-sub-label {
+  display: block; margin-bottom: 10px; font-size: 16.5px; font-weight: 600; color: var(--lx-bone);
+}
+
+.enc-privacidad {
+  margin-top: 4px; font-size: 13.5px; line-height: 1.5;
+  color: color-mix(in srgb, var(--lx-bone) 50%, transparent);
+}
+.enc-error {
+  margin-top: 14px; font-size: 15px; font-weight: 500; color: #FF9A8E;
+}
+
+/* ── Acciones ── */
+.enc-acciones { display: flex; align-items: center; gap: 20px; margin-top: 34px; flex-wrap: wrap; }
+.enc-btn {
+  min-height: 58px; padding: 16px 34px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--font-body); font-size: 17.5px; font-weight: 700;
+  color: #3A2408; background: var(--lx-amber);
+  border: 0; border-radius: var(--r-pill); cursor: pointer;
+  transition: transform .2s var(--lx-ease), background .2s var(--lx-ease);
+}
+.enc-btn:hover { background: var(--lx-amber-light); transform: translateY(-2px); }
+.enc-btn:active { transform: scale(.99); }
+.enc-btn[disabled] { opacity: .6; cursor: default; transform: none; }
+.enc-btn-ghost {
+  background: none; color: color-mix(in srgb, var(--lx-bone) 70%, transparent);
+  border: 1px solid var(--lx-border-dark);
+}
+.enc-btn-ghost:hover { background: none; color: var(--lx-bone); border-color: var(--lx-bone); }
+.enc-btn-final { width: 100%; }
+.enc-atras {
+  padding: 6px 0; background: none; border: 0; cursor: pointer;
+  font-family: var(--font-body); font-size: 15.5px;
+  color: color-mix(in srgb, var(--lx-bone) 52%, transparent);
+  transition: color .2s var(--lx-ease);
+}
+.enc-atras:hover { color: var(--lx-bone); }
+
+/* ── Gracias ── */
+.enc-gracias { text-align: center; }
+.enc-gracias-ico {
+  width: 72px; height: 72px; margin: 0 auto 22px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 34px; color: var(--lx-amber);
+  background: color-mix(in srgb, var(--lx-amber) 14%, transparent);
+  border: 2px solid var(--lx-amber);
+}
+.enc-gracias .lx-lead { margin-inline: auto; }
+.enc-gracias-links {
+  display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 8px;
+}
+
+@media (max-width: 720px) {
+  .enc-fila { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .enc-estrellas { margin-left: -6px; }
+  .enc-acciones { gap: 14px; }
+  .enc-btn { width: 100%; }
+  .enc-atras { width: 100%; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ASÍ LO VIVIMOS (asi-lo-vivimos.html) — la memoria del congreso.
+   Tres formatos conviviendo: el recap horizontal, los reels verticales
+   (9:16, como se filmaron) y la galería por día. Un solo modal los abre
+   a todos.
+   ───────────────────────────────────────────────────────────────────────────── */
+.viv-sec { padding-block: 88px; }
+@media (max-width: 720px) { .viv-sec { padding-block: 60px; } }
+
+/* ── Fachada de YouTube: la miniatura ahora, el iframe solo al tocar ── */
+.viv-recap-caja { margin-top: 26px; }
+.viv-facade {
+  display: block; position: relative; width: 100%; padding: 0;
+  aspect-ratio: 16 / 9; overflow: hidden; cursor: pointer;
+  background: var(--lx-mid); border: 1px solid var(--lx-border-dark);
+  border-radius: var(--r-lg);
+}
+.viv-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.viv-play {
+  position: absolute; inset: 0; margin: auto;
+  width: 78px; height: 78px; border-radius: 50%;
+  display: grid; place-items: center; color: var(--lx-night);
+  background: var(--lx-amber);
+  box-shadow: 0 10px 40px rgba(0,0,0,.4);
+  transition: transform .25s var(--lx-ease), background .25s var(--lx-ease);
+}
+.viv-play svg { width: 32px; height: 32px; margin-left: 4px; }
+.viv-facade:hover .viv-play { transform: scale(1.08); background: var(--lx-amber-light); }
+.viv-play-sm { width: 52px; height: 52px; }
+.viv-play-sm svg { width: 22px; height: 22px; }
+
+/* ── Carril de reels: sangra hasta el borde, que es lo que invita a
+   deslizarlo. El scroll se ancla con snap para que no quede a medias. ── */
+.viv-rail {
+  display: flex; gap: 14px; margin-top: 30px;
+  padding: 4px 40px 18px; overflow-x: auto;
+  scroll-snap-type: x mandatory; scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--lx-bone) 22%, transparent) transparent;
+}
+@media (max-width: 720px) { .viv-rail { padding-inline: 22px; } }
+.viv-reel { flex: 0 0 auto; width: 190px; scroll-snap-align: start; }
+.viv-reel-btn {
+  display: block; position: relative; width: 100%; padding: 0;
+  aspect-ratio: 9 / 16; overflow: hidden; cursor: pointer;
+  background: var(--lx-night); border: 1px solid var(--lx-border-dark);
+  border-radius: var(--r); transition: transform .3s var(--lx-ease), border-color .3s var(--lx-ease);
+}
+.viv-reel-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.viv-reel-sinposter { position: absolute; inset: 0; background: var(--grad-hero); opacity: .55; }
+.viv-reel-btn:hover { transform: translateY(-4px); border-color: var(--lx-amber); }
+.viv-reel-dia {
+  position: absolute; top: 10px; left: 10px;
+  padding: 5px 11px; border-radius: var(--r-pill);
+  font-family: var(--font-marker); font-size: 10.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--lx-night); background: var(--lx-amber);
+}
+.viv-reel-t {
+  display: block; margin-top: 10px; font-size: 14px; line-height: 1.35;
+  color: color-mix(in srgb, var(--lx-bone) 72%, transparent);
+}
+
+/* ── Galería de fotos ── */
+#js-viv-tabs { margin-top: 26px; }
+#js-viv-tabs:empty { display: none; }
+.viv-grid {
+  display: grid; gap: 10px; margin-top: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+@media (max-width: 520px) { .viv-grid { grid-template-columns: repeat(2, 1fr); } }
+.viv-foto {
+  display: block; padding: 0; aspect-ratio: 4 / 3; overflow: hidden; cursor: pointer;
+  background: var(--lx-mid); border: 0; border-radius: var(--r);
+}
+.viv-foto img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .4s var(--lx-ease);
+}
+.viv-foto:hover img { transform: scale(1.05); }
+
+/* ── Teatro: un solo modal para YouTube, .mp4 y fotos ── */
+html.viv-lock, html.viv-lock body { overflow: hidden; }
+.viv-teatro {
+  position: fixed; inset: 0; z-index: 200;
+  display: none; place-items: center;
+  background: color-mix(in srgb, #05071c 92%, transparent);
+  backdrop-filter: blur(6px);
+  padding: 20px;
+}
+.viv-teatro.abierto { display: grid; }
+.viv-teatro-caja {
+  width: min(100%, 1100px); max-height: 78vh;
+  display: grid; place-items: center;
+}
+.viv-teatro-caja.es-youtube { aspect-ratio: 16 / 9; }
+.viv-teatro-caja.es-video { width: min(100%, 420px); }
+.viv-teatro-caja iframe { width: 100%; height: 100%; border: 0; border-radius: var(--r); }
+.viv-teatro-caja video {
+  width: 100%; max-height: 78vh; border-radius: var(--r); background: #000;
+}
+.viv-teatro-caja img {
+  max-width: 100%; max-height: 78vh; width: auto; object-fit: contain; border-radius: var(--r);
+}
+.viv-ig-link {
+  margin-top: 12px; font-family: var(--font-marker); font-size: 12px;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--lx-amber);
+}
+.viv-teatro-cerrar {
+  position: absolute; top: 18px; right: 20px; z-index: 2;
+  width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+  font-size: 19px; color: var(--lx-bone);
+  background: color-mix(in srgb, var(--lx-bone) 12%, transparent);
+  border: 1px solid var(--lx-border-dark);
+}
+.viv-teatro-cerrar:hover { background: color-mix(in srgb, var(--lx-bone) 20%, transparent); }
+.viv-teatro-nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
+  font-size: 27px; line-height: 1; color: var(--lx-bone);
+  background: color-mix(in srgb, var(--lx-bone) 10%, transparent);
+  border: 1px solid var(--lx-border-dark);
+}
+.viv-teatro-nav:hover { background: color-mix(in srgb, var(--lx-bone) 20%, transparent); }
+.viv-prev { left: 14px; }
+.viv-next { right: 14px; }
+.viv-teatro-cap {
+  position: absolute; bottom: 20px; left: 0; right: 0; margin: 0 auto;
+  text-align: center; font-size: 14.5px; max-width: 46ch;
+  color: color-mix(in srgb, var(--lx-bone) 70%, transparent);
+}
+.viv-teatro-count { font-family: var(--font-marker); font-size: 12px; letter-spacing: .12em; opacity: .7; }
+@media (max-width: 720px) {
+  .viv-teatro-nav { width: 42px; height: 42px; font-size: 23px; }
+  .viv-prev { left: 6px; } .viv-next { right: 6px; }
+  .viv-teatro-caja.es-video { width: 100%; }
+}

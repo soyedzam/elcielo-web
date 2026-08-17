@@ -18,6 +18,7 @@
 // menú del editor (Propiedades del script) para que no viaje en el
 // código ni quede en el historial de git.
 const HOJA = 'Registros';
+const HOJA_EVAL = 'Evaluación';      // encuesta post-congreso, hoja aparte
 const CUPO = 300;                    // [VALIDAR] tope real de asistentes
 const PREFIJO_FOLIO = 'CIELO';
 
@@ -49,6 +50,18 @@ const COLUMNAS = [
   'Asistió viernes', 'Asistió sábado', 'Asistió domingo'
 ];
 
+/* La encuesta vive en SU PROPIA hoja, no como columnas extra de
+   'Registros': son dos cosas distintas (una persona registrada puede no
+   contestar, y quien contesta puede hacerlo en anónimo). Mezclarlas
+   habría obligado a emparejar filas por nombre — justo lo que no
+   queremos, porque la encuesta es anónima por default. */
+const COLUMNAS_EVAL = [
+  'Fecha y hora', 'Días que vino', 'Recomendaría (1-5)',
+  'Alabanza', 'Conferencias', 'Acceso y registro', 'El lugar', 'Información previa',
+  'Cómo se enteró', 'Qué cambiaría', 'Qué no puede faltar',
+  '¿Volvería?', 'En una palabra', 'Nombre', 'Contacto'
+];
+
 // ── Utilidades ─────────────────────────────────────────────────────
 
 function hoja_() {
@@ -59,6 +72,28 @@ function hoja_() {
     h.appendRow(COLUMNAS);
     h.getRange(1, 1, 1, COLUMNAS.length).setFontWeight('bold');
     h.setFrozenRows(1);
+  }
+  return h;
+}
+
+/* Se crea sola la primera vez que alguien contesta la encuesta — nadie
+   tiene que preparar nada a mano en la Sheet antes de publicarla. */
+function hojaEval_() {
+  const libro = SpreadsheetApp.getActiveSpreadsheet();
+  let h = libro.getSheetByName(HOJA_EVAL);
+  if (!h) {
+    h = libro.insertSheet(HOJA_EVAL);
+    h.appendRow(COLUMNAS_EVAL);
+    const encabezado = h.getRange(1, 1, 1, COLUMNAS_EVAL.length);
+    encabezado.setBackground('#0B1033').setFontColor('#F7F4EE').setFontWeight('bold')
+      .setHorizontalAlignment('center').setVerticalAlignment('middle');
+    h.setFrozenRows(1);
+    h.setRowHeight(1, 34);
+    // Las dos columnas de texto abierto son las que de verdad se leen:
+    // anchas, y con ajuste de línea para no tener que abrir cada celda.
+    [130, 150, 120, 90, 110, 130, 90, 130, 150, 320, 320, 110, 130, 160, 170]
+      .forEach(function (ancho, i) { h.setColumnWidth(i + 1, ancho); });
+    h.getRange('J:K').setWrap(true).setVerticalAlignment('top');
   }
   return h;
 }
@@ -198,6 +233,17 @@ function siguienteFolio_(total) {
 // ── Alta de registro (desde el formulario del sitio) ────────────────
 
 function doPost(e) {
+  /* Encuesta de evaluación: camino aparte, hoja aparte y SIN candado —
+     no reparte folios ni compite por cupo, así que no tiene por qué
+     hacer cola detrás de los registros ni puede afectarlos. Se decide
+     aquí arriba, antes de tocar nada del flujo que ya está en vivo. */
+  try {
+    const sonda = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    if (sonda.accion === 'evaluacion') return guardarEvaluacion_(sonda);
+  } catch (errAccion) {
+    // JSON inválido: que siga al camino normal y falle donde ya fallaba.
+  }
+
   // Un solo registro a la vez: si dos personas envían en el mismo
   // instante, sin esto podrían llevarse el mismo folio.
   const candado = LockService.getScriptLock();
@@ -319,6 +365,58 @@ function doPost(e) {
     return json_({ ok: false, error: 'servidor' });
   } finally {
     candado.releaseLock();
+  }
+}
+
+// ── Encuesta de evaluación (post-congreso) ──────────────────────────
+
+/* Guarda una respuesta de la encuesta. Nada es obligatorio del lado del
+   servidor a propósito: una respuesta a medias sigue siendo información
+   útil, y rechazarla solo lograría que esa persona no vuelva a entrar.
+   Lo único que se descarta es lo que huele a robot. */
+function guardarEvaluacion_(datos) {
+  try {
+    // Misma trampa que en el registro: campo oculto que solo un bot llena.
+    if (normalizar_(datos.sitio)) {
+      Logger.log('evaluacion: trampa de robots activada, no se guarda nada.');
+      return json_({ ok: true });
+    }
+
+    const dias = Array.isArray(datos.dias)
+      ? datos.dias.filter(function (d) { return DIAS.indexOf(d) > -1; })
+      : [];
+    const notas = datos.notas || {};
+
+    // Se guarda el número como número (no texto) para que la Sheet pueda
+    // promediar la columna sin que nadie tenga que convertirla a mano.
+    function nota_(v) {
+      const n = parseInt(v, 10);
+      return (n >= 1 && n <= 5) ? n : '';
+    }
+    // Los textos abiertos se topan aquí también, no solo en el navegador:
+    // el maxlength del HTML no protege de un POST hecho a mano.
+    function texto_(v, tope) {
+      return normalizar_(v).slice(0, tope || 600);
+    }
+
+    hojaEval_().appendRow([
+      new Date(),
+      dias.map(function (d) { return NOMBRE_DIA[d]; }).join(', '),
+      nota_(datos.recomienda),
+      nota_(notas.alabanza), nota_(notas.conferencias), nota_(notas.acceso),
+      nota_(notas.lugar), nota_(notas.info),
+      texto_(datos.entero, 60),
+      texto_(datos.cambiar), texto_(datos.faltar),
+      texto_(datos.volver, 30), texto_(datos.palabra, 40),
+      texto_(datos.nombre, 90), texto_(datos.contacto, 90)
+    ]);
+
+    Logger.log('evaluacion: guardada OK.');
+    return json_({ ok: true });
+
+  } catch (err) {
+    Logger.log('evaluacion: ERROR — ' + err);
+    return json_({ ok: false, error: 'servidor' });
   }
 }
 

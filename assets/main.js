@@ -24,12 +24,15 @@ function iniciarReveals() {
 }
 
 /* — CTA de conversión —
-   Todos los "Aparta tu lugar" llevan al formulario, que es donde se
-   registra. WhatsApp dejó de ser la vía de registro: ahora es solo el
-   canal de informes, y vive en un único botón dentro de #registro. */
+   Todos los [data-cta] apuntan al mismo destino, y ese destino cambia
+   con la vida del congreso: antes era el formulario de registro
+   (#registro); ahora que ya pasó, es la página donde se ve lo que se
+   vivió. Se decide en config.js (ctaDestino), no aquí, para que voltear
+   el sitio de "pre" a "post" no obligue a tocar código.
+   Un CTA con data-cta-fallback="none" conserva su href tal cual. */
 function iniciarConversion() {
-  const enIndex = Boolean(document.getElementById("registro"));
-  const destino = enIndex ? "#registro" : "index.html#registro";
+  const destino = cfg.ctaDestino ||
+    (document.getElementById("registro") ? "#registro" : "index.html#registro");
 
   document.querySelectorAll("[data-cta]").forEach((el) => {
     if (el.dataset.ctaFallback === "none") return;
@@ -52,7 +55,7 @@ function iniciarConversion() {
 function iniciarCompartir() {
   const btn = document.getElementById("js-compartir");
   if (!btn) return;
-  const texto = cfg.compartir || ("Aparta tu lugar en " + (cfg.urlDisplay || ""));
+  const texto = cfg.compartir || ("El Cielo en mi Ciudad — " + (cfg.urlDisplay || ""));
   btn.addEventListener("click", async () => {
     if (navigator.share) {
       try { await navigator.share({ text: texto }); } catch (e) { /* canceló */ }

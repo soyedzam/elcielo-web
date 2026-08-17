@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>El Cielo en mi Ciudad — Congreso · Comunidad Más Alto</title>
-  <meta name="description" content="Tres días para mirar tu ciudad desde más arriba. Congreso de Comunidad Más Alto — 14 al 16 de agosto de 2026, Mérida, Yucatán. Entrada libre, cupo 300.">
+  <meta name="description" content="Así se vivió El Cielo en mi Ciudad: el congreso de Comunidad Más Alto, del 14 al 16 de agosto de 2026 en Mérida, Yucatán. Fotos, video y la memoria de tres días.">
   <link rel="canonical" href="https://elcielo.comunidadmasalto.org/">
   <meta name="theme-color" content="#0B1033">
 
@@ -12,7 +12,7 @@
   <meta property="og:locale" content="es_MX">
   <meta property="og:site_name" content="El Cielo en mi Ciudad · Comunidad Más Alto">
   <meta property="og:title" content="El Cielo en mi Ciudad — Congreso">
-  <meta property="og:description" content="Tres días para mirar tu ciudad desde más arriba. 14–16 de agosto de 2026 · Mérida, Yucatán · Entrada libre, cupo 300.">
+  <meta property="og:description" content="Así se vivió: tres días, tres conferencias y una comunidad que llenó la ciudad. 14–16 de agosto de 2026 · Mérida, Yucatán.">
   <meta property="og:url" content="https://elcielo.comunidadmasalto.org/">
   <meta property="og:image" content="https://elcielo.comunidadmasalto.org/assets/brand/og-cielo-2026.png">
   <meta property="og:image:width" content="1200">
@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=260811">
+  <link rel="stylesheet" href="assets/styles.css?v=260816">
 
   <script type="application/ld+json">
   {
@@ -68,9 +68,9 @@
       </a>
       <nav class="top-nav" id="js-top-nav" aria-label="Navegación">
         <a href="agenda.html">Agenda</a>
-        <a href="momentos.html">Momentos</a>
+        <a href="asi-lo-vivimos.html">Así lo vivimos</a>
         <a href="info.html">Info</a>
-        <a class="lx-btn" href="#registro" data-cta="nav">Aparta tu lugar</a>
+        <a class="lx-btn" href="encuesta.html" data-cta-fallback="none">¿Cómo te fue?</a>
       </nav>
       <button class="top-burger" id="js-top-burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="js-top-nav">
         <span></span><span></span><span></span>
@@ -78,23 +78,23 @@
     </header>
     <div class="lx-container lx-hero-inner">
       <div class="lx-ghost" aria-hidden="true">6:40</div>
-      <span class="lx-kicker">// congreso · 1ª edición</span>
+      <span class="lx-kicker">// congreso · 1ª edición · ya pasó</span>
       <h1 class="lx-h1">
         <span class="lx-t1">El Cielo</span>
         <span class="lx-t2">en mi Ciudad</span>
       </h1>
-      <p class="lx-lead">Tres días para mirar tu ciudad desde más arriba — y decidir qué vas a construir en ella.</p>
+      <p class="lx-lead">Tres días para mirar nuestra ciudad desde más arriba. Del 14 al 16 de agosto de 2026 pasó — y así lo vivimos.</p>
       <div class="lx-cta-row">
-        <a class="lx-btn" href="#registro" data-cta="hero">Aparta tu lugar</a>
-        <a class="lx-btn lx-btn-ghost" href="agenda.html" data-cta-fallback="none">Ver el programa</a>
+        <a class="lx-btn" href="asi-lo-vivimos.html" data-cta="hero">Así lo vivimos</a>
+        <a class="lx-btn lx-btn-ghost" href="encuesta.html" data-cta-fallback="none">Cuéntanos cómo te fue</a>
       </div>
     </div>
     <div class="lx-container lx-horizon">
       <div class="lx-line" aria-hidden="true"></div>
       <dl class="lx-pts">
-        <div class="lx-pt"><dt class="lx-l">Fecha</dt><dd class="lx-v">14–16 de agosto</dd></div>
+        <div class="lx-pt"><dt class="lx-l">Fecha</dt><dd class="lx-v">14–16 de agosto, 2026</dd></div>
         <div class="lx-pt"><dt class="lx-l">Sede</dt><dd class="lx-v">Mérida, Yucatán</dd></div>
-        <div class="lx-pt"><dt class="lx-l">Cupo</dt><dd class="lx-v">300, entrada libre</dd></div>
+        <div class="lx-pt"><dt class="lx-l">Programa</dt><dd class="lx-v">3 conferencias</dd></div>
       </dl>
       <div class="lx-clima-actual" id="js-clima-actual" hidden></div>
     </div>
@@ -236,108 +236,20 @@
   </section>
   <div class="lx-seam"></div>
 
-  <!-- REGISTRO — un solo canal, fricción mínima (sin backend) -->
-  <section id="registro" class="lx-on-night lx-fondo-comunidad lx-rv" aria-labelledby="registro-t">
-    <div class="lx-container lx-registro-grid">
-      <div>
-        <span class="lx-kicker">// aparta tu lugar</span>
-        <h2 id="registro-t" class="lx-h2">Aparta tu lugar</h2>
-        <p class="lx-lead">La entrada es libre, sin costo. El cupo es de 300 personas — regístrate antes y tu lugar queda apartado.</p>
-        <div class="lx-cuenta-mini" aria-live="polite">
-          <div class="lx-cuenta-item"><span class="lx-cuenta-n tabular" id="js-dias-stat">—</span><span class="lx-cuenta-l">Días</span></div>
-          <div class="lx-cuenta-item"><span class="lx-cuenta-n tabular" id="js-horas">—</span><span class="lx-cuenta-l">Horas</span></div>
-          <div class="lx-cuenta-item"><span class="lx-cuenta-n tabular" id="js-min">—</span><span class="lx-cuenta-l">Min</span></div>
-          <div class="lx-cuenta-item"><span class="lx-cuenta-n tabular" id="js-seg">—</span><span class="lx-cuenta-l">Seg</span></div>
-        </div>
-      </div>
-      <div>
-        <!-- El formulario. Se envía a una hoja de cálculo del equipo
-             (Apps Script); el sitio sigue sin servidor propio. -->
-        <div id="js-form-zona">
-          <div class="lx-premio">
-            <span class="lx-premio-ico" aria-hidden="true">✅</span>
-            <p>Quien se registra aquí <strong>asegura su lugar</strong> de los 300. El día del evento también se puede entrar sin registro mientras haya cupo.</p>
-          </div>
-
-          <form class="lx-form" id="js-registro" novalidate>
-            <div class="lx-campo">
-              <label for="f-nombre">Tu nombre completo</label>
-              <input type="text" id="f-nombre" name="nombre" autocomplete="name"
-                     enterkeyhint="next" required aria-describedby="e-nombre">
-              <span class="lx-error" id="e-nombre">Escribe tu nombre para apartar el lugar.</span>
-            </div>
-
-            <div class="lx-campo">
-              <label for="f-whatsapp">Tu WhatsApp</label>
-              <input type="tel" id="f-whatsapp" name="whatsapp" inputmode="tel"
-                     autocomplete="tel" placeholder="999 123 4567"
-                     enterkeyhint="next" required aria-describedby="e-whatsapp a-whatsapp">
-              <span class="lx-ayuda" id="a-whatsapp">Ahí te avisamos si algo cambia.</span>
-              <span class="lx-error" id="e-whatsapp">Escribe los 10 dígitos de tu WhatsApp.</span>
-            </div>
-
-            <div class="lx-campo">
-              <label for="f-correo">Tu correo</label>
-              <input type="email" id="f-correo" name="correo" inputmode="email"
-                     autocomplete="email" placeholder="nombre@correo.com"
-                     enterkeyhint="go" required aria-describedby="e-correo">
-              <span class="lx-error" id="e-correo">Revisa tu correo, parece incompleto.</span>
-            </div>
-
-            <div class="lx-campo">
-              <span class="lx-dias-label">¿Qué día(s) vienes?</span>
-              <div class="lx-dias-check">
-                <label class="lx-dia-opt">
-                  <input type="checkbox" name="dias" value="viernes" checked>
-                  <span>Viernes 14</span>
-                </label>
-                <label class="lx-dia-opt">
-                  <input type="checkbox" name="dias" value="sabado" checked>
-                  <span>Sábado 15</span>
-                </label>
-                <label class="lx-dia-opt">
-                  <input type="checkbox" name="dias" value="domingo" checked>
-                  <span>Domingo 16</span>
-                </label>
-              </div>
-              <span class="lx-error" id="e-dias">Marca al menos un día.</span>
-            </div>
-
-            <!-- Los robots llenan todo lo que encuentran; una persona no ve esto. -->
-            <div class="lx-trampa" aria-hidden="true">
-              <label for="f-sitio">No llenes este campo</label>
-              <input type="text" id="f-sitio" name="sitio" tabindex="-1" autocomplete="off">
-            </div>
-
-            <button class="lx-form-envia" type="submit" id="js-enviar">Apartar mi lugar</button>
-            <p class="lx-error" id="js-form-error" role="alert" style="margin-top:14px"></p>
-            <p class="lx-registro-nota">Tus datos son solo para el registro del congreso, no se comparten con nadie. <a href="privacidad.html">Aviso de Privacidad</a>.</p>
-          </form>
-        </div>
-
-        <!-- Simula la creación del folio antes de mostrarlo — efecto Kayak/TurboTax:
-             ver "trabajo" ocurriendo aumenta el valor percibido del resultado. -->
-        <div id="js-form-generando" hidden>
-          <div class="lx-generando">
-            <div class="lx-generando-spinner" aria-hidden="true"><span></span><span></span><span></span></div>
-            <p class="lx-generando-texto" id="js-generando-texto">Verificando disponibilidad…</p>
-            <div class="lx-generando-barra"><div class="lx-generando-fill" id="js-generando-fill"></div></div>
-          </div>
-        </div>
-
-        <!-- Confirmación. Reemplaza al formulario cuando el registro entra. -->
-        <div id="js-form-listo" hidden></div>
-
-        <!-- Plan B: si la hoja de registro no responde, la conversación
-             por WhatsApp sigue siendo una salida, no un callejón. -->
-        <div class="lx-registro-canal" id="js-canal-alt" hidden>
-          <h3 class="lx-h3">¿Prefieres preguntar antes?</h3>
-          <p class="lx-lead">Escríbenos por WhatsApp para informes del congreso, o búscanos en <a href="https://www.facebook.com/comunidadmasalto" target="_blank" rel="noopener">Facebook</a>.</p>
-          <a class="lx-btn-wa" id="js-canal-wa-btn" href="#registro">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.2h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.14c-.24.68-1.4 1.3-1.93 1.37-.5.08-1.11.11-1.79-.11-.41-.13-.94-.3-1.61-.6-2.84-1.23-4.7-4.1-4.84-4.29-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.14.07.15.11.32.02.51-.09.19-.14.31-.27.48-.14.17-.29.37-.41.5-.14.14-.28.29-.12.57.16.28.71 1.18 1.53 1.91 1.05.94 1.94 1.24 2.22 1.38.28.14.44.12.61-.07.16-.19.7-.82.89-1.1.19-.28.37-.23.62-.14.26.09 1.63.77 1.91.91.28.14.47.21.54.33.07.12.07.68-.17 1.36Z"/></svg>
-            <span>Informes por WhatsApp</span>
-          </a>
-        </div>
+  <!-- CIERRE POST-EVENTO — ocupa el lugar que tenía el registro.
+       El formulario ya no aplica: el congreso pasó. En su lugar, los dos
+       únicos caminos que importan ahora — ver lo que se vivió, y contarnos
+       cómo estuvo. La encuesta recoge el contacto de quien SÍ quiere que
+       le avisemos de la próxima edición, así que no hace falta una lista
+       aparte ni un formulario nuevo. -->
+  <section id="cierre" class="lx-on-night lx-fondo-comunidad lx-rv" aria-labelledby="cierre-t">
+    <div class="lx-container" style="max-width:760px">
+      <span class="lx-kicker">// hasta la próxima</span>
+      <h2 id="cierre-t" class="lx-h2">Gracias por llenar esta ciudad</h2>
+      <p class="lx-lead">Tres noches, tres conferencias y una comunidad que no cabía en el lugar. Lo que pasó del 14 al 16 de agosto ya no está en la agenda: está en la gente que se fue distinta a su casa.</p>
+      <div class="lx-cta-row" style="margin-top:30px">
+        <a class="lx-btn" href="asi-lo-vivimos.html" data-cta="cierre">Ver cómo se vivió</a>
+        <a class="lx-btn lx-btn-ghost" href="encuesta.html" data-cta-fallback="none">Cuéntanos cómo te fue</a>
       </div>
     </div>
   </section>
@@ -348,8 +260,8 @@
     <div class="lx-container" style="max-width:640px">
       <span class="lx-kicker">// ayúdanos a mejorar</span>
       <h2 id="encuesta-t" class="lx-h2">¿Cómo te fue en el congreso?</h2>
-      <p class="lx-lead">Tu opinión nos ayuda a preparar la siguiente edición. Toma menos de 3 minutos.</p>
-      <a class="lx-btn" id="js-encuesta-link" href="#" target="_blank" rel="noopener">Abrir la encuesta</a>
+      <p class="lx-lead">Lo que nos digas es lo que va a hacer distinta la siguiente edición. Menos de 2 minutos, y es anónima.</p>
+      <a class="lx-btn" id="js-encuesta-link" href="#" rel="noopener">Contestar la encuesta</a>
     </div>
   </section>
 
@@ -405,10 +317,8 @@
     </div>
   </footer>
 
-  <script src="assets/config.js"></script>
-  <script type="module" src="assets/cuenta.js"></script>
-  <script type="module" src="assets/main.js"></script>
-  <script type="module" src="assets/registro.js"></script>
+  <script src="assets/config.js?v=260816"></script>
+  <script type="module" src="assets/main.js?v=260816"></script>
   <script type="module">
     import { cargarClimaActual } from './assets/clima.js';
     cargarClimaActual('js-clima-actual');
@@ -424,6 +334,9 @@
       const link = document.getElementById('js-encuesta-link');
       if (seccion && link) {
         link.href = cfgE.encuestaUrl;
+        // Página del propio sitio → misma pestaña. Solo un link externo
+        // (http…) se abre aparte, para no sacar a nadie del sitio sin avisar.
+        if (/^https?:/i.test(cfgE.encuestaUrl)) link.target = '_blank';
         seccion.hidden = false;
       }
     }
