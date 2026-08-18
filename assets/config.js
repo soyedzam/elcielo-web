@@ -126,12 +126,29 @@ window.ELCIELO = {
        se queda fuera — es la misma regla que dejó 3 fotos congeladas
        desde agosto. */
     fotos: {
-      /* Vacío a propósito (18-ago). Las 18 fotos del viernes se bajaron:
-         el revelado automático las dejó lavadas y con dominante de color,
-         no a la altura de lo que salió de la cámara. Los originales y los
-         derivados siguen en ACTIVOS — cuando haya una versión aprobada,
-         se vuelven a listar aquí. */
-      viernes: [],
+      /* Revelado v2.1, aprobado por Ed el 18-ago. La v1.0 se bajó del sitio
+         por aplicar balance de blancos automático, que borró la luz de
+         escenario. Detalle en _fuente/photoforge/LEEME.md. */
+      viernes: [
+        { n: "viernes-vista-general-escenario.webp", alt: "Vista general del escenario de El Cielo en mi Ciudad, congreso 2026 de Comunidad Más Alto." },
+        { n: "viernes-pastores-frente-a-backdrop.webp", alt: "Pastores frente al backdrop del congreso El Cielo en mi Ciudad." },
+        { n: "viernes-trio-alabanza.webp", alt: "Trío de cantantes durante un momento de alabanza en la apertura del congreso." },
+        { n: "viernes-solista-alabanza.webp", alt: "Solista durante un momento de alabanza en El Cielo en mi Ciudad." },
+        { n: "viernes-guitarrista-en-escena.webp", alt: "Guitarrista en escena durante la apertura del congreso." },
+        { n: "viernes-banda-completa-escenario.webp", alt: "Banda completa en el escenario de El Cielo en mi Ciudad." },
+        { n: "viernes-banda-y-audiencia.webp", alt: "Banda en escena con la audiencia participando en la apertura del congreso." },
+        { n: "viernes-cantante-solista-escenario.webp", alt: "Cantante solista durante la apertura de El Cielo en mi Ciudad." },
+        { n: "viernes-musicos-momento-candido.webp", alt: "Músicos en un momento espontáneo entre canciones." },
+        { n: "viernes-adoracion-manos-alzadas.webp", alt: "Participantes en adoración con las manos alzadas durante la apertura del congreso." },
+        { n: "viernes-mujer-en-adoracion.webp", alt: "Mujer en un momento de adoración durante El Cielo en mi Ciudad." },
+        { n: "viernes-hombres-en-oracion.webp", alt: "Dos participantes en un momento de oración durante la apertura del congreso." },
+        { n: "viernes-aplausos-en-comunidad.webp", alt: "Participante aplaude durante un momento del congreso." },
+        { n: "viernes-mensaje-pastoral-01.webp", alt: "Mensaje pastoral durante la apertura de El Cielo en mi Ciudad." },
+        { n: "viernes-mensaje-pastoral-02.webp", alt: "Mensaje pastoral frente al backdrop del congreso." },
+        { n: "viernes-mensaje-cita-biblica.webp", alt: "Mensaje pastoral con cita bíblica proyectada durante el congreso." },
+        { n: "viernes-mensaje-salon-alterno.webp", alt: "Mensaje pastoral en un salón alterno del congreso." },
+        { n: "viernes-equipo-pastoral-escenario.webp", alt: "Equipo pastoral reunido en el escenario de El Cielo en mi Ciudad." }
+      ],
       sabado: [],
       domingo: [
         { n: "domingo-bienvenida-congreso.webp", alt: "Letreros de bienvenida junto al acceso del congreso El Cielo en mi Ciudad." },
