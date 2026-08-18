@@ -1,9 +1,8 @@
 # Pase de Sesión — El Cielo en mi Ciudad
 > Handoff para la instancia nueva de Claude que retome este sitio.
 > **Léelo completo antes de tocar nada.** v2.0 el 10-ago · v3.0 el 12/13-ago ·
-> v4.0 el 13/14-ago · **v5.0 el 16/17-ago-2026 — el congreso YA PASÓ.**
-> Esta versión reescribe el pase para el mundo post-evento: qué quedó vivo, qué se
-> aprendió y qué sigue abierto.
+> v4.0 el 13/14-ago · v5.0 el 16/17-ago — el congreso YA PASÓ ·
+> **v6.0 el 17-ago (tarde) — la memoria ya tiene material dentro.**
 
 ---
 
@@ -52,7 +51,7 @@ hueso `#F7F4EE`. Archivo (display) · Instrument Sans (cuerpo) · IBM Plex Mono 
 | Pieza | Estado |
 |---|---|
 | `index.html` | Modo post-evento: hero en pasado, sin cuenta regresiva, sin cupo, sin formulario |
-| `asi-lo-vivimos.html` | **La memoria del congreso.** 3 de 9 reels + barra de progreso honesta + tarjetas "Próximamente" + "¿Tú también grabaste algo?" |
+| `asi-lo-vivimos.html` | **La memoria del congreso.** 3 de 9 reels + **34 fotos** (Viernes 14 · Domingo 16) + el video que abrió el congreso + "¿Tú también grabaste algo?" |
 | `encuesta.html` | 8 preguntas, una por pantalla, anónima. **Guardando de verdad** (probado end-to-end) |
 | `resultados.html` | **Tablero público de KPIs**, sin contraseña (pedido explícito de Ed). Solo agregados |
 | `agenda.html` · `info.html` · `momentos.html` · `privacidad.html` | Nav volteado a post-evento |
@@ -69,7 +68,11 @@ hueso `#F7F4EE`. Archivo (display) · Instrument Sans (cuerpo) · IBM Plex Mono 
    (`datosEvaluacion()` NO devuelve esas columnas), no solo en el front. Si tocas esa
    función, vuelve a verificarlo.
 3. **Fotos con menores identificables** no se publican sin autorización escrita de
-   madre/padre o tutor. Hay 3 congeladas desde agosto por esto.
+   madre/padre o tutor. Van **7 congeladas**, no 3.
+   🔴 **Nunca heredes la clasificación de menores de otra pasada.** El inventario del
+   16-ago marcaba `domingo-audiencia-reunida-02` como apta y tenía un bebé con rostro
+   totalmente identificable en primer plano — se cazó con zoom antes de publicar. Se
+   re-verifica siempre, foto por foto, aunque venga "ya revisado".
 
 ## 5 · Lecciones pagadas — no las repitas
 
@@ -97,18 +100,59 @@ Las de esta sesión ya subieron al canon como leyes formales; aquí las que muer
 - **WhatsApp Web no acepta adjuntos por automatización.** El input de imágenes
   (`accept="image/*"`) rechaza PDFs en silencio; hay que abrir el menú Documento para que
   aparezca el input `accept="*"`. Aun así, el envío final exige un clic humano real.
+- 🔴 **AppleScript manda las teclas a la app que está AL FRENTE, no a la que crees.**
+  Al automatizar el selector nativo de archivos, las pulsaciones se fueron a **WhatsApp**
+  —incluidos dos Enter— porque Chrome no tenía el foco. No se envió nada, pero fue suerte.
+  Antes de cualquier `keystroke`: verificar con
+  `get name of first application process whose frontmost is true` y activar la app a mano.
+- **`[hidden]` no le gana a un `display` propio.** Le pasó a `.res-puerta` y volvió a
+  pasarle a `.viv-grid`: los dos paneles de día se apilaban y las pestañas no ocultaban
+  nada. Cualquier elemento que el JS oculte con `hidden` y que tenga `display:` en CSS
+  necesita su propia regla `[hidden] { display: none }`.
+- **Las pestañas de día (`.lx-dia-tab`) nacieron para fondo hueso.** Sobre una sección
+  `lx-on-night` quedan tinta sobre tinta y la no-seleccionada se vuelve invisible. Hay
+  override scopeado a `.lx-on-night`; si reusas el componente en otro fondo, revisa color.
+- **El pane de preview clampea el scroll** además de lo ya sabido: no dejaba llegar a la
+  galería y habría hecho concluir que todo estaba bien. Playwright + Chrome real
+  (`chromium.launch({channel:"chrome"})`) lo resolvió en un intento. La altura del
+  documento (5123 → 4641 px) fue la prueba del arreglo, no una captura.
+
+## 5-bis · La galería y el video (17-ago tarde) — cómo funcionan
+
+**Las fotos van por día** en `config.asiVivimos.fotos` (`viernes` / `sabado` / `domingo`).
+El JS pone pestañas **solo si hay más de un día con fotos** — una sola pestaña es un botón
+que no decide nada. Cada foto necesita su miniatura (mismo nombre + `-t`).
+
+**El motor que las prepara** está versionado en `_fuente/photoforge/` (copia de trabajo en
+`~/Dev/CMA/scripts/`). Lee su `LEEME.md` antes de procesar un lote nuevo: **el motor no
+cura**, y la curación pesa más que el procesado (101 originales → 18 publicadas; Ed
+rechazó una primera curación de 25 por dejar casi-duplicados).
+
+**El video de "Con esto abrimos"** está **no listado** en YouTube por decisión de Ed. No
+listado **no impide el embed** — verificado reproduciéndolo en el sitio. Si algún día se
+hace público, en el código no hay que tocar nada.
+
+🔴 **Ese bloque se llamaba "Así lo anunciamos"** y prometía *"el video con el que
+convocamos, meses antes"*. El video que existe no es ese: es el de visión de CMA que
+abrió las tres noches. Se reescribió el copy en vez de meter la pieza en un marco que
+mentía. Si vuelve a aparecer el copy viejo, es regresión.
 
 ## 6 · ⚠️ Abierto
 
-1. **6 reels faltantes** (van 3 de 9) — el buzón es `~/Dev/CMA/_entrada-medios/reels/`.
-2. **Recap y teaser** en post-producción → van a **YouTube** (pesan más de lo que
-   Cloudflare Pages admite por archivo), y su ID entra en `config.asiVivimos`.
-3. **~66 fotos** pendientes, con el filtro de menores aplicado.
-4. **El PDF confidencial no se envió a Val por WhatsApp** — los 2 mensajes de texto sí.
+1. **4 fotos en duda por menores** esperan el criterio de Ed en
+   `~/Dev/CMA/_entrada-medios/fotos/`. Él conoce a las familias; el zoom no bastó.
+2. **Fotos del sábado 15** no llegaron. El ZIP de Drive que bajó Ed es la **parte 004 de
+   4** y solo trae videos + 1 foto suelta. La carpeta del fotógrafo sí tiene
+   `CEMC Fotos - Sábado 15 de Agosto/` — faltan las partes 001–003.
+3. **6 reels faltantes** (van 3 de 9) — el buzón es `~/Dev/CMA/_entrada-medios/reels/`.
+4. **El recap** sigue en post-producción → va a **YouTube** (pesa más de lo que
+   Cloudflare Pages admite por archivo), y su ID entra en `config.asiVivimos.recap`.
+   Su bloque en la página ya está listo y vacío.
+5. **El PDF confidencial no se envió a Val por WhatsApp** — los 2 mensajes de texto sí.
    Ed tiene que arrastrarlo desde Descargas.
-5. **Correo de aviso por registro** sigue en pausa: `CORREO_ACTIVO = false`, por decisión
+6. **Correo de aviso por registro** sigue en pausa: `CORREO_ACTIVO = false`, por decisión
    explícita de Ed. No lo actives sin que lo pida.
-6. **Los pastores no han contestado** si la encuesta se queda abierta.
+7. **Los pastores no han contestado** si la encuesta se queda abierta.
 
 ## 7 · Cómo se responde a Ed
 
@@ -133,4 +177,4 @@ El motor de eventos del ecosistema (`_SISTEMA/SoS/EventForge/`) **calibró su do
   EventForge debe ser un *generador* de estático, no una app ni un clon a mano.
 
 ---
-*El Cielo en mi Ciudad · Pase de Sesión · v5.0 · 17·ago·2026 · El evento pasa; la plataforma queda.* 🕊️
+*El Cielo en mi Ciudad · Pase de Sesión · v6.0 · 17·ago·2026 · El evento pasa; la plataforma queda.* 🕊️
