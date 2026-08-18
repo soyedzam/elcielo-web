@@ -111,8 +111,12 @@ window.ELCIELO = {
     // Pieza insignia. id = el ID de YouTube, nada más (no la URL completa).
     recap: { id: "", titulo: "El recap del congreso" },
 
-    // El teaser con el que se convocó — cierra el círculo al final.
-    teaser: { id: "", titulo: "Así lo anunciamos" },
+    /* El video de visión de Comunidad Más Alto, proyectado para abrir las
+       tres noches — cierra el círculo al final de la página.
+       🔴 Está NO LISTADO en YouTube por decisión de Ed (17-ago): eso no
+       impide el embed, pero sí que aparezca en búsquedas o en el canal.
+       Si algún día se hace público, aquí no hay que tocar nada. */
+    teaser: { id: "FdbgBzH1WsI", titulo: "Con esto abrimos" },
 
     /* Fotos por día. "n" es el nombre del archivo dentro de
        assets/fotos/asi-lo-vivimos/. Cada foto necesita su miniatura
