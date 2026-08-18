@@ -464,6 +464,13 @@ body > section:not([hidden]):not(:has(~ section:not([hidden]))) .lx-cta-row { ma
   transition: background .2s ease, color .2s ease;
 }
 .lx-dia-tab[aria-selected="true"] { background: var(--lx-night); color: var(--lx-bone); }
+/* Estas pestañas nacieron en la agenda, que va sobre hueso. Sobre la sección
+   noche de "Búscate" quedaban tinta sobre tinta — la de Domingo era invisible.
+   Se invierten los mismos dos tokens en vez de duplicar el componente. */
+.lx-on-night .lx-dias-tabs { background: color-mix(in srgb, var(--lx-bone) 8%, transparent); }
+.lx-on-night .lx-dia-tab { color: color-mix(in srgb, var(--lx-bone) 62%, transparent); }
+.lx-on-night .lx-dia-tab:hover { color: var(--lx-bone); }
+.lx-on-night .lx-dia-tab[aria-selected="true"] { background: var(--lx-bone); color: var(--lx-night); }
 .lx-tab-vivo { width: 7px; height: 7px; animation: lx-pulso 2s infinite; }
 @media (max-width: 520px) { .lx-dia-tab { padding: 9px 14px; font-size: 13.5px; } }
 
@@ -1474,6 +1481,10 @@ html.mom-lock { overflow: hidden; }
   display: grid; gap: 10px; margin-top: 22px;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 }
+/* Mismo caso que .res-puerta: [hidden] no le gana a un display propio, y
+   sin esto los paneles de los dos días se apilan y las pestañas no ocultan
+   nada — se ven las 34 fotos de corrido. */
+.viv-grid[hidden] { display: none; }
 @media (max-width: 520px) { .viv-grid { grid-template-columns: repeat(2, 1fr); } }
 .viv-foto {
   display: block; padding: 0; aspect-ratio: 4 / 3; overflow: hidden; cursor: pointer;
