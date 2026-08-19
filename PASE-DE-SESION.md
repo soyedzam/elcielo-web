@@ -2,8 +2,8 @@
 > Handoff para la instancia nueva de Claude que retome este sitio.
 > **Léelo completo antes de tocar nada.** v2.0 el 10-ago · v3.0 el 12/13-ago ·
 > v4.0 el 13/14-ago · v5.0 el 16/17-ago — el congreso YA PASÓ ·
-> v6.0 el 17-ago (tarde) — la memoria ya tiene material dentro ·
-> **v6.1 el 19-ago — se limpió la rifa de privacidad.html y se cerró el criterio de menores.**
+> v6.0 el 17-ago (tarde) — la memoria ya tiene material dentro · v6.1 el 19-ago ·
+> **v6.2 el 19-ago (tarde) — LA GALERÍA DE FOTOS ESTÁ CERRADA. Solo faltan videos.**
 
 ---
 
@@ -57,7 +57,7 @@ hueso `#F7F4EE`. Archivo (display) · Instrument Sans (cuerpo) · IBM Plex Mono 
 | Pieza | Estado |
 |---|---|
 | `index.html` | Modo post-evento: hero en pasado, sin cuenta regresiva, sin cupo, sin formulario |
-| `asi-lo-vivimos.html` | **La memoria del congreso.** 3 de 9 reels + **34 fotos** (Viernes 14 · Domingo 16) + el video que abrió el congreso + "¿Tú también grabaste algo?" |
+| `asi-lo-vivimos.html` | **La memoria del congreso.** 3 de 9 reels + **34 fotos, GALERÍA CERRADA** (Viernes 14 · Domingo 16) + el video que abrió el congreso + "¿Tú también grabaste algo?" |
 | `encuesta.html` | 8 preguntas, una por pantalla, anónima. **Guardando de verdad** (probado end-to-end) |
 | `resultados.html` | **Tablero público de KPIs**, sin contraseña (pedido explícito de Ed). Solo agregados |
 | `agenda.html` · `info.html` · `momentos.html` · `privacidad.html` | Nav volteado a post-evento |
@@ -153,20 +153,43 @@ mentía. Si vuelve a aparecer el copy viejo, es regresión.
    `~/Dev/CMA/_entrada-medios/fotos/` sin publicar. 🔴 Ojo si alguna vez se reabre: se
    llaman `…auditorio-bajo-carpa-02…` — el nombre lleva palabra prohibida y el repo es
    público, habría que renombrarlas antes de tocarlas.
-2. **Fotos del sábado 15** no llegaron. El ZIP de Drive que bajó Ed es la **parte 004 de
-   4** y solo trae videos + 1 foto suelta. La carpeta del fotógrafo sí tiene
-   `CEMC Fotos - Sábado 15 de Agosto/` — faltan las partes 001–003.
+2. ~~Fotos del sábado 15~~ — 🟢 **CERRADO 19-ago: LA GALERÍA DE FOTOS ESTÁ CERRADA.**
+   Ed: *"fotos del sábado ya están todas, ya no más fotos en la plataforma"*. El sitio se
+   queda con **34 fotos definitivas** (18 viernes + 16 domingo). **El sábado en 0 no es un
+   hueco: es una decisión.** No vuelvas a pedirle fotos del sábado, no proceses lotes
+   nuevos y no trates el 0 del sábado como pendiente. Las pestañas de día muestran solo
+   Viernes y Domingo, que es lo correcto — no inventes una pestaña de sábado vacía.
 3. **6 reels faltantes** (van 3 de 9) — el buzón es `~/Dev/CMA/_entrada-medios/reels/`.
 4. **El recap** sigue en post-producción → va a **YouTube** (pesa más de lo que
    Cloudflare Pages admite por archivo), y su ID entra en `config.asiVivimos.recap`.
    Su bloque en la página ya está listo y vacío.
-5. **El PDF confidencial no se envió a Val por WhatsApp** — los 2 mensajes de texto sí.
-   Ed tiene que arrastrarlo desde Descargas.
+5. ~~El PDF confidencial a Val~~ — 🟢 **CERRADO 19-ago: llegó.** Confirmado por Ed.
 6. **Correo de aviso por registro** sigue en pausa: `CORREO_ACTIVO = false`, por decisión
    explícita de Ed. No lo actives sin que lo pida.
 7. ~~Los pastores no han contestado sobre la encuesta~~ — 🟢 **CERRADO 19-ago: la
    encuesta sigue abierta.** Confirmado por Ed. `encuesta.html` se queda recibiendo y no
    se toca el CTA.
+
+## 6-bis · 🔴 Consecuencia de cerrar la galería — SIN TOCAR, falta el "va"
+
+Al cerrar las fotos, quedaron **textos que prometen fotos que ya no van a llegar**. Se
+detectaron el 19-ago y **NO se corrigieron** porque Ed cerró sesión antes de dar el "va".
+Es lo primero que hay que ponerle enfrente al retomar:
+
+| Dónde | Texto | Problema |
+|---|---|---|
+| `asi-lo-vivimos.html:7` (meta description) | "las fotos de **los tres días**" | Solo hay viernes y domingo. Lo lee Google. |
+| `asi-lo-vivimos.html:15` (og:description) | "las fotos de **los tres días**" | Es lo que se ve al compartir en redes. |
+
+Dos que **NO** hay que tocar (ya se verificaron inactivos, no son bugs):
+- `asi-lo-vivimos.html:133` — "Fotos y videos de los tres días, en edición" vive en
+  `#js-viv-vacio`, que solo se muestra si **no hay nada** en la página. Con fotos y reels
+  publicados está oculto. Es el estado vacío legítimo, déjalo.
+- El fallback `proximamente()` de fotos ("La galería se va llenando estos días") solo
+  corre si `fotosTuvoDato` es falso. Con 34 fotos nunca dispara.
+
+🔴 **`reelsTotal: 9` SÍ sigue siendo honesto** — los 6 reels y el recap siguen pendientes,
+así que la barra de progreso no miente. No la toques al arreglar los metas.
 
 ## 7 · Cómo se responde a Ed
 
@@ -191,4 +214,4 @@ El motor de eventos del ecosistema (`_SISTEMA/SoS/EventForge/`) **calibró su do
   EventForge debe ser un *generador* de estático, no una app ni un clon a mano.
 
 ---
-*El Cielo en mi Ciudad · Pase de Sesión · v6.1 · 19·ago·2026 · El evento pasa; la plataforma queda.* 🕊️
+*El Cielo en mi Ciudad · Pase de Sesión · v6.2 · 19·ago·2026 · El evento pasa; la plataforma queda.* 🕊️
