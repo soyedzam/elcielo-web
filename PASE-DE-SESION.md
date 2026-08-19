@@ -2,7 +2,8 @@
 > Handoff para la instancia nueva de Claude que retome este sitio.
 > **Léelo completo antes de tocar nada.** v2.0 el 10-ago · v3.0 el 12/13-ago ·
 > v4.0 el 13/14-ago · v5.0 el 16/17-ago — el congreso YA PASÓ ·
-> **v6.0 el 17-ago (tarde) — la memoria ya tiene material dentro.**
+> v6.0 el 17-ago (tarde) — la memoria ya tiene material dentro ·
+> **v6.1 el 19-ago — se limpió la rifa de privacidad.html y se cerró el criterio de menores.**
 
 ---
 
@@ -45,6 +46,11 @@ hueso `#F7F4EE`. Archivo (display) · Instrument Sans (cuerpo) · IBM Plex Mono 
 - ❌ **"carpa"** — se dice *el lugar*, *la casa*. (17-ago)
 - ❌ **"rifa"** — ya no se promete en ningún lado (13-ago). La columna sigue en la Sheet
   por compatibilidad, pero es dato interno, no promesa pública.
+  🔴 **La regla se rompió y nadie lo vio hasta el 19-ago:** `privacidad.html` seguía
+  prometiendo la rifa en 4 lugares (tabla de datos ×2, lista de usos, retención). Se
+  limpió el 19-ago con "va" explícito de Ed. **Lección: al prohibir una palabra, se
+  audita TODO el sitio con `grep -rin`, no solo las páginas donde se recuerda que estaba.**
+  El tablero de Apps Script sí la conserva — es interno y está permitido.
 
 ## 3 · 🟢 Lo que está en vivo hoy
 
@@ -67,8 +73,11 @@ hueso `#F7F4EE`. Archivo (display) · Instrument Sans (cuerpo) · IBM Plex Mono 
 2. **`resultados.html` no muestra nombre ni contacto.** Está verificado en el backend
    (`datosEvaluacion()` NO devuelve esas columnas), no solo en el front. Si tocas esa
    función, vuelve a verificarlo.
-3. **Fotos con menores identificables** no se publican sin autorización escrita de
-   madre/padre o tutor. Van **7 congeladas**, no 3.
+3. **Fotos con menores: CERO en este evento.** El 19-ago Ed cerró el criterio —
+   *"no se muestran fotos de menores para ese evento"*. Ya no es "sin autorización
+   escrita": es **no se publican, punto**. Las 4 que esperaban su criterio quedan fuera
+   de forma definitiva, junto a las 7 ya congeladas. No hay ruta de apelación: si una
+   foto tiene un menor identificable, no entra.
    🔴 **Nunca heredes la clasificación de menores de otra pasada.** El inventario del
    16-ago marcaba `domingo-audiencia-reunida-02` como apta y tenía un bebé con rostro
    totalmente identificable en primer plano — se cazó con zoom antes de publicar. Se
@@ -139,8 +148,11 @@ mentía. Si vuelve a aparecer el copy viejo, es regresión.
 
 ## 6 · ⚠️ Abierto
 
-1. **4 fotos en duda por menores** esperan el criterio de Ed en
-   `~/Dev/CMA/_entrada-medios/fotos/`. Él conoce a las familias; el zoom no bastó.
+1. ~~4 fotos en duda por menores~~ — 🟢 **CERRADO 19-ago: no se publican.** Ed decidió
+   cero fotos de menores en este evento (ver §4.3). Siguen en
+   `~/Dev/CMA/_entrada-medios/fotos/` sin publicar. 🔴 Ojo si alguna vez se reabre: se
+   llaman `…auditorio-bajo-carpa-02…` — el nombre lleva palabra prohibida y el repo es
+   público, habría que renombrarlas antes de tocarlas.
 2. **Fotos del sábado 15** no llegaron. El ZIP de Drive que bajó Ed es la **parte 004 de
    4** y solo trae videos + 1 foto suelta. La carpeta del fotógrafo sí tiene
    `CEMC Fotos - Sábado 15 de Agosto/` — faltan las partes 001–003.
@@ -152,7 +164,9 @@ mentía. Si vuelve a aparecer el copy viejo, es regresión.
    Ed tiene que arrastrarlo desde Descargas.
 6. **Correo de aviso por registro** sigue en pausa: `CORREO_ACTIVO = false`, por decisión
    explícita de Ed. No lo actives sin que lo pida.
-7. **Los pastores no han contestado** si la encuesta se queda abierta.
+7. ~~Los pastores no han contestado sobre la encuesta~~ — 🟢 **CERRADO 19-ago: la
+   encuesta sigue abierta.** Confirmado por Ed. `encuesta.html` se queda recibiendo y no
+   se toca el CTA.
 
 ## 7 · Cómo se responde a Ed
 
@@ -177,4 +191,4 @@ El motor de eventos del ecosistema (`_SISTEMA/SoS/EventForge/`) **calibró su do
   EventForge debe ser un *generador* de estático, no una app ni un clon a mano.
 
 ---
-*El Cielo en mi Ciudad · Pase de Sesión · v6.0 · 17·ago·2026 · El evento pasa; la plataforma queda.* 🕊️
+*El Cielo en mi Ciudad · Pase de Sesión · v6.1 · 19·ago·2026 · El evento pasa; la plataforma queda.* 🕊️
