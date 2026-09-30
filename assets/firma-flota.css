@@ -1,0 +1,14 @@
+/* Firma de flota · ley de Ed (3·sep y 29·sep·2026). Va en el pie de TODA plataforma, pública y staff.
+   Fuente canónica: el-astillero-habilidades/webforge/ducteria/firma-flota/. No se edita en el casco:
+   si cambia, cambia aquí y se vuelve a copiar.
+   Fondo oscuro (defecto): SoulLens y Xplorers en blanco. Fondo claro: clase .firma-flota--claro
+   (los dos blancos toman el color de texto del pie). Tamaño base: --firma-tam (13px por defecto). */
+.firma-flota{--firma-marca:#FFFFFF;display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:.2em .45em;font-size:var(--firma-tam,13px);line-height:1.5;letter-spacing:0;text-transform:none;font-style:normal}
+.firma-flota a{text-decoration:none;color:inherit;display:inline-flex;align-items:baseline;gap:.3em;white-space:nowrap}
+.firma-flota a:hover .firma-flota__marca,.firma-flota a:focus-visible .firma-flota__marca{text-decoration:underline;text-underline-offset:3px}
+.firma-flota__design{font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;font-weight:700;color:#4C8DFF}
+.firma-flota__soul{font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;font-weight:700;color:var(--firma-marca)}
+.firma-flota__sep{color:#8a837b}
+.firma-flota__powered{font-family:"Caveat",cursive;font-weight:600;font-size:1.35em;line-height:1;color:#A6F07A}
+.firma-flota__xpl{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-weight:400;color:var(--firma-marca)}
+.firma-flota--claro .firma-flota__soul,.firma-flota--claro .firma-flota__xpl{color:inherit}
